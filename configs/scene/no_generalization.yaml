@@ -1,0 +1,25 @@
+asset_split: seen
+appearance:
+  background:
+    enabled: false
+    assets: []
+  table_surface:
+    enabled: false
+    assets: []
+  light:
+    enabled: false
+spatial:
+  object_pose:
+    enabled: false
+  table_height:
+    enabled: false
+  camera:
+    enabled: false
+    cameras: {}
+clutter:
+  tabletop:
+    enabled: false
+    asset_pool: []
+embodiment:
+  robot_asset:
+    enabled: false

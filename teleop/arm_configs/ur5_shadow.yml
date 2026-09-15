@@ -1,0 +1,37 @@
+arm:
+  num_joints: 7
+  urdf_path: ur5+shadow_hand/urdf/Multi_UR5_shadow_hand_with_flange.urdf
+  ee_axes_mapping: ["+z", "-y", "+x"]
+  joint_margin: 0.05
+
+  right:
+    joint_lower: [ 1.5, -3.14,  0.0, -1.57, 0.0, -3.14, -0.5236]
+    joint_upper: [ 3.14,  3.14,  3.14,  1.57,  3.14,  3.14,  0.1745]
+    joint_names:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+      - WRJ2
+    ee_body: "wrist"
+    pin_ee_frame: "wrist"
+    pin_arm_q_indices: auto
+    ee_offset: [0.0, 0.08, 0.1]
+
+  left:
+    joint_lower: [-3.14, -3.14, -3.14, -1.57, -3.14, -3.14, -0.5236]
+    joint_upper: [ -1.5,  3.14,  0.0,  1.57,  0.0,  3.14,  0.1745]
+    joint_names:
+      - L_arm_shoulder_pan_joint
+      - L_arm_shoulder_lift_joint
+      - L_arm_elbow_joint
+      - L_arm_wrist_1_joint
+      - L_arm_wrist_2_joint
+      - L_arm_wrist_3_joint
+      - l_WRJ2
+    ee_body: "l_wrist"
+    pin_ee_frame: "l_wrist"
+    pin_arm_q_indices: auto
+    ee_offset: [0.0, 0.08, 0.1]

@@ -1,0 +1,288 @@
+description: Use the right hand to place the baguette and bread into the bread basket, move the basket to the center of the table, then use the left hand to place the bread and french fries into the basket as a fast-food setup.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a183_breadbasket:
+    path: ../../dex2bench_dataset/Objects/183_breadbasket/usd_decomposition_linux/base4.usd
+    scale: [0.17, 0.17, 0.17]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.8
+  a127_frenchfries:
+    path: ../../dex2bench_dataset/Objects/127_french-fries/usd_decomposition_linux/base3.usd
+    scale: [0.075, 0.075, 0.075]
+    body_type: dynamic
+  a128_hamburg:
+    path: ../../dex2bench_dataset/Objects/128_hamburg/usd_decomposition_linux/base5.usd
+    scale: [0.09, 0.09, 0.09]
+    body_type: dynamic
+  a182_bread:
+    path: ../../dex2bench_dataset/Objects/182_bread/usd_decomposition_linux/base6.usd
+    scale: [0.06, 0.06, 0.06]
+    body_type: dynamic
+  a163_baguette:
+    path: ../../dex2bench_dataset/Objects/163_baguette/usd_decomposition_linux/base3.usd
+    scale: [0.5, 0.5, 0.5]
+    body_type: dynamic
+objects:
+  - id: obj_183_breadbasket_1
+    asset: a183_breadbasket
+    rpy_deg: [90, 0, 0]
+    position: [0.45, 0.22]
+  - id: obj_127_french_fries_2
+    asset: a127_frenchfries
+    rpy_deg: [0, 0, 0]
+    position: [-0.4, 0.3]
+  - id: obj_128_hamburg_3
+    asset: a128_hamburg
+    rpy_deg: [90, 0, 0]
+    position: [-0.32, 0.18]
+  - id: obj_182_bread_4
+    asset: a182_bread
+    rpy_deg: [0, 0, 18]
+    position: [0.02, 0.2]
+  - id: obj_163_baguette_5
+    asset: a163_baguette
+    rpy_deg: [90, 0, 75]
+    position: [0.24, 0.1]
+layout:
+  zone: tabletop
+  objects: [obj_183_breadbasket_1, obj_127_french_fries_2, obj_128_hamburg_3, obj_182_bread_4, obj_163_baguette_5]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_60_breadbasket_fast_food_loading
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 1989
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_163_baguette_5, obj_128_hamburg_3, obj_127_french_fries_2, obj_182_bread_4]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: all
+      conditions:
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_183_breadbasket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_127_french_fries_2
+              container: obj_183_breadbasket_1
+              tolerance: 0.18
+              container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+              object_center_offset: [-2.8e-06, 0.0711898, -0.0026298]
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_183_breadbasket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_128_hamburg_3
+              container: obj_183_breadbasket_1
+              tolerance: 0.18
+              container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+              object_center_offset: [0.0, 0.0269934, -1.78e-05]
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_183_breadbasket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_182_bread_4
+              container: obj_183_breadbasket_1
+              tolerance: 0.18
+              container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+              object_center_offset: [1.0e-06, 0.0214334, 2.8e-06]
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_183_breadbasket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_163_baguette_5
+              container: obj_183_breadbasket_1
+              tolerance: 0.18
+              container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+              object_center_offset: [4.08e-05, 0.025, -2.3e-06]
+        - type: object_static
+          object: obj_127_french_fries_2
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_128_hamburg_3
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_182_bread_4
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_163_baguette_5
+          threshold: 0.05
+          check_angular: false
+  stages:
+    - id: place_1
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_183_breadbasket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_127_french_fries_2
+            container: obj_183_breadbasket_1
+            tolerance: 0.18
+            container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+            object_center_offset: [-2.8e-06, 0.0711898, -0.0026298]
+          - type: object_static
+            object: obj_127_french_fries_2
+            threshold: 0.05
+            check_angular: false
+    - id: place_2
+      depends_on: [place_1]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_183_breadbasket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_128_hamburg_3
+            container: obj_183_breadbasket_1
+            tolerance: 0.18
+            container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+            object_center_offset: [0.0, 0.0269934, -1.78e-05]
+          - type: object_static
+            object: obj_128_hamburg_3
+            threshold: 0.05
+            check_angular: false
+    - id: place_3
+      depends_on: [place_1, place_2]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_183_breadbasket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_182_bread_4
+            container: obj_183_breadbasket_1
+            tolerance: 0.18
+            container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+            object_center_offset: [1.0e-06, 0.0214334, 2.8e-06]
+          - type: object_static
+            object: obj_182_bread_4
+            threshold: 0.05
+            check_angular: false
+    - id: place_4
+      depends_on: [place_1, place_2, place_3]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_183_breadbasket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_163_baguette_5
+            container: obj_183_breadbasket_1
+            tolerance: 0.18
+            container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+            object_center_offset: [4.08e-05, 0.025, -2.3e-06]
+          - type: object_static
+            object: obj_163_baguette_5
+            threshold: 0.05
+            check_angular: false
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_163_baguette_5, obj_128_hamburg_3, obj_127_french_fries_2, obj_182_bread_4]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_163_baguette_5:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_183_breadbasket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_163_baguette_5
+              container: obj_183_breadbasket_1
+              tolerance: 0.18
+              container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+              object_center_offset: [4.08e-05, 0.025, -2.3e-06]
+        obj_128_hamburg_3:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_183_breadbasket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_128_hamburg_3
+              container: obj_183_breadbasket_1
+              tolerance: 0.18
+              container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+              object_center_offset: [0.0, 0.0269934, -1.78e-05]
+        obj_127_french_fries_2:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_183_breadbasket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_127_french_fries_2
+              container: obj_183_breadbasket_1
+              tolerance: 0.18
+              container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+              object_center_offset: [-2.8e-06, 0.0711898, -0.0026298]
+        obj_182_bread_4:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_183_breadbasket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_182_bread_4
+              container: obj_183_breadbasket_1
+              tolerance: 0.18
+              container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+              object_center_offset: [1.0e-06, 0.0214334, 2.8e-06]

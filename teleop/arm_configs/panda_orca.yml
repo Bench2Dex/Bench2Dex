@@ -1,0 +1,34 @@
+arm:
+  num_joints: 8
+  urdf_path: panda+orca/multi_panda_with_orca.urdf
+  urdf_needs_material_cleanup: true
+  ee_axes_mapping: ["-z", "+y", "+x"]
+  joint_margin: 0.05
+
+  right:
+    joint_names:
+      - multi_panda_joint1
+      - multi_panda_joint2
+      - multi_panda_joint3
+      - multi_panda_joint4
+      - multi_panda_joint5
+      - multi_panda_joint6
+      - multi_panda_joint7
+      - right_wrist
+    ee_body: "multi_right_wrist_jointbody"
+    pin_ee_frame: "multi_right_wrist_jointbody"
+    pin_arm_q_indices: auto
+
+  left:
+    joint_names:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+      - left_wrist
+    ee_body: "left_wrist_jointbody"
+    pin_ee_frame: "left_wrist_jointbody"
+    pin_arm_q_indices: auto

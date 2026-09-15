@@ -1,0 +1,38 @@
+retargeting:
+  type: DexPilot
+  scaling_factor: 1.0
+  project_dist: 0.01
+  escape_dist: 0.02
+  low_pass_alpha: 0.2
+
+  hand_offset_xyz: [0, 0, 0]
+  hand_scale_xyz: [1.5, 1.0, 1.2]
+  mano_correction_vis: true
+
+  wrist_link_name: "base"
+  finger_tip_link_names:
+    - thumb_tip_head
+    - index_tip_head
+    - middle_tip_head
+    - ring_tip_head
+
+  # Lock abd joints — extreme ranges cause optimizer to splay fingers.
+  # URDF joint names are bare digits (0..15); IsaacLab prefixes them with
+  # "multi_leap_r_" / "leap_l_" at sim time, but the override targets the URDF.
+  joint_limits_override:
+    "0": [0, 0]
+    "4": [0, 0]
+    "8": [0, 0]
+    "14": [0, 1.9]
+
+  right:
+    urdf_path: xarm+leap/leap_hand_right.urdf
+    articulation_prefix: "multi_leap_r_"
+    mano_to_pinocchio_rpy: [1.5708, -1.5708, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 0]
+
+  left:
+    urdf_path: xarm+leap/leap_hand_left.urdf
+    articulation_prefix: "leap_l_"
+    mano_to_pinocchio_rpy: [-1.5708, -1.5708, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 0]

@@ -1,0 +1,29 @@
+# Minimal training profile: RGB + joint state only
+# Optimized for policy training with small data size
+
+profile:
+  dataset_version: raw_hdf5_v2
+  sensor_profile_id: train_minimal
+  sensor_profile_version: "1.0"
+
+dataset:
+  format: hdf5_per_episode
+  root: ./outputs
+  name: dex2scene_dataset
+
+capture:
+  fps: 100
+  step_stride: 5
+  max_buffer_mb: 2048
+
+modalities:
+  rgb: true
+  depth: false
+  object_pose: false
+  joint_state: true
+  box3d: false
+  box2d: false
+  occupancy: false
+  tactile: false
+
+# Note: camera_list inherits from default config (do not set to empty)

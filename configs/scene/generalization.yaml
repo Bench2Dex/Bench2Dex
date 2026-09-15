@@ -1,0 +1,553 @@
+asset_split: seen
+
+appearance:
+  background:
+    enabled: true
+    clean_background_rate: 0.0
+    intensity: 1500.0
+    yaw_deg: 0.0
+    random_flip_180_rate: 0.0
+    physics_enabled: false
+    split_ratios:
+      seen: 0.8
+      unseen: 0.2
+    ordered_ithor_seen_count: 50
+    enabled_categories:
+      usd_scene: [iTHOR]
+      # image: [Indoor, Nature, Night, Outdoor, Skies, Studio, Sunrise_Sunset, Urban]
+    assets:
+      - kind: image
+        category: Indoor
+        uri: ../../../dex2bench_dataset/Background/Indoor/brown_photostudio_02_4k.hdr
+      - kind: image
+        category: Indoor
+        uri: ../../../dex2bench_dataset/Background/Indoor/university_workshop_4k.hdr
+      - kind: image
+        category: Nature
+        uri: ../../../dex2bench_dataset/Background/Nature/lakeside_sunrise_4k.hdr
+      - kind: image
+        category: Nature
+        uri: ../../../dex2bench_dataset/Background/Nature/passendorf_snow_4k.hdr
+      - kind: image
+        category: Night
+        uri: ../../../dex2bench_dataset/Background/Night/moonlit_golf_4k.hdr
+      - kind: image
+        category: Night
+        uri: ../../../dex2bench_dataset/Background/Night/rogland_clear_night_4k.hdr
+      - kind: image
+        category: Outdoor
+        uri: ../../../dex2bench_dataset/Background/Outdoor/suburban_soccer_park_4k.hdr
+      - kind: image
+        category: Outdoor
+        uri: ../../../dex2bench_dataset/Background/Outdoor/sunny_country_road_4k.hdr
+      - kind: image
+        category: Skies
+        uri: ../../../dex2bench_dataset/Background/Skies/citrus_orchard_road_puresky_4k.hdr
+      - kind: image
+        category: Skies
+        uri: ../../../dex2bench_dataset/Background/Skies/mud_road_puresky_4k.hdr
+      - kind: image
+        category: Studio
+        uri: ../../../dex2bench_dataset/Background/Studio/pav_studio_02_4k.hdr
+      - kind: image
+        category: Studio
+        uri: ../../../dex2bench_dataset/Background/Studio/wooden_studio_09_4k.hdr
+      - kind: image
+        category: Sunrise_Sunset
+        uri: ../../../dex2bench_dataset/Background/Sunrise_Sunset/grasslands_sunset_4k.hdr
+      - kind: image
+        category: Sunrise_Sunset
+        uri: ../../../dex2bench_dataset/Background/Sunrise_Sunset/umhlanga_sunrise_4k.hdr
+      - kind: image
+        category: Urban
+        uri: ../../../dex2bench_dataset/Background/Urban/furstenstein_4k.hdr
+      - kind: image
+        category: Urban
+        uri: ../../../dex2bench_dataset/Background/Urban/modern_evening_street_4k.hdr
+      # ---- iTHOR USD scenes (57) ----
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan2_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [0, 0, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan3_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [0, 0, -0.22]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan4_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [-1.96702, 1.89762, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan5_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [1.42053, 1.15041, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan6_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [-0.32854, 1.16282, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan8_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [-0.58339, 2.01355, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan9_physics/scene.usda
+        yaw_deg: 90.0
+        scene_offset: [0, 1.21873, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan11_physics/scene.usda
+        yaw_deg: 180.0
+        scene_offset: [-1.5588, 0.22708, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan14_physics/scene.usda
+        yaw_deg: 90
+        scene_offset: [0.8, 1.11, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan13_physics/scene.usda
+        yaw_deg: -90.0
+        scene_offset: [-3.8804, -2.13417, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan15_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [1.39, -1.58, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan16_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [1.25263, 3.65209, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan17_physics/scene.usda
+        yaw_deg: 180.0
+        scene_offset: [0.63808, 2.86054, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan18_physics/scene.usda
+        yaw_deg: 90.0
+        scene_offset: [2.71921, 0.57477, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan21_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [1.18080, 3.07023, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan24_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0.95853, -1.48004, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan26_physics/scene.usda
+        yaw_deg: 90.0
+        scene_offset: [2.77407, 2.48283, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan201_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [2.16777, -1.20934, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan202_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [2.10875, -2.29375, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan204_physics/scene.usda
+        yaw_deg: -90
+        scene_offset: [-4.22613, -1.90774, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan205_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [-2.00438, 5.05686, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan206_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 1.02099, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan208_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan209_physics/scene.usda
+        yaw_deg: -90.0
+        scene_offset: [2.47887, -2.52504, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan210_physics/scene.usda
+        yaw_deg: 180.0
+        scene_offset: [-2.39328, 2.39618, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan211_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan212_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [-0.97986, -0.25227, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan214_physics/scene.usda
+        yaw_deg: -90.0
+        scene_offset: [-4.29684, -2.4183, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan215_physics/scene.usda
+        yaw_deg: 121.0
+        scene_offset: [2.35706, 4.6246, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan216_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan217_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [2.34252, -2.6582, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan218_physics/scene.usda
+        yaw_deg: -60
+        scene_offset: [-1.35772, -1.88389, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan220_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [2.55291, -1.69247, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan222_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan224_physics/scene.usda
+        yaw_deg: 90.0
+        scene_offset: [-0.55907, -1.88972, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan225_physics/scene.usda
+        yaw_deg: 90
+        scene_offset: [2.59771, 2.22918, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan226_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan227_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [3.4296, -1.90511, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan228_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [3.6471, -2.70407, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan229_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [3.68556, -2.52339, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan230_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [2.85912, -2.16399, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan303_physics/scene.usda
+        yaw_deg: 270
+        scene_offset: [0.98792, 1.41545, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan307_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [0, 0.77052, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan309_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [-1.97795, 1.72843, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan311_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan317_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan318_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan323_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [0.81476, 1.15264, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan325_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan326_physics/scene.usda
+        yaw_deg: 90
+        scene_offset: [-1.77262, -0.7326, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan1_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan7_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [0, 0, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan10_physics/scene.usda
+        yaw_deg: 90
+        scene_offset: [-0.73022, 0.88397, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan203_physics/scene.usda
+        yaw_deg: -90.0
+        scene_offset: [-2.44349, 0.4154, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan207_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [0, 0, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan213_physics/scene.usda
+        yaw_deg: 0
+        scene_offset: [-11.06503, -0.91725, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan315_physics/scene.usda
+        yaw_deg: -90.0
+        scene_offset: [1.7814, -0.84301, 0.0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan20_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [0.08, 1.0, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan219_physics/scene.usda
+        yaw_deg: 180
+        scene_offset: [-3, 2.5, 0]
+      - kind: usd_scene
+        category: iTHOR
+        uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan329_physics/scene.usda
+        yaw_deg: -90
+        scene_offset: [0.65, 1.85, 0]
+  table_surface:
+    enabled: true
+    asset_split: seen
+    asset_root: ../../../dex2bench_dataset/textures
+    categories: [carpet, fabric, flooring, leather, metal, rust, stone, wood]
+    split_ratios:
+      seen: 0.8
+      unseen: 0.2
+    clean_surface_rate: 0
+
+  light:
+    enabled: true
+    asset_split: seen
+    usd_scene_light:
+      enabled: true
+      distant:
+        intensity_range: [1000.0, 1500.0]
+        color_min: [0.4, 0.4, 0.4]
+        color_max: [1, 1, 1]
+        pitch_range_deg: [-30.0, -5.0]
+        yaw_range_deg: [-90.0, 90.0]
+        angle_range_deg: [0.5, 1.0]
+      dome:
+        intensity_range: [150.0, 350.0]
+        color_min: [0.8, 0.8, 0.6]
+        color_max: [1.0, 1.0, 1.0]
+        exposure_range: [-0.5, 0.5]
+
+spatial:
+  object_pose:
+    enabled: true
+    position_jitter_cm: 2.0
+    yaw_jitter_deg: 10.0
+  table_height:
+    enabled: true
+    offset_m_range: [-0.05, 0.05]
+  camera:
+    enabled: true
+    asset_split: seen
+    cameras:
+      cam_chest:
+        enabled: true
+        position_offset_m_range: [0.005, 0.005, 0.005]
+        target_offset_m_range: [0.005, 0.005, 0.005]
+        distance_offset_m_range: 0.03
+        offset_xyz_offset_m_range: [0.0, 0.0, 0.0]
+        rpy_offset_deg_range: [1.0, 1.0, 1.0]
+      cam_overhead:
+        enabled: true
+        position_offset_m_range: [0.005, 0.005, 0.005]
+        target_offset_m_range: [0.005, 0.005, 0.005]
+        distance_offset_m_range: 0.03
+        offset_xyz_offset_m_range: [0.0, 0.0, 0.0]
+        rpy_offset_deg_range: [1.0, 1.0, 1.0]
+      cam_stereo_left:
+        enabled: true
+        stereo_group: stereo_front
+        position_offset_m_range: [0.005, 0.005, 0.005]
+        target_offset_m_range: [0.005, 0.005, 0.005]
+        distance_offset_m_range: 0.03
+        offset_xyz_offset_m_range: [0.0, 0.0, 0.0]
+        rpy_offset_deg_range: [1.0, 1.0, 1.0]
+      cam_stereo_right:
+        enabled: true
+        stereo_group: stereo_front
+        position_offset_m_range: [0.005, 0.005, 0.005]
+        target_offset_m_range: [0.005, 0.005, 0.005]
+        distance_offset_m_range: 0.03
+        offset_xyz_offset_m_range: [0.0, 0.0, 0.0]
+        rpy_offset_deg_range: [1.0, 1.0, 1.0]
+      cam_wrist_right:
+        enabled: true
+        position_offset_m_range: [0.0, 0.0, 0.0]
+        target_offset_m_range: [0.0, 0.0, 0.0]
+        distance_offset_m_range: 0.0
+        offset_xyz_offset_m_range: [0.005, 0.005, 0.005]
+        rpy_offset_deg_range: [1.0, 1.0, 1.0]
+      cam_wrist_left:
+        enabled: true
+        position_offset_m_range: [0.0, 0.0, 0.0]
+        target_offset_m_range: [0.0, 0.0, 0.0]
+        distance_offset_m_range: 0.0
+        offset_xyz_offset_m_range: [0.005, 0.005, 0.005]
+        rpy_offset_deg_range: [1.0, 1.0, 1.0]
+    profiles:
+      seen:
+        - name: train_default_camera
+      unseen:
+        - name: eval_default_camera
+clutter:
+  tabletop:
+    enabled: true
+    asset_split: seen
+    split_ratios:
+      seen: 0.8
+      unseen: 0.2
+    count: [1, 3]
+    scale_range: [0.8, 1.2]
+    edge_margin_m: 0.05
+    zone:
+      mode: tabletop
+      exclude_aabbs: []
+    forbidden_xy_rect:
+      enabled: true
+      x_range: [-0.25, 0.25]
+      y_range: [-0.20, 0.35]
+    max_bbox_size_m: 0.35
+    max_height_m: 0.25
+    placement_retry_limit: 80
+    asset_pool:
+      # ---- food / container (8) ----
+      - {name: clutter_002_master_chef_can, uri: ../../../dex2bench_dataset/Objects/002_master_chef_can/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: food, asset_code: "002", confusable_asset_codes: []}
+      - {name: clutter_003_cracker_box, uri: ../../../dex2bench_dataset/Objects/003_cracker_box/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: food, asset_code: "003", confusable_asset_codes: []}
+      - {name: clutter_004_sugar_box, uri: ../../../dex2bench_dataset/Objects/004_sugar_box/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: food, asset_code: "004", confusable_asset_codes: []}
+      - {name: clutter_005_tomato_soup_can, uri: ../../../dex2bench_dataset/Objects/005_tomato_soup_can/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: food, asset_code: "005", confusable_asset_codes: []}
+      - {name: clutter_007_tuna_fish_can, uri: ../../../dex2bench_dataset/Objects/007_tuna_fish_can/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: food, asset_code: "007", confusable_asset_codes: []}
+      - {name: clutter_008_pudding_box, uri: ../../../dex2bench_dataset/Objects/008_pudding_box/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: food, asset_code: "008", confusable_asset_codes: []}
+      - {name: clutter_009_gelatin_box, uri: ../../../dex2bench_dataset/Objects/009_gelatin_box/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: food, asset_code: "009", confusable_asset_codes: []}
+      - {name: clutter_010_potted_meat_can, uri: ../../../dex2bench_dataset/Objects/010_potted_meat_can/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: food, asset_code: "010", confusable_asset_codes: []}
+      - {name: clutter_019_pitcher_base, uri: ../../../dex2bench_dataset/Objects/019_pitcher_base/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "019", confusable_asset_codes: []}
+      # ---- fruit (8) ----
+      - {name: clutter_011_banana, uri: ../../../dex2bench_dataset/Objects/011_banana/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: fruit, asset_code: "011", confusable_asset_codes: []}
+      - {name: clutter_012_strawberry, uri: ../../../dex2bench_dataset/Objects/012_strawberry/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: fruit, asset_code: "012", confusable_asset_codes: []}
+      - {name: clutter_013_apple, uri: ../../../dex2bench_dataset/Objects/013_apple/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: fruit, asset_code: "013", confusable_asset_codes: []}
+      - {name: clutter_014_lemon, uri: ../../../dex2bench_dataset/Objects/014_lemon/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: fruit, asset_code: "014", confusable_asset_codes: []}
+      - {name: clutter_015_peach, uri: ../../../dex2bench_dataset/Objects/015_peach/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: fruit, asset_code: "015", confusable_asset_codes: []}
+      - {name: clutter_016_pear, uri: ../../../dex2bench_dataset/Objects/016_pear/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: fruit, asset_code: "016", confusable_asset_codes: []}
+      - {name: clutter_017_orange, uri: ../../../dex2bench_dataset/Objects/017_orange/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: fruit, asset_code: "017", confusable_asset_codes: []}
+      - {name: clutter_018_plum, uri: ../../../dex2bench_dataset/Objects/018_plum/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: fruit, asset_code: "018", confusable_asset_codes: []}
+      # ---- bottle (3) ----
+      - {name: clutter_006_mustard_bottle, uri: ../../../dex2bench_dataset/Objects/006_mustard_bottle/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: bottle, asset_code: "006", confusable_asset_codes: []}
+      - {name: clutter_021_bleach_cleanser, uri: ../../../dex2bench_dataset/Objects/021_bleach_cleanser/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: bottle, asset_code: "021", confusable_asset_codes: []}
+      - {name: clutter_022_windex_bottle, uri: ../../../dex2bench_dataset/Objects/022_windex_bottle/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: bottle, asset_code: "022", confusable_asset_codes: []}
+      # ---- kitchen (17) ----
+      - {name: clutter_024_bowl, uri: ../../../dex2bench_dataset/Objects/024_bowl/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "024", confusable_asset_codes: []}
+      - {name: clutter_025_mug, uri: ../../../dex2bench_dataset/Objects/025_mug/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "025", confusable_asset_codes: []}
+      - {name: clutter_028_skillet_lid, uri: ../../../dex2bench_dataset/Objects/028_skillet_lid/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "028", confusable_asset_codes: []}
+      - {name: clutter_029_plate, uri: ../../../dex2bench_dataset/Objects/029_plate/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "029", confusable_asset_codes: []}
+      - {name: clutter_030_fork, uri: ../../../dex2bench_dataset/Objects/030_fork/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "030", confusable_asset_codes: []}
+      - {name: clutter_031_spoon, uri: ../../../dex2bench_dataset/Objects/031_spoon/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "031", confusable_asset_codes: []}
+      - {name: clutter_032_knife, uri: ../../../dex2bench_dataset/Objects/032_knife/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "032", confusable_asset_codes: []}
+      - {name: clutter_033_spatula, uri: ../../../dex2bench_dataset/Objects/033_spatula/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "033", confusable_asset_codes: []}
+      - {name: clutter_027_skillet, uri: ../../../dex2bench_dataset/Objects/027_skillet/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "027", confusable_asset_codes: ["027"]}
+      - {name: clutter_027a_skillet, uri: ../../../dex2bench_dataset/Objects/027-a_skillet/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "027", confusable_asset_codes: ["027"]}
+      - {name: clutter_065a_cups, uri: ../../../dex2bench_dataset/Objects/065-a_cups/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "065", confusable_asset_codes: ["065"]}
+      - {name: clutter_065b_cups, uri: ../../../dex2bench_dataset/Objects/065-b_cups/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "065", confusable_asset_codes: ["065"]}
+      - {name: clutter_065c_cups, uri: ../../../dex2bench_dataset/Objects/065-c_cups/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "065", confusable_asset_codes: ["065"]}
+      - {name: clutter_065d_cups, uri: ../../../dex2bench_dataset/Objects/065-d_cups/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "065", confusable_asset_codes: ["065"]}
+      - {name: clutter_065e_cups, uri: ../../../dex2bench_dataset/Objects/065-e_cups/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "065", confusable_asset_codes: ["065"]}
+      - {name: clutter_065f_cups, uri: ../../../dex2bench_dataset/Objects/065-f_cups/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: kitchen, asset_code: "065", confusable_asset_codes: ["065"]}
+      # ---- tool (12) ----
+      - {name: clutter_035_power_drill, uri: ../../../dex2bench_dataset/Objects/035_power_drill/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "035", confusable_asset_codes: []}
+      - {name: clutter_038_padlock, uri: ../../../dex2bench_dataset/Objects/038_padlock/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "038", confusable_asset_codes: []}
+      - {name: clutter_040_large_marker, uri: ../../../dex2bench_dataset/Objects/040_large_marker/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "040", confusable_asset_codes: []}
+      - {name: clutter_042_adjustable_wrench, uri: ../../../dex2bench_dataset/Objects/042_adjustable_wrench/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "042", confusable_asset_codes: []}
+      - {name: clutter_043_phillips_screwdriver, uri: ../../../dex2bench_dataset/Objects/043_phillips_screwdriver/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "043", confusable_asset_codes: []}
+      - {name: clutter_044_flat_screwdriver, uri: ../../../dex2bench_dataset/Objects/044_flat_screwdriver/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "044", confusable_asset_codes: []}
+      - {name: clutter_048_hammer, uri: ../../../dex2bench_dataset/Objects/048_hammer/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "048", confusable_asset_codes: []}
+      - {name: clutter_050_medium_clamp, uri: ../../../dex2bench_dataset/Objects/050_medium_clamp/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "050", confusable_asset_codes: []}
+      - {name: clutter_051_large_clamp, uri: ../../../dex2bench_dataset/Objects/051_large_clamp/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "051", confusable_asset_codes: []}
+      - {name: clutter_052_extra_large_clamp, uri: ../../../dex2bench_dataset/Objects/052_extra_large_clamp/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "052", confusable_asset_codes: []}
+      - {name: clutter_037_scissors, uri: ../../../dex2bench_dataset/Objects/037_scissors/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "037", confusable_asset_codes: ["037"]}
+      - {name: clutter_037a_scissors, uri: ../../../dex2bench_dataset/Objects/037-a_scissors/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: tool, asset_code: "037", confusable_asset_codes: ["037"]}
+      # ---- ball (6) ----
+      - {name: clutter_053_mini_soccer_ball, uri: ../../../dex2bench_dataset/Objects/053_mini_soccer_ball/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: ball, asset_code: "053", confusable_asset_codes: []}
+      - {name: clutter_054_softball, uri: ../../../dex2bench_dataset/Objects/054_softball/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: ball, asset_code: "054", confusable_asset_codes: []}
+      - {name: clutter_055_baseball, uri: ../../../dex2bench_dataset/Objects/055_baseball/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: ball, asset_code: "055", confusable_asset_codes: []}
+      - {name: clutter_056_tennis_ball, uri: ../../../dex2bench_dataset/Objects/056_tennis_ball/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: ball, asset_code: "056", confusable_asset_codes: []}
+      - {name: clutter_057_racquetball, uri: ../../../dex2bench_dataset/Objects/057_racquetball/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: ball, asset_code: "057", confusable_asset_codes: []}
+      - {name: clutter_058_golf_ball, uri: ../../../dex2bench_dataset/Objects/058_golf_ball/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: ball, asset_code: "058", confusable_asset_codes: []}
+      # ---- toy (8) ----
+      - {name: clutter_062_dice, uri: ../../../dex2bench_dataset/Objects/062_dice/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: toy, asset_code: "062", confusable_asset_codes: []}
+      - {name: clutter_063a_marbles, uri: ../../../dex2bench_dataset/Objects/063-a_marbles/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: toy, asset_code: "063", confusable_asset_codes: ["063"]}
+      - {name: clutter_063b_marbles, uri: ../../../dex2bench_dataset/Objects/063-b_marbles/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: toy, asset_code: "063", confusable_asset_codes: ["063"]}
+      - {name: clutter_072a_toy_airplane, uri: ../../../dex2bench_dataset/Objects/072-a_toy_airplane/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: toy, asset_code: "072", confusable_asset_codes: ["072"]}
+      - {name: clutter_072b_toy_airplane, uri: ../../../dex2bench_dataset/Objects/072-b_toy_airplane/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: toy, asset_code: "072", confusable_asset_codes: ["072"]}
+      - {name: clutter_073a_lego_duplo, uri: ../../../dex2bench_dataset/Objects/073-a_lego_duplo/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: toy, asset_code: "073", confusable_asset_codes: ["073"]}
+      - {name: clutter_073b_lego_duplo, uri: ../../../dex2bench_dataset/Objects/073-b_lego_duplo/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: toy, asset_code: "073", confusable_asset_codes: ["073"]}
+      - {name: clutter_077_rubiks_cube, uri: ../../../dex2bench_dataset/Objects/077_rubiks_cube/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: toy, asset_code: "077", confusable_asset_codes: []}
+      # ---- block / misc (6) ----
+      - {name: clutter_036_wood_block, uri: ../../../dex2bench_dataset/Objects/036_wood_block/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: block, asset_code: "036", confusable_asset_codes: []}
+      - {name: clutter_061_foam_brick, uri: ../../../dex2bench_dataset/Objects/061_foam_brick/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: block, asset_code: "061", confusable_asset_codes: []}
+      - {name: clutter_070a_colored_wood_blocks, uri: ../../../dex2bench_dataset/Objects/070-a_colored_wood_blocks/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: block, asset_code: "070", confusable_asset_codes: ["070"]}
+      - {name: clutter_070b_colored_wood_blocks, uri: ../../../dex2bench_dataset/Objects/070-b_colored_wood_blocks/google_16k/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: block, asset_code: "070", confusable_asset_codes: ["070"]}
+      - {name: clutter_059_chain, uri: ../../../dex2bench_dataset/Objects/059_chain/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: misc, asset_code: "059", confusable_asset_codes: []}
+      - {name: clutter_026_sponge, uri: ../../../dex2bench_dataset/Objects/026_sponge/usd_decomposition_linux/textured.usd, scale: [1,1,1], body_type: dynamic, category: misc, asset_code: "026", confusable_asset_codes: []}

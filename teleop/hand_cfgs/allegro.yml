@@ -1,0 +1,51 @@
+retargeting:
+  type: DexPilot
+  scaling_factor: 1.0
+  project_dist: 0.01
+  escape_dist: 0.02
+  low_pass_alpha: 0.2
+
+  hand_offset_xyz: [0.0, -0.006, -0.18]
+  hand_scale_xyz: [1.7, 1.5, 1.6]
+  mano_correction_vis: true
+
+  # Lock abd joints — extreme ranges cause optimizer to splay fingers
+  joint_limits_override:
+    joint_0.0: [0, 0]
+    joint_4.0: [0, 0]
+    joint_8.0: [0, 0]
+    joint_3.0: [0, 0]
+    joint_7.0: [0, 0]
+    joint_11.0: [0, 0]
+    joint_15.0: [0, 0]
+    mult_joint_0.0: [0, 0]
+    mult_joint_4.0: [0, 0]
+    mult_joint_8.0: [0, 0]
+    mult_joint_3.0: [0, 0]
+    mult_joint_7.0: [0, 0]
+    mult_joint_11.0: [0, 0]
+    mult_joint_15.0: [0, 0]
+
+  right:
+    urdf_path: panda+allegro/allegro_hand_right.urdf
+    articulation_prefix: "multi_"
+    wrist_link_name: "base_link"
+    finger_tip_link_names:
+      - link_15.0_tip
+      - link_3.0_tip
+      - link_7.0_tip
+      - link_11.0_tip
+    mano_to_pinocchio_rpy: [1.5708, -1.5708, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 2.3]
+
+  left:
+    urdf_path: panda+allegro/allegro_hand_left.urdf
+    articulation_prefix: ""
+    wrist_link_name: "base_link"
+    finger_tip_link_names:
+      - link_15.0_tip
+      - link_11.0_tip
+      - link_7.0_tip
+      - link_3.0_tip
+    mano_to_pinocchio_rpy: [-1.5708, -1.5708, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 2.3]

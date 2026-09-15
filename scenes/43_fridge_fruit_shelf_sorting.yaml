@@ -1,0 +1,139 @@
+description: Right hand moves banana to the left side of desk, left hand opens both fridge doors, place apple on upper shelf and banana on lower shelf, then right hand closes fridge door.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb: [[-1.1, -0.55, 0.75], [1.1, 0.55, 0.75]]
+assets:
+  a013_apple:
+    path: ../../dex2bench_dataset/Objects/013_apple/usd_decomposition_linux/textured.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+  a011_banana:
+    path: ../../dex2bench_dataset/Objects/011_banana/usd_decomposition_linux/textured.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+  a111_refrigerator:
+    path: ../../dex2bench_dataset/Objects/111_refrigerator/01_refrigerator/01/usd_decomposition_linux/mobility.usd
+    scale: [0.35, 0.35, 0.35]
+    body_type: articulation
+    spawn:
+      articulation_props:
+        fix_root_link: true
+      mass_props:
+        density: 360.0
+      joint_limits:
+        joint_0:
+          lower: 0.0
+          upper: 1.57
+          unit: rad
+        joint_1:
+          lower: 0.0
+          upper: 1.57
+          unit: rad
+      joint_pos:
+        joint_0: 0.05
+        joint_1: 0.05
+      actuators:
+        joints:
+          joint_names_expr: [joint_0, joint_1]
+          effort_limit_sim: 200.0
+          velocity_limit_sim: 8.0
+          stiffness: 0.0
+          damping: 1.0
+objects:
+  - id: obj_013_apple_1
+    asset: a013_apple
+    rpy_deg: [0, 0, 0]
+    position: [-0.4, 0.18]
+  - id: obj_011_banana_2
+    asset: a011_banana
+    rpy_deg: [0, 0, 30]
+    position: [0.34, 0.2]
+  - id: obj_111_refrigerator_3
+    asset: a111_refrigerator
+    rpy_deg: [0, 0, 90]
+    position: [0.04, 0.31]
+    generalization:
+      freeze_pose: true
+layout:
+  zone: tabletop
+  objects: [obj_013_apple_1, obj_011_banana_2, obj_111_refrigerator_3]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_43_fridge_fruit_shelf_sorting
+metrics:
+  task_family: articulation_multi
+  expert_time_step: 2750
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_013_apple_1, obj_011_banana_2]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_43_fridge_fruit_shelf_sorting
+  stages:
+    - id: open_fridge
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_43_fridge_fruit_shelf_sorting
+        params:
+          phase: open_fridge
+    - id: place_banana
+      depends_on: [open_fridge]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_43_fridge_fruit_shelf_sorting
+        params:
+          phase: stage
+          object: obj_011_banana_2
+    - id: place_apple
+      depends_on: [open_fridge]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_43_fridge_fruit_shelf_sorting
+        params:
+          phase: stage
+          object: obj_013_apple_1
+    - id: close_fridge
+      depends_on: [place_banana, place_apple]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_43_fridge_fruit_shelf_sorting
+        params:
+          phase: close_fridge
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_013_apple_1, obj_011_banana_2]
+      allowed_placed_conditions:
+        obj_013_apple_1:
+          type: custom
+          evaluator: success.custom.task_43_fridge_fruit_shelf_sorting
+          params:
+            phase: placed
+            object: obj_013_apple_1
+        obj_011_banana_2:
+          type: custom
+          evaluator: success.custom.task_43_fridge_fruit_shelf_sorting
+          params:
+            phase: placed
+            object: obj_011_banana_2

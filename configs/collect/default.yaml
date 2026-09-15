@@ -1,0 +1,532 @@
+﻿# Single source of truth for collection config.
+# Raw default behavior:
+# - occupancy: false
+# - if you turn it on, the bundled occupancy config already uses chunked and bounded settings
+#
+# To switch to an online-label run, change:
+#   modalities.occupancy: true
+#
+# To request denser occupancy, additionally tune:
+#   occupancy.voxel_size
+#   occupancy.bounds
+#   occupancy.max_voxel_count
+
+profile:
+  dataset_version: bench_raw_v1
+  sensor_profile_id: benchmark_raw
+  sensor_profile_version: "1.0"
+
+dataset:
+  format: hdf5_per_episode
+  root: ./outputs
+  name: test
+
+capture:
+  fps: 20
+  step_stride: 3
+  max_buffer_mb: 8000
+
+modalities:
+  rgb: false
+  depth: false
+  object_pose: true
+  joint_state: true
+  box3d: false
+  box2d: false
+  tactile: false          
+
+
+# Per-camera resolution override. [width, height], max 1920x1080.
+camera_pixel:
+  cam_chest: [640, 480]
+  cam_overhead: [640, 480]
+  cam_wrist_right: [640, 480]
+  cam_wrist_left: [640, 480]
+  cam_stereo_left: [640, 480]
+  cam_stereo_right: [640, 480]
+
+# cam_wist_right and cam_wrist_left are defined as robot_link mount type, but their parent_link and offset are defined in the robot_wrist_camera_profiles section. This is because the exact camera pose depends on the robot model, and we want to be able to easily switch between different robot models without having to redefine the camera parameters each time.
+camera_list:
+  - id: cam_chest
+    mount_type: world
+    position: [0.0, -0.40, 1.25]
+    target: [0.0, 0.00, 0.82]
+    width: 640
+    height: 480
+    focal_length: 18.0
+    horizontal_aperture: 20.955
+    clipping_range: [0.01, 20.0]
+  - id: cam_overhead
+    mount_type: world
+    position: [0.0, 0.0, 1.80]
+    target: [0.0, 0.0, 0.82]
+    width: 640
+    height: 480
+    focal_length: 15.0
+    horizontal_aperture: 20.955
+    clipping_range: [0.01, 20.0]
+  - id: cam_wrist_right
+    mount_type: robot_link
+    camera_type: fisheye
+    fisheye_camera_matrix: [[169.7056, 0.0, 320.0], [0.0, 169.7056, 240.0], [0.0, 0.0, 1.0]]
+    fisheye_distortion_coefficients: [-0.0416667, 0.0005208, -0.0000031, 0.0000000108]
+    fisheye_max_fov_deg: 180.0
+    parent_link: wrist_3_link
+    offset_xyz: [0.052620712, 0.057382115, 0.075768000]
+    offset_rpy: [-0.262750000, 0.084286000, 1.547360000]
+    width: 640
+    height: 480
+    clipping_range: [0.01, 20.0]
+  - id: cam_wrist_left
+    mount_type: robot_link
+    camera_type: fisheye
+    fisheye_camera_matrix: [[169.7056, 0.0, 320.0], [0.0, 169.7056, 240.0], [0.0, 0.0, 1.0]]
+    fisheye_distortion_coefficients: [-0.0416667, 0.0005208, -0.0000031, 0.0000000108]
+    fisheye_max_fov_deg: 180.0
+    parent_link: L_arm_wrist_3_link
+    offset_xyz: [-0.052529389, 0.057465743, 0.075768174]
+    offset_rpy: [0.261799551, 0.000000071, 1.569999956]
+    width: 640
+    height: 480
+    clipping_range: [0.01, 20.0]
+  # Stereo cameras (ZED 2) - 120mm baseline, 110°(H) FOV, 1920x1080
+  # Note: z=1.5 to avoid being blocked by robot arms (arm max height ~1.2m)
+  - id: cam_stereo_left
+    mount_type: world
+    position: [-0.06, -0.3, 1.50]
+    target: [-0.06, 0.0, 0.82]
+    width: 640
+    height: 480
+    focal_length: 7.34
+    horizontal_aperture: 20.955
+    clipping_range: [0.01, 20.0]
+  - id: cam_stereo_right
+    mount_type: world
+    position: [0.06, -0.3, 1.50]
+    target: [0.06, 0.0, 0.82]
+    width: 640
+    height: 480
+    focal_length: 7.34
+    horizontal_aperture: 20.955
+    clipping_range: [0.01, 20.0]
+
+robot_wrist_camera_profiles:
+  multi_iiwa7_with_sharpa:
+    cam_wrist_left:
+      parent_link: link_7
+      offset_xyz: [0.05, 0.05, 0.05]
+      offset_rpy: [-0.1571, 0.314, -1.571]
+    cam_wrist_right:
+      parent_link: multi_link_7
+      offset_xyz: [0.05, -0.05, 0.05]
+      offset_rpy: [-0.1571, -0.314, -1.571]
+  multi_jaka_zu7_dexhand021_with_flange:
+    cam_wrist_left:
+      parent_link: l_Link_6
+      offset_xyz: [0.05, -0.05, 0.15]
+      offset_rpy: [-0.314, 0.314, 3.14]
+    cam_wrist_right:
+      parent_link: Link_6
+      offset_xyz: [-0.05, -0.05, 0.15]
+      offset_rpy: [-0.314, -0.314, 3.14]
+
+  multi_panda_with_orca:
+    cam_wrist_left:
+      parent_link: panda_link7
+      offset_xyz: [-0.06, 0.05, 0.27]
+      offset_rpy: [0.314, 0.1571, 0.785]
+    cam_wrist_right:
+      parent_link: multi_panda_link7
+      offset_xyz: [-0.06, 0.05, 0.27]
+      offset_rpy: [0.314, -0.1571, 0.785]
+  multi_panda_with_allegro:
+    cam_wrist_left:
+      parent_link: panda_link7
+      offset_xyz: [-0.060, 0.05, 0.1]
+      offset_rpy: [0, 0.1571, 0.785]
+    cam_wrist_right:
+      parent_link: multi_panda_link7
+      offset_xyz: [-0.06, 0.05, 0.1]
+      offset_rpy: [0, -0.1571, 0.785]
+
+  multi_rm_65_with_revo2:
+    cam_wrist_left:
+      parent_link: l_Link6
+      offset_xyz: [0.06, 0.04, 0.01]
+      offset_rpy: [0.1571, 0.314, -1.571]
+    cam_wrist_right:
+      parent_link: Link6
+      offset_xyz: [0.06, -0.04, 0.01]
+      offset_rpy: [0.1571, -0.314, -1.571]
+
+  multi_ur5_rh56dfx_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.05, 0.03, 0.07]
+      offset_rpy: [-0.314, 0.314, 0]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.05, 0.03, 0.07]
+      offset_rpy: [-0.314, -0.314, 0]
+  multi_ur5_rh5dg2_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.04, 0.045, 0.05]
+      offset_rpy: [-0.314, 0.314, 0]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.04, 0.045, 0.05]
+      offset_rpy: [-0.314, -0.314, 0]
+  multi_ur5_schunk_hand_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.05, 0.04, 0.06]
+      offset_rpy: [-0.1571, 0.314, 0]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.05, 0.04, 0.06]
+      offset_rpy: [-0.1571, -0.314, 0]
+  multi_ur5_shadow_hand_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.05, 0.08, 0.25]
+      offset_rpy: [0, 0.314, 0]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.05, 0.08, 0.25]
+      offset_rpy: [0, -0.314, 0]
+  multi_ur5_wuji_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.03, 0.04, 0.07]
+      offset_rpy: [-0.1571, 0.314, 0]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.03, 0.04, 0.07]
+      offset_rpy: [-0.1571, -0.314, 0]
+  multi_xarm7_with_ability:
+    cam_wrist_left:
+      parent_link: xarm_l_link7
+      offset_xyz: [-0.03, 0.05, 0.02]
+      offset_rpy: [0, 0.314, 0.000]
+    cam_wrist_right:
+      parent_link: multi_xarm_r_link7
+      offset_xyz: [0.03, 0.05, 0.02]
+      offset_rpy: [0, -0.314, 0.000]
+  multi_xarm7_with_leap:
+    cam_wrist_left:
+      parent_link: link7
+      offset_xyz: [0.06, 0.04, 0]
+      offset_rpy: [-0.1571, 0.314, -1.571]
+    cam_wrist_right:
+      parent_link: multi_link7
+      offset_xyz: [0.06, -0.04, 0]
+      offset_rpy: [-0.1571, -0.314, -1.571]
+
+scene_background:
+  enabled: true
+  physics_enabled: false
+  fill_light_intensity: 800
+  fill_light_jitter_ratio: 0.0
+
+  # type: hdr
+  # uri: ../../../dex2bench_dataset/Background/Indoor/university_workshop_4k.hdr
+  # yaw_deg: 120.0                                                                              
+
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan1_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan2_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [0, 0, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan3_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [0, 0, -0.22]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan4_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [-1.96702, 1.89762, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan5_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [1.42053, 1.15041, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan6_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [-0.32854, 1.16282, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan7_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [0, 0, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan8_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [-0.58339, 2.01355, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan9_physics/scene.usda
+  # yaw_deg: 90.0
+  # scene_offset: [0, 1.21873, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan10_physics/scene.usda
+  # yaw_deg: 90
+  # scene_offset: [-0.73022, 0.88397, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan11_physics/scene.usda
+  # yaw_deg: 180.0
+  # scene_offset: [-1.5588, 0.22708, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan14_physics/scene.usda
+  # yaw_deg: 90
+  # scene_offset: [0.8, 1.11, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan13_physics/scene.usda
+  # yaw_deg: -90.0
+  # scene_offset: [-3.8804, -2.13417, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan15_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [1.39, -1.58, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan16_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [1.25263, 3.65209, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan17_physics/scene.usda
+  # yaw_deg: 180.0
+  # scene_offset: [0.63808, 2.86054, 0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan18_physics/scene.usda
+  # yaw_deg: 90.0
+  # scene_offset: [2.71921, 0.57477, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan21_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [1.1808, 3.07023, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan24_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0.95853, -1.48004, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan26_physics/scene.usda
+  # yaw_deg: 90.0
+  # scene_offset: [2.77407, 2.48283, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan201_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [2.16777, -1.20934, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan202_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [2.10875, -2.29375, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan203_physics/scene.usda
+  # yaw_deg: -90.0
+  # scene_offset: [-2.44349, 0.4154, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan204_physics/scene.usda
+  # yaw_deg: -90
+  # scene_offset: [-4.22613, -1.90774, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan205_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [-2.00438, 5.05686, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan206_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 1.02099, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan207_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan208_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan209_physics/scene.usda
+  # yaw_deg: -90.0
+  # scene_offset: [2.47887, -2.52504, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan210_physics/scene.usda
+  # yaw_deg: 180.0
+  # scene_offset: [-2.39328, 2.39618, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan211_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan212_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [-0.97986, -0.25227, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan213_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [-11.06503, -0.91725, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan214_physics/scene.usda
+  # yaw_deg: -90.0
+  # scene_offset: [-4.29684, -2.4183, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan215_physics/scene.usda
+  # yaw_deg: 121.0
+  # scene_offset: [2.35706, 4.6246, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan216_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan217_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [2.34252, -2.6582, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan218_physics/scene.usda
+  # yaw_deg: -60
+  # scene_offset: [-1.35772, -1.88389, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan220_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [2.55291, -1.69247, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan222_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan224_physics/scene.usda
+  # yaw_deg: 90.0
+  # scene_offset: [-0.55907, -1.88972, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan225_physics/scene.usda
+  # yaw_deg: 90
+  # scene_offset: [2.59771, 2.22918, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan226_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan227_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [3.4296, -1.90511, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan228_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [3.6471, -2.70407, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan229_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [3.68556, -2.52339, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan230_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [2.85912, -2.16399, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan303_physics/scene.usda
+  # yaw_deg: 270
+  # scene_offset: [0.98792, 1.41545, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan307_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [0, 0.77052, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan309_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [-1.97795, 1.72843, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan311_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan315_physics/scene.usda
+  # yaw_deg: -90.0
+  # scene_offset: [1.7814, -0.84301, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan317_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan318_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan323_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [0.81476, 1.15264, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan325_physics/scene.usda
+  # yaw_deg: 0
+  # scene_offset: [0, 0, 0.0]
+  # type: usd_scene
+  # category: iTHOR
+  # uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan326_physics/scene.usda
+  # yaw_deg: 90
+  # scene_offset: [-1.77262, -0.7326, 0.0]
+  # uri:  ../../../dex2bench_dataset/scenes/ithor/FloorPlan20_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [0.08, 1.0, 0]
+  # uri:  ../../../dex2bench_dataset/scenes/ithor/FloorPlan22_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [-0.2, 1.38, 0]
+  # uri:  ../../../dex2bench_dataset/scenes/ithor/FloorPlan219_physics/scene.usda
+  # yaw_deg: 180
+  # scene_offset: [-3, 2.5, 0]
+  uri:  ../../../dex2bench_dataset/scenes/ithor/FloorPlan329_physics/scene.usda
+  yaw_deg: -90
+  scene_offset: [0.65, 1.85, 0]

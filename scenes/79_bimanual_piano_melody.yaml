@@ -1,0 +1,92 @@
+description: Both hands play the piano key sequence C-C-G-G-A-A-G together, left hand plays the bass notes, right hand plays the treble notes.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a325_piano:
+    path: ../../dex2bench_dataset/Objects/325_digital_piano/01_digital_piano/01/digital_piano.usd
+    scale: [0.65, 0.65, 0.65]
+    body_type: articulation
+    spawn:
+      articulation_props:
+        fix_root_link: true
+      mass_props:
+        density: 1.0
+      joint_pos:
+        'joint_(4[0-9]|5[0-4])_to_1': 0.00015
+        'joint_([3-9]|[12][0-9]|3[0-9])_to_1': 0.00015
+        'joint_(55|56)_to_1': 0.0
+        'joint_(5[7-9]|6[0-5])_to_1': 0.0
+      actuators:
+        all_piano_controls:
+          joint_names_expr: ['.*']
+          effort_limit_sim: 100.0
+          velocity_limit_sim: 1.5
+          stiffness: 70.0
+          damping: 10.0
+objects:
+  - id: obj_325_piano_1
+    asset: a325_piano
+    rpy_deg: [0, 0, 0]
+    position: [0, 0.24]
+    generalization:
+      yaw_jitter_deg: 0.0
+layout:
+  zone: tabletop
+  objects: [obj_325_piano_1]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_79_bimanual_piano_melody
+    params: {}
+metrics:
+  task_family: piano_melody
+  expert_time_step: 1362
+  expert_time_source: "mean steps_to_stable_success over 36/50 successful demos from origin-generalization"
+  grasp:
+    enabled: false
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: []
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_79_bimanual_piano_melody
+      params: {}
+  stages:
+    - id: play_left_melody
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_79_bimanual_piano_melody
+        params: {phase: melody_left}
+    - id: play_right_melody
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_79_bimanual_piano_melody
+        params: {phase: melody_right}
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: false
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25

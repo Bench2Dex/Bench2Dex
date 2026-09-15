@@ -1,0 +1,357 @@
+description: "Place the tennis ball and baseball into the large cup, place the racquetball and golf ball into the small cup."
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb: [[-1.1, -0.55, 0.75], [1.1, 0.55, 0.75]]
+assets:
+  a065d_cups:
+    path: ../../dex2bench_dataset/Objects/065-d_cups/google_16k/usd_sdf_linux/textured.usd
+    scale: [1.9, 1.9, 1.9]
+    body_type: dynamic
+    spwan:
+      mass_props:
+        mass: 0.6
+  a065e_cups:
+    path: ../../dex2bench_dataset/Objects/065-e_cups/google_16k/usd_sdf_linux/textured.usd
+    scale: [1.45, 1.45, 1.45]
+    body_type: dynamic
+    spwan:
+      mass_props:
+        mass: 0.6
+  a054_softball:
+    path: ../../dex2bench_dataset/Objects/054_softball/usd_decomposition_linux/textured.usd
+    scale: [0.8, 0.8, 0.8]
+    body_type: dynamic
+  a055_baseball:
+    path: ../../dex2bench_dataset/Objects/055_baseball/usd_decomposition_linux/textured.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+  a057_racquetball:
+    path: ../../dex2bench_dataset/Objects/057_racquetball/usd_decomposition_linux/textured.usd
+    scale: [1.2, 1.2, 1.2]
+    body_type: dynamic
+  a058_golf_ball:
+    path: ../../dex2bench_dataset/Objects/058_golf_ball/usd_decomposition_linux/textured.usd
+    scale: [1.5, 1.5, 1.5]
+    body_type: dynamic
+objects:
+  - id: obj_065_d_cups_1
+    asset: a065d_cups
+    rpy_deg: [0, 0, 0]
+    position: [0.05, 0.32]
+  - id: obj_065_e_cups_2
+    asset: a065e_cups
+    rpy_deg: [0, 0, 0]
+    position: [0.05, 0.15]
+  - id: obj_054_softball_3
+    asset: a054_softball
+    rpy_deg: [0, 0, 0]
+    position: [-0.4, 0.2]
+  - id: obj_055_baseball_4
+    asset: a055_baseball
+    rpy_deg: [0, 0, 0]
+    position: [0.4, 0.16]
+  - id: obj_057_racquetball_5
+    asset: a057_racquetball
+    rpy_deg: [0, 0, 0]
+    position: [-0.17, 0.32]
+  - id: obj_058_golf_ball_6
+    asset: a058_golf_ball
+    rpy_deg: [0, 0, 0]
+    position: [0.2, 0.12]
+layout:
+  zone: tabletop
+  objects: [obj_065_d_cups_1, obj_065_e_cups_2, obj_054_softball_3, obj_055_baseball_4, obj_057_racquetball_5, obj_058_golf_ball_6]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: all
+    conditions:
+      - type: all
+        conditions:
+          - type: object_upright
+            object: obj_065_d_cups_1
+            tolerance_deg: 30
+          - type: object_inside
+            object: obj_054_softball_3
+            container: obj_065_d_cups_1
+            tolerance: 0.15
+            container_center_offset: [-0.0372599, -0.1190131, 0.0]
+            object_center_offset: [-0.019673, 0.010704, 0.0469735]
+      - type: all
+        conditions:
+          - type: object_upright
+            object: obj_065_d_cups_1
+            tolerance_deg: 30
+          - type: object_inside
+            object: obj_055_baseball_4
+            container: obj_065_d_cups_1
+            tolerance: 0.15
+            container_center_offset: [-0.0372599, -0.1190131, 0.0]
+            object_center_offset: [-0.010081, -0.048245, 0.0360765]
+      - type: all
+        conditions:
+          - type: object_upright
+            object: obj_065_e_cups_2
+            tolerance_deg: 30
+          - type: object_inside
+            object: obj_057_racquetball_5
+            container: obj_065_e_cups_2
+            tolerance: 0.15
+            container_center_offset: [-0.0295407, -0.109347, 0.0]
+            object_center_offset: [-0.0108636, -0.1466784, 0.0331152]
+      - type: all
+        conditions:
+          - type: object_upright
+            object: obj_065_e_cups_2
+            tolerance_deg: 30
+          - type: object_inside
+            object: obj_058_golf_ball_6
+            container: obj_065_e_cups_2
+            tolerance: 0.15
+            container_center_offset: [-0.0295407, -0.109347, 0.0]
+            object_center_offset: [-0.0098092, -0.0456563, 0.0314152]
+  - type: object_static
+    object: obj_054_softball_3
+    threshold: 0.05
+    check_angular: false
+  - type: object_static
+    object: obj_055_baseball_4
+    threshold: 0.05
+    check_angular: false
+  - type: object_static
+    object: obj_057_racquetball_5
+    threshold: 0.05
+    check_angular: false
+  - type: object_static
+    object: obj_058_golf_ball_6
+    threshold: 0.05
+    check_angular: false
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 1329
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from replay-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_054_softball_3, obj_055_baseball_4, obj_057_racquetball_5, obj_058_golf_ball_6]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: all
+      conditions:
+        - type: all
+          conditions:
+            - type: all
+              conditions:
+                - type: object_upright
+                  object: obj_065_d_cups_1
+                  tolerance_deg: 30
+                - type: object_inside
+                  object: obj_054_softball_3
+                  container: obj_065_d_cups_1
+                  tolerance: 0.15
+                  container_center_offset: [-0.0372599, -0.1190131, 0.0]
+                  object_center_offset: [-0.019673, 0.010704, 0.0469735]
+            - type: object_static
+              object: obj_054_softball_3
+              threshold: 0.05
+              check_angular: false
+        - type: all
+          conditions:
+            - type: all
+              conditions:
+                - type: object_upright
+                  object: obj_065_d_cups_1
+                  tolerance_deg: 30
+                - type: object_inside
+                  object: obj_055_baseball_4
+                  container: obj_065_d_cups_1
+                  tolerance: 0.15
+                  container_center_offset: [-0.0372599, -0.1190131, 0.0]
+                  object_center_offset: [-0.010081, -0.048245, 0.0360765]
+            - type: object_static
+              object: obj_055_baseball_4
+              threshold: 0.05
+              check_angular: false
+        - type: all
+          conditions:
+            - type: all
+              conditions:
+                - type: object_upright
+                  object: obj_065_e_cups_2
+                  tolerance_deg: 30
+                - type: object_inside
+                  object: obj_057_racquetball_5
+                  container: obj_065_e_cups_2
+                  tolerance: 0.15
+                  container_center_offset: [-0.0295407, -0.109347, 0.0]
+                  object_center_offset: [-0.0108636, -0.1466784, 0.0331152]
+            - type: object_static
+              object: obj_057_racquetball_5
+              threshold: 0.05
+              check_angular: false
+        - type: all
+          conditions:
+            - type: all
+              conditions:
+                - type: object_upright
+                  object: obj_065_e_cups_2
+                  tolerance_deg: 30
+                - type: object_inside
+                  object: obj_058_golf_ball_6
+                  container: obj_065_e_cups_2
+                  tolerance: 0.15
+                  container_center_offset: [-0.0295407, -0.109347, 0.0]
+                  object_center_offset: [-0.0098092, -0.0456563, 0.0314152]
+            - type: object_static
+              object: obj_058_golf_ball_6
+              threshold: 0.05
+              check_angular: false
+  stages:
+    - id: place_1
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: all
+            conditions:
+              - type: object_upright
+                object: obj_065_d_cups_1
+                tolerance_deg: 30
+              - type: object_inside
+                object: obj_054_softball_3
+                container: obj_065_d_cups_1
+                tolerance: 0.15
+                container_center_offset: [-0.0372599, -0.1190131, 0.0]
+                object_center_offset: [-0.019673, 0.010704, 0.0469735]
+          - type: object_static
+            object: obj_054_softball_3
+            threshold: 0.05
+            check_angular: false
+    - id: place_2
+      depends_on: [place_1]
+      success_condition:
+        type: all
+        conditions:
+          - type: all
+            conditions:
+              - type: object_upright
+                object: obj_065_d_cups_1
+                tolerance_deg: 30
+              - type: object_inside
+                object: obj_055_baseball_4
+                container: obj_065_d_cups_1
+                tolerance: 0.15
+                container_center_offset: [-0.0372599, -0.1190131, 0.0]
+                object_center_offset: [-0.010081, -0.048245, 0.0360765]
+          - type: object_static
+            object: obj_055_baseball_4
+            threshold: 0.05
+            check_angular: false
+    - id: place_3
+      depends_on: [place_1, place_2]
+      success_condition:
+        type: all
+        conditions:
+          - type: all
+            conditions:
+              - type: object_upright
+                object: obj_065_e_cups_2
+                tolerance_deg: 30
+              - type: object_inside
+                object: obj_057_racquetball_5
+                container: obj_065_e_cups_2
+                tolerance: 0.15
+                container_center_offset: [-0.0295407, -0.109347, 0.0]
+                object_center_offset: [-0.0108636, -0.1466784, 0.0331152]
+          - type: object_static
+            object: obj_057_racquetball_5
+            threshold: 0.05
+            check_angular: false
+    - id: place_4
+      depends_on: [place_1, place_2, place_3]
+      success_condition:
+        type: all
+        conditions:
+          - type: all
+            conditions:
+              - type: object_upright
+                object: obj_065_e_cups_2
+                tolerance_deg: 30
+              - type: object_inside
+                object: obj_058_golf_ball_6
+                container: obj_065_e_cups_2
+                tolerance: 0.15
+                container_center_offset: [-0.0295407, -0.109347, 0.0]
+                object_center_offset: [-0.0098092, -0.0456563, 0.0314152]
+          - type: object_static
+            object: obj_058_golf_ball_6
+            threshold: 0.05
+            check_angular: false
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_054_softball_3, obj_055_baseball_4, obj_057_racquetball_5, obj_058_golf_ball_6]
+      allowed_placed_conditions:
+        obj_054_softball_3:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_065_d_cups_1
+              tolerance_deg: 30
+            - type: object_inside
+              object: obj_054_softball_3
+              container: obj_065_d_cups_1
+              tolerance: 0.15
+              container_center_offset: [-0.0372599, -0.1190131, 0.0]
+              object_center_offset: [-0.019673, 0.010704, 0.0469735]
+        obj_055_baseball_4:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_065_d_cups_1
+              tolerance_deg: 30
+            - type: object_inside
+              object: obj_055_baseball_4
+              container: obj_065_d_cups_1
+              tolerance: 0.15
+              container_center_offset: [-0.0372599, -0.1190131, 0.0]
+              object_center_offset: [-0.010081, -0.048245, 0.0360765]
+        obj_057_racquetball_5:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_065_e_cups_2
+              tolerance_deg: 30
+            - type: object_inside
+              object: obj_057_racquetball_5
+              container: obj_065_e_cups_2
+              tolerance: 0.15
+              container_center_offset: [-0.0295407, -0.109347, 0.0]
+              object_center_offset: [-0.0108636, -0.1466784, 0.0331152]
+        obj_058_golf_ball_6:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_065_e_cups_2
+              tolerance_deg: 30
+            - type: object_inside
+              object: obj_058_golf_ball_6
+              container: obj_065_e_cups_2
+              tolerance: 0.15
+              container_center_offset: [-0.0295407, -0.109347, 0.0]
+              object_center_offset: [-0.0098092, -0.0456563, 0.0314152]

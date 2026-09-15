@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bench2Dex Documentation</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f8f9fa;
+    --text: #1a1a2e;
+    --text-muted: #555;
+    --accent: #4361ee;
+    --accent-soft: #eef1ff;
+    --border: #e2e4e8;
+    --code-bg: #1e1e2e;
+    --code-text: #cdd6f4;
+    --table-stripe: #f8f9fa;
+    --max-width: 1000px;
+    --sidebar-bg: #f4f5f7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── Layout ── */
+  .wrapper {
+    display: flex;
+    max-width: 1300px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    padding: 2rem 1.25rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar h2 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .sidebar nav ul {
+    list-style: none;
+  }
+  .sidebar nav li {
+    margin-bottom: 0.3rem;
+  }
+  .sidebar nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: block;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .sidebar nav a:hover,
+  .sidebar nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .sidebar nav .sub {
+    padding-left: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  /* ── Main Content ── */
+  .content {
+    flex: 1;
+    padding: 3rem 3rem 5rem;
+    min-width: 0;
+  }
+  @media (max-width: 860px) {
+    .wrapper { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; }
+    .content { padding: 2rem 1.5rem; }
+    .sidebar nav ul { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .sidebar nav li { margin-bottom: 0; }
+    .sidebar nav a { padding: 0.2rem 0.6rem; font-size: 0.82rem; }
+    .sidebar nav .sub { padding-left: 0.6rem; }
+  }
+
+  /* ── Typography ── */
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.02em;
+  }
+  h1 .subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0;
+  }
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+  }
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 2rem 0 0.7rem;
+    color: #222;
+  }
+  h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 1.2rem 0 0.5rem;
+    color: #333;
+  }
+  p { margin-bottom: 0.9rem; color: #333; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Code ── */
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0.8rem 0 1.2rem;
+  }
+  code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.88em;
+  }
+  p code, li code {
+    background: #f0f0f5;
+    color: #c7254e;
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    font-size: 0.85em;
+  }
+  pre code { background: none; color: inherit; padding: 0; }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.9rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.55rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  tr:nth-child(even) { background: var(--table-stripe); }
+
+  /* ── Info boxes ── */
+  .info, .note, .tip {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 0.8rem 1rem;
+    margin: 1rem 0 1.2rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+  }
+  .note { border-left-color: #f59e0b; background: #fffbeb; }
+  .tip { border-left-color: #10b981; background: #ecfdf5; }
+
+  /* ── Section anchors ── */
+  .section-anchor { scroll-margin-top: 1.5rem; }
+
+  /* ── Responsive table wrapper ── */
+  .table-wrap { overflow-x: auto; }
+
+  /* ── Collapsible sidebar ── */
+  .collapse-toggle {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .collapse-toggle:hover { color: var(--accent); }
+  .collapse-indicator {
+    font-size: 0.7rem;
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+  .collapse-indicator.collapsed {
+    transform: rotate(-90deg);
+  }
+  .collapse-content { overflow: hidden; transition: max-height 0.25s ease; }
+  .collapse-content.collapsed { max-height: 0 !important; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>📋 Bench2Dex</h2>
+    <nav>
+      <ul>
+        <li class="collapse-toggle" onclick="togglePolicy()">
+          <span class="collapse-indicator" id="policyIndicator">&#9660;</span>
+          <span style="font-weight:600; font-size:0.85rem; color:var(--text-muted); letter-spacing:0.03em; text-transform:uppercase;">Policy</span>
+        </li>
+        <div class="collapse-content" id="policyContent">
+        <li><a href="#act" class="active">ACT</a></li>
+        <li><a href="#act-env" class="sub">Environment</a></li>
+        <li><a href="#act-train" class="sub">Training</a></li>
+        <li><a href="#act-eval" class="sub">Evaluation</a></li>
+        <li style="margin-top:0.3rem"><a href="#dp">Diffusion Policy</a></li>
+        <li><a href="#dp-env" class="sub">Environment</a></li>
+        <li><a href="#dp-train" class="sub">Training</a></li>
+        <li><a href="#dp-eval" class="sub">Evaluation</a></li>
+        <li style="margin-top:0.3rem"><a href="#pi05">Pi0.5</a></li>
+        <li><a href="#pi05-env" class="sub">Environment</a></li>
+        <li><a href="#pi05-train" class="sub">Training</a></li>
+        <li><a href="#pi05-eval" class="sub">Evaluation</a></li>
+        <li style="margin-top:0.3rem"><a href="#gr00t">GR00T N1.5</a></li>
+        <li><a href="#gr00t-env" class="sub">Environment</a></li>
+        <li><a href="#gr00t-train" class="sub">Training</a></li>
+        <li><a href="#gr00t-eval" class="sub">Evaluation</a></li>
+        </div>
+        <li style="margin-top:0.6rem"><a href="#tasks" style="font-weight:600; font-size:0.85rem; color:var(--text-muted); letter-spacing:0.03em; text-transform:uppercase;">Tasks</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="content">
+    <h1>
+      Bench2Dex Documentation
+      <div class="subtitle">Tasks, Training &amp; Evaluation Guide</div>
+    </h1>
+    <p>
+      Bench2Dex supports four policy families for imitation learning on dexterous manipulation tasks.
+      Each policy has its own environment setup, training procedure, and evaluation commands.
+      Below we document each policy in detail, using task <code>03_wine_glass_plate_balance</code> as a running example.
+    </p>
+
+    <!-- ================================================================== -->
+    <!-- Policy                                                             -->
+    <!-- ================================================================== -->
+    <section id="policy" class="section-anchor">
+      <h2>Policy</h2>
+      <p>Bench2Dex supports four imitation learning policy families. Each has its own framework, environment setup, training procedure, and evaluation commands.</p>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- ACT                                                                 -->
+    <!-- ================================================================== -->
+    <section id="act" class="section-anchor">
+      <h3>1. ACT (Action Chunking with Transformers)</h3>
+      <p>
+        <strong>ACT</strong> is a behavior-cloning policy that uses a CVAE (Conditional Variational Autoencoder)
+        transformer architecture to predict action chunks. It is built on a ResNet18 backbone with a DETR-style
+        transformer encoder–decoder. The implementation is adapted from the
+        <a href="https://github.com/tonyzhaozh/act" target="_blank">original ACT repository</a>.
+      </p>
+
+      <h4 id="act-env" class="section-anchor">Environment Setup</h4>
+      <p>Create a <code>uv</code>-managed Python 3.9 virtual environment with PyTorch and all dependencies:</p>
+      <pre><code>cd policy/ACT
+bash env.sh                          # Build uv virtual environment
+cd ../..</code></pre>
+      <p>The script automatically installs <code>uv</code> if missing, creates <code>.venv/</code>, installs PyTorch 2.0.0 (CUDA 11.8), and all required packages (numpy, opencv-python, mujoco, h5py, etc.).</p>
+      <p>A conda alternative is also provided via <code>conda_env.yaml</code>:</p>
+      <pre><code>conda env create -f policy/ACT/conda_env.yaml
+conda activate act</code></pre>
+
+      <h4 id="act-train" class="section-anchor">Training</h4>
+      <p>The training script supports positional arguments and automatic path resolution.</p>
+
+      <h4>Basic Usage</h4>
+      <pre><code># Default: uses outputs/ur5_rh56dfx/scenes/&lt;TASK&gt;/replay/
+bash policy/ACT/train.sh 03_wine_glass_plate_balance
+
+# Specify GPU and seed
+bash policy/ACT/train.sh 03_wine_glass_plate_balance 0 1
+
+# With custom dataset and output paths
+bash policy/ACT/train.sh 03_wine_glass_plate_balance 0 1 /path/to/replay /path/to/output
+
+# Train on generalized data (covariate / inv-covariate)
+bash policy/ACT/train.sh 03_wine_glass_plate_balance 0 1 cov_only
+bash policy/ACT/train.sh 03_wine_glass_plate_balance 0 1 inv_cov</code></pre>
+
+      <h4>Positional Arguments</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>#</th><th>Parameter</th><th>Default</th><th>Description</th></tr>
+          <tr><td>1</td><td><code>TASK</code></td><td>required</td><td>Task folder name (e.g. <code>03_wine_glass_plate_balance</code>)</td></tr>
+          <tr><td>2</td><td><code>GPU_ID</code></td><td><code>0</code></td><td>CUDA device ID</td></tr>
+          <tr><td>3</td><td><code>SEED</code></td><td><code>0</code></td><td>Random seed</td></tr>
+          <tr><td>4</td><td><code>DATASET_DIR</code></td><td><code>../../outputs/ur5_rh56dfx/scenes/{TASK}/replay</code></td><td>HDF5 replay directory</td></tr>
+          <tr><td>5</td><td><code>CKPT_DIR</code></td><td><code>../../outputs/logs/act/{TASK}/exp_{datetime}</code></td><td>Checkpoint output directory</td></tr>
+        </table>
+      </div>
+
+      <h4>Key Defaults</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Parameter</th><th>Value</th></tr>
+          <tr><td>Architecture</td><td>ResNet18 backbone, 4-layer encoder, 7-layer decoder</td></tr>
+          <tr><td><code>hidden_dim</code></td><td>512</td></tr>
+          <tr><td><code>chunk_size</code></td><td>30</td></tr>
+          <tr><td><code>kl_weight</code></td><td>10</td></tr>
+          <tr><td><code>batch_size</code></td><td>32</td></tr>
+          <tr><td><code>num_epochs</code></td><td>6000</td></tr>
+          <tr><td><code>lr</code></td><td>1e-5</td></tr>
+          <tr><td>Cameras</td><td>4 (right_wrist, left_wrist, stereo_left, stereo_right)</td></tr>
+        </table>
+      </div>
+
+      <div class="tip">
+        <strong>Monitoring:</strong> View training curves with <code>tensorboard --logdir ../../outputs/logs/act/{TASK}/exp_.../tb_logs</code>
+      </div>
+
+      <h4 id="act-eval" class="section-anchor">Evaluation &amp; Inference</h4>
+      <p>ACT provides three evaluation modes, each suited for different use cases.</p>
+
+      <h4>Direct Evaluation (Recommended for Quick Validation)</h4>
+      <p>Runs inference directly without a server/client — ideal for rapid testing:</p>
+      <pre><code>bash policy/ACT/eval_direct.sh 03_wine_glass_plate_balance \
+  ./outputs/logs/act/03_wine_glass_plate_balance/exp_20250101_120000/ \
+  policy_last.ckpt 0 50 100000000 --max-steps 2400</code></pre>
+
+      <h4>Server/Client Evaluation</h4>
+      <p>Connects to an existing model server (or starts one):</p>
+      <pre><code>bash policy/ACT/eval.sh 03_wine_glass_plate_balance \
+  ./outputs/logs/act/03_wine_glass_plate_balance/exp_20250101_120000/ \
+  policy_last.ckpt 0 50 100000000</code></pre>
+
+      <h4>Double-Environment Evaluation (Full Channel Support)</h4>
+      <p>Starts both a model server and an Isaac Sim client, supporting generalization profiles and Isaac restarts:</p>
+      <pre><code>bash policy/ACT/eval_double_env.sh 03_wine_glass_plate_balance \
+  ./outputs/logs/act/03_wine_glass_plate_balance/exp_20250101_120000/ \
+  policy_best.ckpt 0 50 100000000 --headless \
+  --generalization-profile none</code></pre>
+
+      <h4>Available Evaluation Flags</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Flag</th><th>Default</th><th>Description</th></tr>
+          <tr><td><code>--generalization-profile</code></td><td><code>none</code></td><td>Generalization channel: <code>none</code>, <code>cov_only</code>, <code>inv_only</code>, <code>inv_cov</code></td></tr>
+          <tr><td><code>--anchor-dir</code></td><td>auto</td><td>Anchor HDF5 directory for generalization</td></tr>
+          <tr><td><code>--episode-steps N</code></td><td>budget</td><td>Policy-step budget override</td></tr>
+          <tr><td><code>--max-steps N</code></td><td>budget</td><td>Physics-step budget override</td></tr>
+          <tr><td><code>--headless</code></td><td>false</td><td>Run without GUI</td></tr>
+          <tr><td><code>--use-active-dof</code></td><td>true</td><td>Enable active DOF mode</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- DP                                                                 -->
+    <!-- ================================================================== -->
+    <section id="dp" class="section-anchor">
+      <h3>2. DP (Diffusion Policy)</h3>
+      <p>
+        <strong>Diffusion Policy</strong> uses a diffusion model (DDPM) over a U-Net architecture to generate
+        action sequences conditioned on visual observations. It employs a ResNet18 multi-image encoder
+        with 4 RGB cameras and a cosine-scheduled noise scheduler. The implementation is adapted from
+        the <a href="https://github.com/real-stanford/diffusion_policy" target="_blank">Diffusion Policy</a> and
+        <a href="https://github.com/robotwin-Platform/RoboTwin" target="_blank">RoboTwin</a> projects.
+      </p>
+
+      <h4 id="dp-env" class="section-anchor">Environment Setup</h4>
+      <p>Two environment options are available:</p>
+
+      <h4>Option A: uv Virtual Environment</h4>
+      <pre><code>cd policy/DP
+bash env.sh                          # Build uv virtual environment
+cd ../..</code></pre>
+
+      <h4>Option B: Conda Environment</h4>
+      <pre><code>conda env create -f policy/DP/dp_env.yml
+conda activate dp</code></pre>
+
+      <div class="info">
+        The <code>dp_env.yml</code> provides a frozen environment with PyTorch 2.8.0 + CUDA 12.8.
+        The <code>env.sh</code> script uses PyTorch 2.0.0 + CUDA 11.8. Choose based on your system compatibility.
+      </div>
+
+      <h4 id="dp-train" class="section-anchor">Training</h4>
+      <p>Training takes a task number and auto-discovers dataset paths. It uses Hydra for configuration management.</p>
+
+      <h4>Basic Usage</h4>
+      <pre><code># Single GPU (defaults to all 8 GPUs, use --gpu to restrict)
+bash policy/DP/train.sh 03
+
+# 4-GPU DDP training with custom learning rate
+bash policy/DP/train.sh 03 --gpu 0,1,2,3 --lr 1e-4
+
+# Foreground training (no tmux)
+bash policy/DP/train.sh 03 --no-tmux --epochs 300
+
+# Custom dataset directory
+bash policy/DP/train.sh 03 --dataset /path/to/episodes
+
+# Dry-run to inspect the command
+bash policy/DP/train.sh 03 --dry-run</code></pre>
+
+      <h4>Training Flags</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Flag</th><th>Default</th><th>Description</th></tr>
+          <tr><td><code>--gpu IDS</code></td><td><code>0,1,2,3,4,5,6,7</code></td><td>CUDA_VISIBLE_DEVICES</td></tr>
+          <tr><td><code>--lr LR</code></td><td><code>1e-4</code></td><td>Peak learning rate</td></tr>
+          <tr><td><code>--epochs N</code></td><td><code>300</code></td><td>Number of training epochs</td></tr>
+          <tr><td><code>--batch N</code></td><td><code>512</code></td><td>Global batch size (must be divisible by GPU count)</td></tr>
+          <tr><td><code>--warmup N</code></td><td><code>500</code></td><td>LR warmup steps</td></tr>
+          <tr><td><code>--workers N</code></td><td><code>32</code></td><td>DataLoader workers per GPU</td></tr>
+          <tr><td><code>--seed N</code></td><td><code>42</code></td><td>Random seed</td></tr>
+          <tr><td><code>--tag SUFFIX</code></td><td><code>home</code></td><td>Append suffix to output directory</td></tr>
+          <tr><td><code>--no-tmux</code></td><td>tmux enabled</td><td>Run in foreground</td></tr>
+          <tr><td><code>--config NAME</code></td><td><code>robot_dp_36_dex2scene_real.yaml</code></td><td>Hydra config name</td></tr>
+          <tr><td><code>--dataset PATH</code></td><td>auto-search</td><td>Exact HDF5 episodes directory</td></tr>
+          <tr><td><code>--resume</code></td><td>on</td><td>Resume from latest checkpoint</td></tr>
+        </table>
+      </div>
+
+      <h4>Key Architecture Defaults</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Parameter</th><th>Value</th></tr>
+          <tr><td>Policy</td><td>DiffusionUnetImagePolicy (DDPM, 100 denoising steps)</td></tr>
+          <tr><td>Backbone</td><td>ResNet18 (ImageNet-pretrained for <code>_pretrained</code> config)</td></tr>
+          <tr><td>Noise Schedule</td><td>Squaredcos_cap_v2 (cosine)</td></tr>
+          <tr><td>Horizon / n_obs / n_action</td><td>8 / 3 / 6</td></tr>
+          <tr><td>U-Net down dims</td><td>[256, 512, 1024]</td></tr>
+          <tr><td>Optimizer</td><td>AdamW (lr=1e-4, betas=[0.95, 0.999])</td></tr>
+          <tr><td>Checkpoint</td><td>Every 5 epochs, keep top-5 by <code>test_mean_score</code></td></tr>
+          <tr><td>Data format</td><td>Zarr (converted from HDF5, truncated at homing)</td></tr>
+        </table>
+      </div>
+
+      <div class="tip">
+        <strong>Checkpoints</strong> are saved every 5 epochs under <code>../policy_ckpt/03/</code>.
+        The script automatically converts HDF5 → Zarr on the first run (truncated at the homing-start frame).
+      </div>
+
+      <h4 id="dp-eval" class="section-anchor">Evaluation &amp; Inference</h4>
+
+      <h4>Server/Client Evaluation</h4>
+      <pre><code>bash policy/DP/eval.sh 03_wine_glass_plate_balance \
+  ../policy_ckpt/03/multi_ur5_rh56dfx_with_flange/dp_home/checkpoints/ \
+  bs512_ep300.ckpt 0 50 100000000</code></pre>
+
+      <h4>Double-Environment Evaluation (Channel Support)</h4>
+      <pre><code># Single channel (no generalization)
+bash policy/DP/eval_double_env.sh 03
+
+# Covariate generalization
+bash policy/DP/eval_double_env.sh 03 cov
+
+# Full generalization (invariant + covariate)
+bash policy/DP/eval_double_env.sh 03 inv_cov
+
+# All 4 channels sequentially
+bash policy/DP/eval_double_env.sh 03 all</code></pre>
+
+      <h4>Available Flags for <code>eval_double_env.sh</code></h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Flag</th><th>Default</th><th>Description</th></tr>
+          <tr><td><code>--channel CH</code></td><td><code>none</code></td><td>Generalization channel</td></tr>
+          <tr><td><code>--num-episodes N</code></td><td><code>50</code></td><td>Number of episodes</td></tr>
+          <tr><td><code>--episodes-per-process N</code></td><td><code>25</code></td><td>Isaac restart interval (GPU memory release)</td></tr>
+          <tr><td><code>--cuda N</code></td><td><code>0</code></td><td>GPU device</td></tr>
+          <tr><td><code>--model-path PATH</code></td><td>auto</td><td>Checkpoint path override</td></tr>
+          <tr><td><code>--anchor-dir DIR</code></td><td>auto</td><td>Anchor HDF5 directory</td></tr>
+          <tr><td><code>--robot-key KEY</code></td><td>auto</td><td>Robot key override</td></tr>
+          <tr><td><code>--resume</code></td><td>off</td><td>Resume previous evaluation</td></tr>
+          <tr><td><code>--sii</code></td><td>off</td><td>Use Isaac Sim environment</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Pi0.5                                                              -->
+    <!-- ================================================================== -->
+    <section id="pi05" class="section-anchor">
+      <h3>3. Pi0.5</h3>
+      <p>
+        <strong>Pi0.5</strong> is a JAX-based vision-language-action (VLA) model from
+        <a href="https://github.com/Physical-Intelligence/openpi" target="_blank">Physical Intelligence</a>.
+        Bench2Dex integrates Pi0.5 via the <code>openpi</code> library with full fine-tuning and WebSocket-based
+        model serving. It uses the pi0_fast architecture with a Gemma + SigLIP backbone.
+      </p>
+
+      <h4 id="pi05-env" class="section-anchor">Environment Setup</h4>
+      <p>Pi0.5 uses a <code>uv</code>-managed virtual environment (JAX-based, not PyTorch):</p>
+      <pre><code>cd policy/pi05
+GIT_LFS_SKIP_SMUDGE=1 uv sync         # Build uv virtual environment (JAX)
+cd ../..</code></pre>
+
+      <div class="note">
+        <strong>Note:</strong> JAX models require GPU memory management. The environment sets
+        <code>XLA_PYTHON_CLIENT_MEM_FRACTION=0.95</code> for training and <code>0.5</code> for serving.
+        Use the <code>--sii</code> flag to switch to a conda-based environment if <code>uv</code> is unavailable.
+      </div>
+
+      <h4 id="pi05-train" class="section-anchor">Training (Full Fine-Tuning)</h4>
+      <p>Pi0.5 fine-tunes a pretrained base model with full-parameter training, loading the base weights from ModelScope/S3.</p>
+
+      <h4>Basic Usage</h4>
+      <pre><code># 8-GPU training with all defaults
+bash policy/pi05/finetune.sh --task 03_wine_glass_plate_balance \
+  --gpu-use 0,1,2,3,4,5,6,7 --exp-name my_exp \
+  --dataset-dir /path/to/replay --output-dir /path/to/logs/pi05
+
+# Specify robot key explicitly (overrides auto-detection)
+bash policy/pi05/finetune.sh --task 03_wine_glass_plate_balance \
+  --gpu-use 0,1,2,3,4,5,6,7 --exp-name my_exp \
+  --dataset-dir /path/to/replay --output-dir /path/to/logs/pi05 \
+  --robot-key multi_ur5_rh56dfx_with_flange</code></pre>
+
+      <h4>Training Flags</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Flag</th><th>Default</th><th>Description</th></tr>
+          <tr><td><code>--task NAME</code></td><td>required</td><td>Dex2Bench task name (full scene name)</td></tr>
+          <tr><td><code>--gpu-use IDS</code></td><td><code>0</code></td><td>CUDA_VISIBLE_DEVICES value</td></tr>
+          <tr><td><code>--exp-name NAME</code></td><td><code>exp_{timestamp}</code></td><td>Experiment / checkpoint directory name</td></tr>
+          <tr><td><code>--dataset-dir PATH</code></td><td><code>../../outputs/ur5_rh56dfx/scenes/{TASK}/replay</code></td><td>HDF5 replay directory</td></tr>
+          <tr><td><code>--output-dir PATH</code></td><td><code>../../outputs/logs/pi05</code></td><td>Checkpoint base directory</td></tr>
+          <tr><td><code>--assets-base-dir PATH</code></td><td><code>{output-dir}/_assets</code></td><td>Norm-stats / assets directory</td></tr>
+          <tr><td><code>--prompt TEXT</code></td><td>from <code>scenes/{TASK}.yaml</code></td><td>Language prompt for the policy</td></tr>
+          <tr><td><code>--train-config NAME</code></td><td><code>pi05_base_dex2bench_full</code></td><td>Training configuration name</td></tr>
+          <tr><td><code>--batch-size N</code></td><td>from config</td><td>Batch size (forwarded to train.py)</td></tr>
+          <tr><td><code>--num-workers N</code></td><td>from config</td><td>DataLoader workers</td></tr>
+          <tr><td><code>--robot-key KEY</code></td><td>auto-detected from HDF5</td><td>Robot registry key (overrides auto-detection)</td></tr>
+          <tr><td><code>--sii</code></td><td>off</td><td>Use conda environment instead of uv</td></tr>
+          <tr><td><code>--recompute-norm-stats</code></td><td>off</td><td>Force recompute normalization statistics</td></tr>
+          <tr><td><code>-- ARGS...</code></td><td>—</td><td>Pass through to <code>scripts/train.py</code></td></tr>
+        </table>
+      </div>
+
+      <h4>Key Training Defaults (from <code>deploy_policy.yml</code>)</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Parameter</th><th>Value</th></tr>
+          <tr><td>Train config</td><td><code>pi05_base_dex2bench_full</code> (full fine-tune)</td></tr>
+          <tr><td>Action horizon</td><td>20</td></tr>
+          <tr><td>Batch size</td><td>256</td></tr>
+          <tr><td>Training steps</td><td>2000</td></tr>
+          <tr><td>Save interval</td><td>1000 steps</td></tr>
+          <tr><td>Peak LR</td><td>1e-4 → decay to 1e-6</td></tr>
+          <tr><td>Warmup steps</td><td>100</td></tr>
+          <tr><td>FSDP devices</td><td>1</td></tr>
+          <tr><td>Workers</td><td>32</td></tr>
+          <tr><td>Robot key</td><td>auto-detected from HDF5</td></tr>
+        </table>
+      </div>
+
+      <div class="tip">
+        <strong>Checkpoint output structure:</strong>
+        <code>outputs/logs/pi05/pi05_base_dex2bench_lora/&lt;exp&gt;/&lt;step&gt;/</code>
+      </div>
+
+      <h4 id="pi05-eval" class="section-anchor">Evaluation &amp; Inference</h4>
+      <p>Pi0.5 uses a split server/client architecture: a JAX model server runs in the <code>openpi</code> environment,
+        while the Isaac Sim client runs in the dex2bench environment.</p>
+
+      <h4>Single-Channel Evaluation</h4>
+      <pre><code># All optional positionals (train_config, gpu_id, num_episodes, seed) use script defaults
+bash policy/pi05/eval_double_env.sh 03_wine_glass_plate_balance \
+  multi_ur5_rh56dfx_with_flange \               # ← positional robot key
+  ./outputs/logs/pi05/pi05_base_dex2bench_full/my_exp/2000/ \
+  --channel none \
+  --anchor-dir /path/to/replay-generalization</code></pre>
+
+      <h4>All-Channel Evaluation (Recommended)</h4>
+      <pre><code># robot key is the 2nd positional argument (multi_ur5_rh56dfx_with_flange)
+# All optional positionals (train_config, gpu_id, num_episodes, seed) use script defaults
+bash policy/pi05/eval_all_channels.sh 03_wine_glass_plate_balance \
+  multi_ur5_rh56dfx_with_flange \             # ← positional robot key
+  ./outputs/logs/pi05/pi05_base_dex2bench_full/my_exp/2000/ \
+  /path/to/replay-generalization</code></pre>
+
+      <p>The <code>eval_all_channels.sh</code> script runs all four generalization channels (<code>none</code>, <code>cov</code>, <code>inv</code>, <code>inv_cov</code>) sequentially and produces a single <code>success_rates.tsv</code> summary.</p>
+
+      <h4>Key Evaluation Flags</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Flag</th><th>Default</th><th>Description</th></tr>
+          <tr><td><code>--anchor-dir PATH</code></td><td>positional</td><td>Replay HDF5 directory for anchor channels</td></tr>
+          <tr><td><code>--generalization-split SPLIT</code></td><td><code>unseen</code></td><td>Scene split: <code>seen</code>, <code>unseen</code>, <code>all</code></td></tr>
+          <tr><td><code>--episodes-per-process N</code></td><td><code>0</code></td><td>Restart Isaac every N episodes (memory release)</td></tr>
+          <tr><td><code>--channels LIST</code></td><td><code>none,cov,inv,inv_cov</code></td><td>Comma-separated channels to run</td></tr>
+          <tr><td><code>--keep-going</code></td><td>off</td><td>Continue if one channel fails</td></tr>
+          <tr><td><code>--record-success</code></td><td>off</td><td>Save successful-episode HDF5 + MP4</td></tr>
+          <tr><td><code>--record-all</code></td><td>off</td><td>Save all episodes (success + failure)</td></tr>
+          <tr><td><code>--sii</code></td><td>off</td><td>Use conda environments</td></tr>
+          <tr><td><code>--robot-key KEY</code></td><td>positional / auto</td><td>Robot registry key (2nd positional arg in both scripts; <code>--robot-key</code> flag overrides)</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- GR00T N1.5                                                         -->
+    <!-- ================================================================== -->
+    <section id="gr00t" class="section-anchor">
+      <h3>4. GR00T N1.5</h3>
+      <p>
+        <strong>GR00T N1.5</strong> is NVIDIA's open foundation model for generalist robot manipulation.
+        It uses a vision-language backbone (Eagle 2.5) with a diffusion-transformer action head.
+        Bench2Dex integrates a vendored copy of
+        <a href="https://github.com/NVIDIA/Isaac-GR00T" target="_blank">Isaac-GR00T</a>
+        with HDF5-native data loading and LoRA fine-tuning support. The default base model is the
+        N1.5-derived WaveHand checkpoint from ModelScope.
+      </p>
+
+      <h4 id="gr00t-env" class="section-anchor">Environment Setup</h4>
+      <p>The setup script creates a conda environment, installs dependencies, and downloads the base model:</p>
+      <pre><code># Full setup (conda env + dependencies + model download)
+bash policy/GR00T_n15/setup_env.sh
+
+# Skip model download (environment only)
+bash policy/GR00T_n15/setup_env.sh --skip-model-download
+
+# Use a different model
+bash policy/GR00T_n15/setup_env.sh \
+  --model-id nv-community/GR00T-N1.5-3B-WaveHand</code></pre>
+
+      <h4>Setup Options</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Flag</th><th>Default</th><th>Description</th></tr>
+          <tr><td><code>--env-name NAME</code></td><td><code>GR00T_n15</code></td><td>Conda environment name</td></tr>
+          <tr><td><code>--python VERSION</code></td><td><code>3.10</code></td><td>Python version</td></tr>
+          <tr><td><code>--model-id ID</code></td><td><code>nv-community/GR00T-N1.5-3B-WaveHand</code></td><td>ModelScope model ID</td></tr>
+          <tr><td><code>--skip-model-download</code></td><td>—</td><td>Skip weight download</td></tr>
+          <tr><td><code>--skip-install</code></td><td>—</td><td>Skip pip install</td></tr>
+        </table>
+      </div>
+
+      <div class="info">
+        The script writes cache environment variables (HF_HOME, TORCH_HOME, etc.) to project-local
+        <code>.cache/</code> directories and creates conda activate/deactivate hooks for automatic
+        environment variable management. A <code>.env</code> file is also generated for reference.
+      </div>
+
+      <h4 id="gr00t-train" class="section-anchor">Training</h4>
+      <p>GR00T N1.5 fine-tunes using HDF5-native mode — reading <code>.hdf5</code> files directly without
+        converting to LeRobot format. Training scripts support LoRA-based fine-tuning.</p>
+
+      <h4>Basic Usage</h4>
+      <pre><code># Single GPU (default)
+bash policy/GR00T_n15/train.sh 03
+
+# Multi-GPU with custom batch size
+bash policy/GR00T_n15/train.sh 03 --gpu 0,1,2,3 --batch 64
+
+# Custom hyperparameters with tag
+bash policy/GR00T_n15/train.sh 03 --lr 2e-4 --steps 10000 --tag v1
+
+# Foreground training (no tmux)
+bash policy/GR00T_n15/train.sh 03 --no-tmux</code></pre>
+
+      <h4>Training Flags</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Flag</th><th>Default</th><th>Description</th></tr>
+          <tr><td><code>--gpu IDS</code></td><td><code>0</code></td><td>CUDA_VISIBLE_DEVICES</td></tr>
+          <tr><td><code>--lr LR</code></td><td><code>1e-4</code></td><td>Peak learning rate</td></tr>
+          <tr><td><code>--steps N</code></td><td><code>20000</code></td><td>Max training steps</td></tr>
+          <tr><td><code>--batch N</code></td><td><code>64</code></td><td>Global batch size</td></tr>
+          <tr><td><code>--save-steps N</code></td><td><code>1000</code></td><td>Checkpoint save interval (steps)</td></tr>
+          <tr><td><code>--workers N</code></td><td><code>12</code></td><td>DataLoader workers</td></tr>
+          <tr><td><code>--seed N</code></td><td><code>42</code></td><td>Random seed</td></tr>
+          <tr><td><code>--tag SUFFIX</code></td><td><code>bs64_step20000_gpu1_lr1</code></td><td>Output dir suffix</td></tr>
+          <tr><td><code>--resume</code></td><td>off</td><td>Resume from latest checkpoint</td></tr>
+          <tr><td><code>--no-tmux</code></td><td>tmux enabled</td><td>Run in foreground</td></tr>
+          <tr><td><code>--dataset PATH</code></td><td>auto-search</td><td>Exact HDF5 episodes directory</td></tr>
+        </table>
+      </div>
+
+      <h4>Key Architecture Defaults</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Parameter</th><th>Value</th></tr>
+          <tr><td>Backbone</td><td>Eagle 2.5 (frozen VLM)</td></tr>
+          <tr><td>Action head</td><td>Flow-matching diffusion transformer (4 denoising steps)</td></tr>
+          <tr><td>Action horizon</td><td>16</td></tr>
+          <tr><td>Camera mode</td><td>4 cameras (stereo_left, stereo_right, right_wrist, left_wrist)</td></tr>
+          <tr><td>Embodiment tag</td><td><code>new_embodiment</code></td></tr>
+          <tr><td>Data format</td><td>HDF5-native (no LeRobot conversion needed)</td></tr>
+          <tr><td>Training type</td><td>LoRA fine-tuning</td></tr>
+        </table>
+      </div>
+
+      <div class="tip">
+        <strong>Checkpoints</strong> are saved every 1000 steps under
+        <code>../policy_ckpt/03/&lt;robot_key&gt;/gr00t_n15_trunc_&lt;tag&gt;/</code>.
+        Default tag auto-encodes batch size, steps, GPU count, and learning rate.
+      </div>
+
+      <h4 id="gr00t-eval" class="section-anchor">Evaluation &amp; Inference</h4>
+
+      <h4>Server/Client Evaluation</h4>
+      <pre><code>bash policy/GR00T_n15/eval.sh 03_wine_glass_plate_balance \
+  ../policy_ckpt/03/multi_ur5_rh56dfx_with_flange/gr00t_n15_tr00tbs64_step20000_gpu1_lr1/ \
+  0 50 100000000</code></pre>
+
+      <h4>Double-Environment Evaluation (Channel Support)</h4>
+      <pre><code># Single channel (no generalization)
+bash policy/GR00T_n15/eval_double_env.sh 03
+
+# Covariate generalization
+bash policy/GR00T_n15/eval_double_env.sh 03 cov
+
+# Full generalization
+bash policy/GR00T_n15/eval_double_env.sh 03 inv_cov
+
+# All 4 channels sequentially
+bash policy/GR00T_n15/eval_double_env.sh 03 all</code></pre>
+
+      <h4>Available Flags for <code>eval_double_env.sh</code></h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Flag</th><th>Default</th><th>Description</th></tr>
+          <tr><td><code>--channel CH</code></td><td><code>none</code></td><td>Generalization channel</td></tr>
+          <tr><td><code>--num-episodes N</code></td><td><code>50</code></td><td>Number of episodes</td></tr>
+          <tr><td><code>--episodes-per-process N</code></td><td><code>25</code></td><td>Isaac restart interval</td></tr>
+          <tr><td><code>--cuda N</code></td><td><code>0</code></td><td>GPU device</td></tr>
+          <tr><td><code>--model-path PATH</code></td><td>auto</td><td>Checkpoint path override</td></tr>
+          <tr><td><code>--robot-key KEY</code></td><td>auto</td><td>Robot key override</td></tr>
+          <tr><td><code>--resume</code></td><td>off</td><td>Resume previous evaluation</td></tr>
+          <tr><td><code>--sii</code></td><td>off</td><td>Use Isaac Sim environment activation</td></tr>
+        </table>
+      </div>
+
+      <div class="info">
+        <strong>Note:</strong> The <code>eval_double_env.sh</code> scripts for DP and GR00T N1.5 share a common
+        interface (task ID + channel). When using <code>all</code>, they automatically compute
+        cross-channel robustness metrics and produce a <code>metrics_comparison.csv</code> summary.
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Tasks                                                              -->
+    <!-- ================================================================== -->
+    <section id="tasks" class="section-anchor">
+      <h2>5. Tasks</h2>
+      <p>
+        Bench2Dex provides 26 long-horizon bimanual dexterous manipulation tasks
+        spanning 12 robot embodiments. Each task involves coordinated
+        two-hand operations such as precision grasping, tool use, articulated-object
+        interaction, pouring, and multi-stage assembly. The table below lists all
+        available scenes grouped by embodiment, with descriptions extracted from
+        the scene configuration files in <code>scenes/</code>.
+      </p>
+
+      <table>
+        <tr><th>#</th><th>Task</th><th>Embodiment</th><th>Description</th></tr>
+        <tr><td>26</td><td>Canned Food Tray Arrangement</td><td rowspan="3">IIWA7+Sharpa</td><td>Place master chef can, MSG, milk box, and potted meat can onto the tray.</td></tr>
+        <tr><td>32</td><td>Baking Tray Prep</td><td>Place brush, spatula, pudding box, and gelatin box onto the tray.</td></tr>
+        <tr><td>73</td><td>Jigsaw Puzzle Assembly</td><td>Assemble green, red, blue, yellow puzzle pieces onto the fixed white piece.</td></tr>
+        <tr><td>80</td><td>Gaming Desk Setup</td><td>JAKA ZU7+DexHand021</td><td>Straighten monitor, press ESC key, move mouse, click left button.</td></tr>
+        <tr><td>22</td><td>Tool Box Loading</td><td rowspan="2">Panda+Orca</td><td>Place drill, flat screwdriver, wrench, and Phillips screwdriver into the box.</td></tr>
+        <tr><td>61</td><td>Medicine Shoebox Pack</td><td>Place pill bottle, toothpaste, and hydrating oil into the shoe box.</td></tr>
+        <tr><td>64</td><td>Sports Ball Cup Sort</td><td>Panda+Allegro</td><td>Sort tennis ball, baseball, racquetball, and golf ball into large/small cups.</td></tr>
+        <tr><td>24</td><td>Stationery Category Sorting</td><td rowspan="2">RM65+Revo2</td><td>Sort marker, battery, pen, and glue into pen cup and plastic box.</td></tr>
+        <tr><td>67</td><td>Faucet Cup Water Fill</td><td>Place spoon into mug, fill mug under faucet, place mug onto tray.</td></tr>
+        <tr><td>03</td><td>Wine Glass Plate Balance</td><td rowspan="2">xArm7+Ability</td><td>Carry three filled wine glasses to plates without spilling.</td></tr>
+        <tr><td>79</td><td>Bimanual Piano Melody</td><td>Both hands play piano key sequence C-C-G-G-A-A-G.</td></tr>
+        <tr><td>09</td><td>Cleaner Box Loading</td><td rowspan="3">xArm7+LEAP</td><td>Lift cleaner and soap, place upright into wooden box.</td></tr>
+        <tr><td>51</td><td>Toilet Lid Cleaner Pour</td><td>Open lid, pour cleaner into toilet, close lid.</td></tr>
+        <tr><td>62</td><td>Shoebox Accessory Pack</td><td>Place seal, shoe, and pet collar into the shoe box.</td></tr>
+        <tr><td>07</td><td>Citrus Plate Loading</td><td rowspan="3">UR5+RH5DG2</td><td>Place lemon and orange pairs onto plates.</td></tr>
+        <tr><td>34</td><td>Fridge Wine Interhand Pour</td><td>Take bottle from fridge, pour wine, return and close door.</td></tr>
+        <tr><td>60</td><td>Breadbasket Fast-Food Loading</td><td>Place baguette, bread, and fries into the bread basket.</td></tr>
+        <tr><td>06</td><td>Fruit Bowl Loading</td><td rowspan="3">UR5+RH56DFX</td><td>Move bowl to center, place apples and banana into it.</td></tr>
+        <tr><td>12</td><td>Screwdriver Box &amp; Hammer</td><td>Place screwdrivers into box, strike with hammer, return it.</td></tr>
+        <tr><td>42</td><td>Height-Sorted Trash Disposal</td><td>Open lid, throw paper, bottle, banana peel, close lid.</td></tr>
+        <tr><td>43</td><td>Fridge Fruit Shelf Sorting</td><td rowspan="2">UR5+Shadow Hand</td><td>Open fridge, place apple on upper shelf, banana on lower shelf.</td></tr>
+        <tr><td>76</td><td>Soup Serving</td><td>Ladle soup from pot into bowl, serve, return ladle.</td></tr>
+        <tr><td>08</td><td>Frypan Stand &amp; Pour</td><td rowspan="2">UR5+Schunk Hand</td><td>Place frypan on stand, pour soy sauce and olive oil.</td></tr>
+        <tr><td>44</td><td>Microwave Bowl Loading</td><td>Open door, place bowl with baguette, close door.</td></tr>
+        <tr><td>21</td><td>Condiment Box Loading</td><td rowspan="2">UR5+Wuji</td><td>Place MSG, soy sauce, and vinegar into the box.</td></tr>
+        <tr><td>27</td><td>Ball Box Loading</td><td>Place mini soccer, tennis, golf, and ping-pong balls into the box.</td></tr>
+	      </table>
+    </section>
+
+    <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
+    <p style="color: var(--text-muted); font-size: 0.85rem;">
+      Bench2Dex Documentation. For the latest updates, see the
+      <a href="https://github.com/Bench2Dex/Bench2Dex">Bench2Dex GitHub repository</a>.
+    </p>
+  </main>
+</div>
+<script>
+  function togglePolicy() {
+    const content = document.getElementById('policyContent');
+    const indicator = document.getElementById('policyIndicator');
+    const isCollapsed = content.classList.toggle('collapsed');
+    indicator.classList.toggle('collapsed');
+  }
+function togglePolicy() {
+  var content = document.getElementById('policyContent');
+  var indicator = document.getElementById('policyIndicator');
+  content.classList.toggle('collapsed');
+  indicator.classList.toggle('collapsed');
+}
+// Start collapsed by default
+(function() {
+  document.getElementById('policyContent').classList.add('collapsed');
+  document.getElementById('policyIndicator').classList.add('collapsed');
+})();
+</script>
+</body>
+</html>

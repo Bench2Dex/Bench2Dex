@@ -1,0 +1,136 @@
+description: Use the left hand to pick up the frypan and place it onto the display stand, then pour the soy sauce and olive oil into the frypan one by one.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a223_chefmate_frypan:
+    path: ../../dex2bench_dataset/Objects/223_chefmate_frypan/usd_decomposition_linux/Chefmate_8_Frypan.usd
+    scale: [1.4, 1.4, 1.4]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 1.2
+  a182_bread:
+    path: ../../dex2bench_dataset/Objects/182_bread/usd_decomposition_linux/base6.usd
+    scale: [0.05, 0.03, 0.05]
+    body_type: dynamic
+  a172_soy_sauce:
+    path: ../../dex2bench_dataset/Objects/172_soy-sauce/usd_decomposition_linux/base4.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+  a146_olive_oil:
+    path: ../../dex2bench_dataset/Objects/146_olive-oil/usd_decomposition_linux/base4.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+  a333_portable_stove:
+    path: ../../dex2bench_dataset/Objects/333_portable_stove/01_portable_stove/01/usd_decomposition_linux/portable_kitchen_stove.usd
+    scale: [0.045, 0.045, 0.045]
+    body_type: dynamic
+    spawn:
+      rigid_props:
+        kinematic_enabled: true
+        disable_gravity: true
+objects:
+  - id: obj_333_portable_stove_6
+    asset: a333_portable_stove
+    rpy_deg: [90, 0, 0]
+    position: [0.0, 0.02]
+    generalization:
+      freeze_pose: true
+  - id: obj_223_chefmate_frypan_1
+    asset: a223_chefmate_frypan
+    rpy_deg: [-90, 0, -45]
+    position: [-0.4, 0.15, 0.13]
+  - id: obj_182_bread_2
+    asset: a182_bread
+    rpy_deg: [90, 0, 0]
+    position: [-0.2, 0.33, 0.15]
+  - id: obj_172_soy_sauce_1
+    asset: a172_soy_sauce
+    rpy_deg: [90, 0, 0]
+    position: [0.32, 0.18]
+  - id: obj_146_olive_oil_1
+    asset: a146_olive_oil
+    rpy_deg: [90, 0, 0]
+    position: [0.32, 0.32]
+layout:
+  zone: tabletop
+  objects: [obj_223_chefmate_frypan_1, obj_182_bread_2, obj_172_soy_sauce_1, obj_146_olive_oil_1, obj_333_portable_stove_6]
+  yaw_range: [0, 0]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_08_frypan_stand_pour
+metrics:
+  task_family: pour_tilt
+  expert_time_step: 2288
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_172_soy_sauce_1, obj_146_olive_oil_1]
+  tool_equivalence_classes:
+    pour: [obj_172_soy_sauce_1, obj_146_olive_oil_1]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_08_frypan_stand_pour
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_172_soy_sauce_1, obj_146_olive_oil_1]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_172_soy_sauce_1:
+          type: object_on
+          object: obj_172_soy_sauce_1
+          target: obj_223_chefmate_frypan_1
+          tolerance_xy: 0.3
+          tolerance_z: 0.18
+          object_center_offset: [0.0, 0.075, 0.0]
+          target_center_offset: [0.0038325, 0.0176274, 0.0]
+        obj_146_olive_oil_1:
+          type: object_on
+          object: obj_146_olive_oil_1
+          target: obj_223_chefmate_frypan_1
+          tolerance_xy: 0.3
+          tolerance_z: 0.18
+          object_center_offset: [-2.0e-06, 0.15, -2.0e-06]
+          target_center_offset: [0.0038325, 0.0176274, 0.0]
+  stages:
+    - id: pour_soy_sauce
+      depends_on: []
+      tool_class: pour
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_08_frypan_stand_pour
+        params:
+          mode: pour_soy
+    - id: pour_olive_oil
+      depends_on: []
+      tool_class: pour
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_08_frypan_stand_pour
+        params:
+          mode: pour_oil

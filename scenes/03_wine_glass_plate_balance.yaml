@@ -1,0 +1,145 @@
+description: Carry three filled wine glasses to the plates of three diners without spilling or knocking over any objects.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb: [[-1.1, -0.55, 0.75], [1.1, 0.55, 0.75]]
+assets:
+  a029_plate:
+    path: ../../dex2bench_dataset/Objects/029_plate/usd_decomposition_linux/textured.usd
+    scale: [1.1, 1.1, 1.1]
+    body_type: dynamic
+  a030_fork:
+    path: ../../dex2bench_dataset/Objects/030_fork/usd_decomposition_linux/textured.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+  a130_tray:
+    path: ../../dex2bench_dataset/Objects/130_tray/usd_sdf_linux/base3.usd
+    scale: [0.25, 0.25, 0.25]
+    body_type: dynamic
+    spawn:
+      rigid_props:
+        kinematic_enabled: true
+  a194_wineglass:
+    path: ../../dex2bench_dataset/Objects/194_wineglass/usd_decomposition_linux/base4_flatbase.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.3
+objects:
+  # ── Tray (fixed to table) ──
+  - id: obj_130_tray_1
+    asset: a130_tray
+    rpy_deg: [90, 0, 0]
+    position: [0.0, 0.0]
+    generalization:
+      freeze_pose: true
+
+  - id: obj_030_fork_1
+    asset: a030_fork
+    rpy_deg: [0, 0, 90]
+    position: [0.15, 0.42]
+    generalization:
+      freeze_pose: true
+  - id: obj_029_plate_1
+    asset: a029_plate
+    rpy_deg: [0, 0, 0]
+    position: [0.38, 0.4]
+  - id: obj_030_fork_2
+    asset: a030_fork
+    rpy_deg: [0, 0, 90]
+    position: [-0.35, 0.42]
+    generalization:
+      freeze_pose: true
+  - id: obj_029_plate_2
+    asset: a029_plate
+    rpy_deg: [0, 0, 0]
+    position: [-0.12, 0.4]
+  - id: obj_030_fork_3
+    asset: a030_fork
+    rpy_deg: [0, 0, 90]
+    position: [-0.85, 0.42]
+    generalization:
+      freeze_pose: true
+  - id: obj_029_plate_3
+    asset: a029_plate
+    rpy_deg: [0, 0, 0]
+    position: [-0.62, 0.4]
+
+  - id: obj_194_wineglass_1
+    asset: a194_wineglass
+    rpy_deg: [90, 0, 0]
+    position: [0.12, 0.06, 0.03]
+  - id: obj_194_wineglass_2
+    asset: a194_wineglass
+    rpy_deg: [90, 0, 0]
+    position: [0.0, 0.06, 0.03]
+  - id: obj_194_wineglass_3
+    asset: a194_wineglass
+    rpy_deg: [90, 0, 0]
+    position: [-0.12, 0.06, 0.03]
+
+layout:
+  zone: tabletop
+  objects: [obj_130_tray_1, obj_030_fork_1, obj_029_plate_1, obj_194_wineglass_1, obj_030_fork_2, obj_029_plate_2, obj_194_wineglass_2, obj_030_fork_3, obj_029_plate_3, obj_194_wineglass_3]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_03_wine_glass_plate_balance
+metrics:
+  task_family: table_setting
+  expert_time_step: 2164
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_194_wineglass_1, obj_194_wineglass_2, obj_194_wineglass_3]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_03_wine_glass_plate_balance
+  stages:
+    - id: place_first_glass
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_03_wine_glass_plate_balance
+        params:
+          phase: one_placed
+    - id: place_second_glass
+      depends_on: [place_first_glass]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_03_wine_glass_plate_balance
+        params:
+          phase: two_placed
+    - id: place_third_glass
+      depends_on: [place_second_glass]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_03_wine_glass_plate_balance
+        params:
+          phase: three_placed
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_194_wineglass_1, obj_194_wineglass_2, obj_194_wineglass_3]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25

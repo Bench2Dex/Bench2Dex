@@ -1,0 +1,37 @@
+# DP dex2scene deployment defaults.
+policy_name: DP
+task_name: 42_trash_disposal
+task_config: replay-generalization
+seed: 100000000
+instruction_type: unseen
+host: 127.0.0.1
+port: 9000
+episode_steps: 800
+warmup_steps: 60
+num_episodes: 0
+
+checkpoint_path: null
+training_config_path: ./policy/DP/diffusion_policy/config/robot_dp_36_dex2scene_pretrained.yaml
+# action_dim: auto-determined from robot_key when use_active_dof is true
+# Available robot_key values:
+#   multi_iiwa7_with_sharpa                  (active=58, full=58)
+#   multi_jaka_zu7_dexhand021_with_flange    (active=52, full=52)
+#   multi_panda_with_allegro                 (active=46, full=46)
+#   multi_panda_with_orca                    (active=48, full=48)
+#   multi_rm_65_with_revo2                   (active=24, full=34)
+#   multi_ur5_rh56dfx_with_flange            (active=24, full=36)
+#   multi_ur5_rh5dg2_with_flange             (active=38, full=48)
+#   multi_ur5_schunk_hand_with_flange        (active=30, full=52)
+#   multi_ur5_shadow_hand_with_flange        (active=60, full=60)
+#   multi_ur5_wuji_with_flange               (active=52, full=52)
+#   multi_xarm7_with_ability                 (active=26, full=34)
+#   multi_xarm7_with_leap                    (active=46, full=46)
+robot_key: multi_ur5_schunk_hand_with_flange
+use_active_dof: true
+device: cuda:0
+
+camera_names:
+  - right_cam
+  - left_cam
+  - stereo_left_cam
+  - stereo_right_cam

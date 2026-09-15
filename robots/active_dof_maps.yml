@@ -1,0 +1,5304 @@
+# Generated from dex2bench/robots/*.py actuator configs and Bench2Dex/Robots_p URDFs.
+# Semantics: active = actuator-matched non-mimic non-fixed joints; inactive = full - active.
+# Mimic joints are excluded from active_indices even when the robot actuator regex matches them.
+version: 1
+full_joint_order_note: "URDF non-fixed order with Isaac/USD name sanitize applied; verify against runtime robot.data.joint_names when available."
+robots:
+  multi_iiwa7_with_sharpa:
+    alias: "iiwa7_sharpa"
+    robot_config: "dex2bench/robots/multi_iiwa7_with_sharpa.py"
+    asset_dir: "Bench2Dex/Robots_p/kuka+sharpa"
+    urdf_path: "Bench2Dex/Robots_p/kuka+sharpa/multi_iiwa7_with_sharpa.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/kuka+sharpa/usd/multi_iiwa7_with_sharpa.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 58
+    active_dof: 54
+    inactive_dof: 4
+    mimic_dof: 0
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "A1"
+      - "A2"
+      - "A3"
+      - "A4"
+      - "A5"
+      - "A6"
+      - "A7"
+      - "left_thumb_CMC_FE"
+      - "left_thumb_CMC_AA"
+      - "left_thumb_MCP_FE"
+      - "left_thumb_MCP_AA"
+      - "left_thumb_IP"
+      - "left_index_MCP_FE"
+      - "left_index_MCP_AA"
+      - "left_index_PIP"
+      - "left_index_DIP"
+      - "left_middle_MCP_FE"
+      - "left_middle_MCP_AA"
+      - "left_middle_PIP"
+      - "left_middle_DIP"
+      - "left_ring_MCP_FE"
+      - "left_ring_MCP_AA"
+      - "left_ring_PIP"
+      - "left_ring_DIP"
+      - "left_pinky_CMC"
+      - "left_pinky_MCP_FE"
+      - "left_pinky_MCP_AA"
+      - "left_pinky_PIP"
+      - "left_pinky_DIP"
+      - "multi_A1"
+      - "multi_A2"
+      - "multi_A3"
+      - "multi_A4"
+      - "multi_A5"
+      - "multi_A6"
+      - "multi_A7"
+      - "multi_right_thumb_CMC_FE"
+      - "multi_right_thumb_CMC_AA"
+      - "multi_right_thumb_MCP_FE"
+      - "multi_right_thumb_MCP_AA"
+      - "multi_right_thumb_IP"
+      - "multi_right_index_MCP_FE"
+      - "multi_right_index_MCP_AA"
+      - "multi_right_index_PIP"
+      - "multi_right_index_DIP"
+      - "multi_right_middle_MCP_FE"
+      - "multi_right_middle_MCP_AA"
+      - "multi_right_middle_PIP"
+      - "multi_right_middle_DIP"
+      - "multi_right_ring_MCP_FE"
+      - "multi_right_ring_MCP_AA"
+      - "multi_right_ring_PIP"
+      - "multi_right_ring_DIP"
+      - "multi_right_pinky_CMC"
+      - "multi_right_pinky_MCP_FE"
+      - "multi_right_pinky_MCP_AA"
+      - "multi_right_pinky_PIP"
+      - "multi_right_pinky_DIP"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 49
+      - 50
+      - 51
+      - 52
+      - 54
+      - 55
+      - 56
+      - 57
+    active_joint_names:
+      - "A1"
+      - "A2"
+      - "A3"
+      - "A4"
+      - "A5"
+      - "A6"
+      - "A7"
+      - "left_thumb_CMC_FE"
+      - "left_thumb_CMC_AA"
+      - "left_thumb_MCP_FE"
+      - "left_thumb_IP"
+      - "left_index_MCP_FE"
+      - "left_index_MCP_AA"
+      - "left_index_PIP"
+      - "left_index_DIP"
+      - "left_middle_MCP_FE"
+      - "left_middle_MCP_AA"
+      - "left_middle_PIP"
+      - "left_middle_DIP"
+      - "left_ring_MCP_FE"
+      - "left_ring_MCP_AA"
+      - "left_ring_PIP"
+      - "left_ring_DIP"
+      - "left_pinky_MCP_FE"
+      - "left_pinky_MCP_AA"
+      - "left_pinky_PIP"
+      - "left_pinky_DIP"
+      - "multi_A1"
+      - "multi_A2"
+      - "multi_A3"
+      - "multi_A4"
+      - "multi_A5"
+      - "multi_A6"
+      - "multi_A7"
+      - "multi_right_thumb_CMC_FE"
+      - "multi_right_thumb_CMC_AA"
+      - "multi_right_thumb_MCP_FE"
+      - "multi_right_thumb_IP"
+      - "multi_right_index_MCP_FE"
+      - "multi_right_index_MCP_AA"
+      - "multi_right_index_PIP"
+      - "multi_right_index_DIP"
+      - "multi_right_middle_MCP_FE"
+      - "multi_right_middle_MCP_AA"
+      - "multi_right_middle_PIP"
+      - "multi_right_middle_DIP"
+      - "multi_right_ring_MCP_FE"
+      - "multi_right_ring_MCP_AA"
+      - "multi_right_ring_PIP"
+      - "multi_right_ring_DIP"
+      - "multi_right_pinky_MCP_FE"
+      - "multi_right_pinky_MCP_AA"
+      - "multi_right_pinky_PIP"
+      - "multi_right_pinky_DIP"
+    inactive_indices:
+      - 10
+      - 24
+      - 39
+      - 53
+    inactive_joint_names:
+      - "left_thumb_MCP_AA"
+      - "left_pinky_CMC"
+      - "multi_right_thumb_MCP_AA"
+      - "multi_right_pinky_CMC"
+    mimic_indices: []
+    mimic_joint_names: []
+    mimic_parent_joint_names: {}
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices: []
+    actuator_mimic_joint_names: []
+    groups:
+      left_iiwa_shoulder:
+        joint_names_expr:
+          - "A[1-4]"
+        matched_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        active_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        mimic_indices: []
+        matched_joint_names:
+          - "A1"
+          - "A2"
+          - "A3"
+          - "A4"
+        active_joint_names:
+          - "A1"
+          - "A2"
+          - "A3"
+          - "A4"
+        mimic_joint_names: []
+      left_iiwa_wrist:
+        joint_names_expr:
+          - "A[5-7]"
+        matched_indices:
+          - 4
+          - 5
+          - 6
+        active_indices:
+          - 4
+          - 5
+          - 6
+        mimic_indices: []
+        matched_joint_names:
+          - "A5"
+          - "A6"
+          - "A7"
+        active_joint_names:
+          - "A5"
+          - "A6"
+          - "A7"
+        mimic_joint_names: []
+      right_iiwa_shoulder:
+        joint_names_expr:
+          - "multi_A[1-4]"
+        matched_indices:
+          - 29
+          - 30
+          - 31
+          - 32
+        active_indices:
+          - 29
+          - 30
+          - 31
+          - 32
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_A1"
+          - "multi_A2"
+          - "multi_A3"
+          - "multi_A4"
+        active_joint_names:
+          - "multi_A1"
+          - "multi_A2"
+          - "multi_A3"
+          - "multi_A4"
+        mimic_joint_names: []
+      right_iiwa_wrist:
+        joint_names_expr:
+          - "multi_A[5-7]"
+        matched_indices:
+          - 33
+          - 34
+          - 35
+        active_indices:
+          - 33
+          - 34
+          - 35
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_A5"
+          - "multi_A6"
+          - "multi_A7"
+        active_joint_names:
+          - "multi_A5"
+          - "multi_A6"
+          - "multi_A7"
+        mimic_joint_names: []
+      left_sharpa:
+        joint_names_expr:
+          - "left_(thumb|index|middle|ring|pinky)_.*"
+        matched_indices:
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+        active_indices:
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+        mimic_indices: []
+        matched_joint_names:
+          - "left_thumb_CMC_FE"
+          - "left_thumb_CMC_AA"
+          - "left_thumb_MCP_FE"
+          - "left_thumb_MCP_AA"
+          - "left_thumb_IP"
+          - "left_index_MCP_FE"
+          - "left_index_MCP_AA"
+          - "left_index_PIP"
+          - "left_index_DIP"
+          - "left_middle_MCP_FE"
+          - "left_middle_MCP_AA"
+          - "left_middle_PIP"
+          - "left_middle_DIP"
+          - "left_ring_MCP_FE"
+          - "left_ring_MCP_AA"
+          - "left_ring_PIP"
+          - "left_ring_DIP"
+          - "left_pinky_CMC"
+          - "left_pinky_MCP_FE"
+          - "left_pinky_MCP_AA"
+          - "left_pinky_PIP"
+          - "left_pinky_DIP"
+        active_joint_names:
+          - "left_thumb_CMC_FE"
+          - "left_thumb_CMC_AA"
+          - "left_thumb_MCP_FE"
+          - "left_thumb_MCP_AA"
+          - "left_thumb_IP"
+          - "left_index_MCP_FE"
+          - "left_index_MCP_AA"
+          - "left_index_PIP"
+          - "left_index_DIP"
+          - "left_middle_MCP_FE"
+          - "left_middle_MCP_AA"
+          - "left_middle_PIP"
+          - "left_middle_DIP"
+          - "left_ring_MCP_FE"
+          - "left_ring_MCP_AA"
+          - "left_ring_PIP"
+          - "left_ring_DIP"
+          - "left_pinky_CMC"
+          - "left_pinky_MCP_FE"
+          - "left_pinky_MCP_AA"
+          - "left_pinky_PIP"
+          - "left_pinky_DIP"
+        mimic_joint_names: []
+      right_sharpa:
+        joint_names_expr:
+          - "multi_right_(thumb|index|middle|ring|pinky)_.*"
+        matched_indices:
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+          - 48
+          - 49
+          - 50
+          - 51
+          - 52
+          - 53
+          - 54
+          - 55
+          - 56
+          - 57
+        active_indices:
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+          - 48
+          - 49
+          - 50
+          - 51
+          - 52
+          - 53
+          - 54
+          - 55
+          - 56
+          - 57
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_right_thumb_CMC_FE"
+          - "multi_right_thumb_CMC_AA"
+          - "multi_right_thumb_MCP_FE"
+          - "multi_right_thumb_MCP_AA"
+          - "multi_right_thumb_IP"
+          - "multi_right_index_MCP_FE"
+          - "multi_right_index_MCP_AA"
+          - "multi_right_index_PIP"
+          - "multi_right_index_DIP"
+          - "multi_right_middle_MCP_FE"
+          - "multi_right_middle_MCP_AA"
+          - "multi_right_middle_PIP"
+          - "multi_right_middle_DIP"
+          - "multi_right_ring_MCP_FE"
+          - "multi_right_ring_MCP_AA"
+          - "multi_right_ring_PIP"
+          - "multi_right_ring_DIP"
+          - "multi_right_pinky_CMC"
+          - "multi_right_pinky_MCP_FE"
+          - "multi_right_pinky_MCP_AA"
+          - "multi_right_pinky_PIP"
+          - "multi_right_pinky_DIP"
+        active_joint_names:
+          - "multi_right_thumb_CMC_FE"
+          - "multi_right_thumb_CMC_AA"
+          - "multi_right_thumb_MCP_FE"
+          - "multi_right_thumb_MCP_AA"
+          - "multi_right_thumb_IP"
+          - "multi_right_index_MCP_FE"
+          - "multi_right_index_MCP_AA"
+          - "multi_right_index_PIP"
+          - "multi_right_index_DIP"
+          - "multi_right_middle_MCP_FE"
+          - "multi_right_middle_MCP_AA"
+          - "multi_right_middle_PIP"
+          - "multi_right_middle_DIP"
+          - "multi_right_ring_MCP_FE"
+          - "multi_right_ring_MCP_AA"
+          - "multi_right_ring_PIP"
+          - "multi_right_ring_DIP"
+          - "multi_right_pinky_CMC"
+          - "multi_right_pinky_MCP_FE"
+          - "multi_right_pinky_MCP_AA"
+          - "multi_right_pinky_PIP"
+          - "multi_right_pinky_DIP"
+        mimic_joint_names: []
+  multi_jaka_zu7_dexhand021_with_flange:
+    alias: "jaka_zu7_dexhand021"
+    robot_config: "dex2bench/robots/multi_jaka_zu7_dexhand021_with_flange.py"
+    asset_dir: "Bench2Dex/Robots_p/jaka_zu7+dexhand021"
+    urdf_path: "Bench2Dex/Robots_p/jaka_zu7+dexhand021/urdf/Multi_jaka_zu7_dexhand021_with_flange_with_flange.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/jaka_zu7+dexhand021/usd/Multi_jaka_zu7_dexhand021_with_flange_with_flange.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 52
+    active_dof: 52
+    inactive_dof: 0
+    mimic_dof: 0
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "joint_1"
+      - "joint_2"
+      - "joint_3"
+      - "joint_4"
+      - "joint_5"
+      - "joint_6"
+      - "r_f_joint1_1"
+      - "r_f_joint1_2"
+      - "r_f_joint1_3"
+      - "r_f_joint1_4"
+      - "r_f_joint2_1"
+      - "r_f_joint2_2"
+      - "r_f_joint2_3"
+      - "r_f_joint2_4"
+      - "r_f_joint3_1"
+      - "r_f_joint3_2"
+      - "r_f_joint3_3"
+      - "r_f_joint3_4"
+      - "r_f_joint4_1"
+      - "r_f_joint4_2"
+      - "r_f_joint4_3"
+      - "r_f_joint4_4"
+      - "r_f_joint5_1"
+      - "r_f_joint5_2"
+      - "r_f_joint5_3"
+      - "r_f_joint5_4"
+      - "l_joint_1"
+      - "l_joint_2"
+      - "l_joint_3"
+      - "l_joint_4"
+      - "l_joint_5"
+      - "l_joint_6"
+      - "l_f_joint1_1"
+      - "l_f_joint1_2"
+      - "l_f_joint1_3"
+      - "l_f_joint1_4"
+      - "l_f_joint2_1"
+      - "l_f_joint2_2"
+      - "l_f_joint2_3"
+      - "l_f_joint2_4"
+      - "l_f_joint3_1"
+      - "l_f_joint3_2"
+      - "l_f_joint3_3"
+      - "l_f_joint3_4"
+      - "l_f_joint4_1"
+      - "l_f_joint4_2"
+      - "l_f_joint4_3"
+      - "l_f_joint4_4"
+      - "l_f_joint5_1"
+      - "l_f_joint5_2"
+      - "l_f_joint5_3"
+      - "l_f_joint5_4"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 49
+      - 50
+      - 51
+    active_joint_names:
+      - "joint_1"
+      - "joint_2"
+      - "joint_3"
+      - "joint_4"
+      - "joint_5"
+      - "joint_6"
+      - "r_f_joint1_1"
+      - "r_f_joint1_2"
+      - "r_f_joint1_3"
+      - "r_f_joint1_4"
+      - "r_f_joint2_1"
+      - "r_f_joint2_2"
+      - "r_f_joint2_3"
+      - "r_f_joint2_4"
+      - "r_f_joint3_1"
+      - "r_f_joint3_2"
+      - "r_f_joint3_3"
+      - "r_f_joint3_4"
+      - "r_f_joint4_1"
+      - "r_f_joint4_2"
+      - "r_f_joint4_3"
+      - "r_f_joint4_4"
+      - "r_f_joint5_1"
+      - "r_f_joint5_2"
+      - "r_f_joint5_3"
+      - "r_f_joint5_4"
+      - "l_joint_1"
+      - "l_joint_2"
+      - "l_joint_3"
+      - "l_joint_4"
+      - "l_joint_5"
+      - "l_joint_6"
+      - "l_f_joint1_1"
+      - "l_f_joint1_2"
+      - "l_f_joint1_3"
+      - "l_f_joint1_4"
+      - "l_f_joint2_1"
+      - "l_f_joint2_2"
+      - "l_f_joint2_3"
+      - "l_f_joint2_4"
+      - "l_f_joint3_1"
+      - "l_f_joint3_2"
+      - "l_f_joint3_3"
+      - "l_f_joint3_4"
+      - "l_f_joint4_1"
+      - "l_f_joint4_2"
+      - "l_f_joint4_3"
+      - "l_f_joint4_4"
+      - "l_f_joint5_1"
+      - "l_f_joint5_2"
+      - "l_f_joint5_3"
+      - "l_f_joint5_4"
+    inactive_indices: []
+    inactive_joint_names: []
+    mimic_indices: []
+    mimic_joint_names: []
+    mimic_parent_joint_names: {}
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices: []
+    actuator_mimic_joint_names: []
+    groups:
+      right_arm_shoulder:
+        joint_names_expr:
+          - "joint_[1-2]"
+        matched_indices:
+          - 0
+          - 1
+        active_indices:
+          - 0
+          - 1
+        mimic_indices: []
+        matched_joint_names:
+          - "joint_1"
+          - "joint_2"
+        active_joint_names:
+          - "joint_1"
+          - "joint_2"
+        mimic_joint_names: []
+      right_arm_elbow_wrist:
+        joint_names_expr:
+          - "joint_[3-6]"
+        matched_indices:
+          - 2
+          - 3
+          - 4
+          - 5
+        active_indices:
+          - 2
+          - 3
+          - 4
+          - 5
+        mimic_indices: []
+        matched_joint_names:
+          - "joint_3"
+          - "joint_4"
+          - "joint_5"
+          - "joint_6"
+        active_joint_names:
+          - "joint_3"
+          - "joint_4"
+          - "joint_5"
+          - "joint_6"
+        mimic_joint_names: []
+      left_arm_shoulder:
+        joint_names_expr:
+          - "l_joint_[1-2]"
+        matched_indices:
+          - 26
+          - 27
+        active_indices:
+          - 26
+          - 27
+        mimic_indices: []
+        matched_joint_names:
+          - "l_joint_1"
+          - "l_joint_2"
+        active_joint_names:
+          - "l_joint_1"
+          - "l_joint_2"
+        mimic_joint_names: []
+      left_arm_elbow_wrist:
+        joint_names_expr:
+          - "l_joint_[3-6]"
+        matched_indices:
+          - 28
+          - 29
+          - 30
+          - 31
+        active_indices:
+          - 28
+          - 29
+          - 30
+          - 31
+        mimic_indices: []
+        matched_joint_names:
+          - "l_joint_3"
+          - "l_joint_4"
+          - "l_joint_5"
+          - "l_joint_6"
+        active_joint_names:
+          - "l_joint_3"
+          - "l_joint_4"
+          - "l_joint_5"
+          - "l_joint_6"
+        mimic_joint_names: []
+      right_hand:
+        joint_names_expr:
+          - "r_f_joint[1-5]_[1-4]"
+        matched_indices:
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+        active_indices:
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+        mimic_indices: []
+        matched_joint_names:
+          - "r_f_joint1_1"
+          - "r_f_joint1_2"
+          - "r_f_joint1_3"
+          - "r_f_joint1_4"
+          - "r_f_joint2_1"
+          - "r_f_joint2_2"
+          - "r_f_joint2_3"
+          - "r_f_joint2_4"
+          - "r_f_joint3_1"
+          - "r_f_joint3_2"
+          - "r_f_joint3_3"
+          - "r_f_joint3_4"
+          - "r_f_joint4_1"
+          - "r_f_joint4_2"
+          - "r_f_joint4_3"
+          - "r_f_joint4_4"
+          - "r_f_joint5_1"
+          - "r_f_joint5_2"
+          - "r_f_joint5_3"
+          - "r_f_joint5_4"
+        active_joint_names:
+          - "r_f_joint1_1"
+          - "r_f_joint1_2"
+          - "r_f_joint1_3"
+          - "r_f_joint1_4"
+          - "r_f_joint2_1"
+          - "r_f_joint2_2"
+          - "r_f_joint2_3"
+          - "r_f_joint2_4"
+          - "r_f_joint3_1"
+          - "r_f_joint3_2"
+          - "r_f_joint3_3"
+          - "r_f_joint3_4"
+          - "r_f_joint4_1"
+          - "r_f_joint4_2"
+          - "r_f_joint4_3"
+          - "r_f_joint4_4"
+          - "r_f_joint5_1"
+          - "r_f_joint5_2"
+          - "r_f_joint5_3"
+          - "r_f_joint5_4"
+        mimic_joint_names: []
+      left_hand:
+        joint_names_expr:
+          - "l_f_joint[1-5]_[1-4]"
+        matched_indices:
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+          - 48
+          - 49
+          - 50
+          - 51
+        active_indices:
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+          - 48
+          - 49
+          - 50
+          - 51
+        mimic_indices: []
+        matched_joint_names:
+          - "l_f_joint1_1"
+          - "l_f_joint1_2"
+          - "l_f_joint1_3"
+          - "l_f_joint1_4"
+          - "l_f_joint2_1"
+          - "l_f_joint2_2"
+          - "l_f_joint2_3"
+          - "l_f_joint2_4"
+          - "l_f_joint3_1"
+          - "l_f_joint3_2"
+          - "l_f_joint3_3"
+          - "l_f_joint3_4"
+          - "l_f_joint4_1"
+          - "l_f_joint4_2"
+          - "l_f_joint4_3"
+          - "l_f_joint4_4"
+          - "l_f_joint5_1"
+          - "l_f_joint5_2"
+          - "l_f_joint5_3"
+          - "l_f_joint5_4"
+        active_joint_names:
+          - "l_f_joint1_1"
+          - "l_f_joint1_2"
+          - "l_f_joint1_3"
+          - "l_f_joint1_4"
+          - "l_f_joint2_1"
+          - "l_f_joint2_2"
+          - "l_f_joint2_3"
+          - "l_f_joint2_4"
+          - "l_f_joint3_1"
+          - "l_f_joint3_2"
+          - "l_f_joint3_3"
+          - "l_f_joint3_4"
+          - "l_f_joint4_1"
+          - "l_f_joint4_2"
+          - "l_f_joint4_3"
+          - "l_f_joint4_4"
+          - "l_f_joint5_1"
+          - "l_f_joint5_2"
+          - "l_f_joint5_3"
+          - "l_f_joint5_4"
+        mimic_joint_names: []
+  multi_panda_with_allegro:
+    alias: "panda_allegro"
+    robot_config: "dex2bench/robots/multi_panda_with_allegro.py"
+    asset_dir: "Bench2Dex/Robots_p/panda+allegro"
+    urdf_path: "Bench2Dex/Robots_p/panda+allegro/multi_panda_with_allegro.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/panda+allegro/usd/multi_panda_with_allegro.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 46
+    active_dof: 32
+    inactive_dof: 14
+    mimic_dof: 0
+    passive_dof: 0
+    name_sanitize:
+      "joint_0.0": "joint_0_0"
+      "joint_1.0": "joint_1_0"
+      "joint_2.0": "joint_2_0"
+      "joint_3.0": "joint_3_0"
+      "joint_4.0": "joint_4_0"
+      "joint_5.0": "joint_5_0"
+      "joint_6.0": "joint_6_0"
+      "joint_7.0": "joint_7_0"
+      "joint_8.0": "joint_8_0"
+      "joint_9.0": "joint_9_0"
+      "joint_10.0": "joint_10_0"
+      "joint_11.0": "joint_11_0"
+      "joint_12.0": "joint_12_0"
+      "joint_13.0": "joint_13_0"
+      "joint_14.0": "joint_14_0"
+      "joint_15.0": "joint_15_0"
+      "multi_joint_0.0": "multi_joint_0_0"
+      "multi_joint_1.0": "multi_joint_1_0"
+      "multi_joint_2.0": "multi_joint_2_0"
+      "multi_joint_3.0": "multi_joint_3_0"
+      "multi_joint_4.0": "multi_joint_4_0"
+      "multi_joint_5.0": "multi_joint_5_0"
+      "multi_joint_6.0": "multi_joint_6_0"
+      "multi_joint_7.0": "multi_joint_7_0"
+      "multi_joint_8.0": "multi_joint_8_0"
+      "multi_joint_9.0": "multi_joint_9_0"
+      "multi_joint_10.0": "multi_joint_10_0"
+      "multi_joint_11.0": "multi_joint_11_0"
+      "multi_joint_12.0": "multi_joint_12_0"
+      "multi_joint_13.0": "multi_joint_13_0"
+      "multi_joint_14.0": "multi_joint_14_0"
+      "multi_joint_15.0": "multi_joint_15_0"
+    full_joint_names:
+      - "panda_joint1"
+      - "panda_joint2"
+      - "panda_joint3"
+      - "panda_joint4"
+      - "panda_joint5"
+      - "panda_joint6"
+      - "panda_joint7"
+      - "joint_0_0"
+      - "joint_1_0"
+      - "joint_2_0"
+      - "joint_3_0"
+      - "joint_4_0"
+      - "joint_5_0"
+      - "joint_6_0"
+      - "joint_7_0"
+      - "joint_8_0"
+      - "joint_9_0"
+      - "joint_10_0"
+      - "joint_11_0"
+      - "joint_12_0"
+      - "joint_13_0"
+      - "joint_14_0"
+      - "joint_15_0"
+      - "multi_panda_joint1"
+      - "multi_panda_joint2"
+      - "multi_panda_joint3"
+      - "multi_panda_joint4"
+      - "multi_panda_joint5"
+      - "multi_panda_joint6"
+      - "multi_panda_joint7"
+      - "multi_joint_0_0"
+      - "multi_joint_1_0"
+      - "multi_joint_2_0"
+      - "multi_joint_3_0"
+      - "multi_joint_4_0"
+      - "multi_joint_5_0"
+      - "multi_joint_6_0"
+      - "multi_joint_7_0"
+      - "multi_joint_8_0"
+      - "multi_joint_9_0"
+      - "multi_joint_10_0"
+      - "multi_joint_11_0"
+      - "multi_joint_12_0"
+      - "multi_joint_13_0"
+      - "multi_joint_14_0"
+      - "multi_joint_15_0"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 8
+      - 9
+      - 12
+      - 13
+      - 16
+      - 17
+      - 19
+      - 20
+      - 21
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 31
+      - 32
+      - 35
+      - 36
+      - 39
+      - 40
+      - 42
+      - 43
+      - 44
+    active_joint_names:
+      - "panda_joint1"
+      - "panda_joint2"
+      - "panda_joint3"
+      - "panda_joint4"
+      - "panda_joint5"
+      - "panda_joint6"
+      - "panda_joint7"
+      - "joint_1_0"
+      - "joint_2_0"
+      - "joint_5_0"
+      - "joint_6_0"
+      - "joint_9_0"
+      - "joint_10_0"
+      - "joint_12_0"
+      - "joint_13_0"
+      - "joint_14_0"
+      - "multi_panda_joint1"
+      - "multi_panda_joint2"
+      - "multi_panda_joint3"
+      - "multi_panda_joint4"
+      - "multi_panda_joint5"
+      - "multi_panda_joint6"
+      - "multi_panda_joint7"
+      - "multi_joint_1_0"
+      - "multi_joint_2_0"
+      - "multi_joint_5_0"
+      - "multi_joint_6_0"
+      - "multi_joint_9_0"
+      - "multi_joint_10_0"
+      - "multi_joint_12_0"
+      - "multi_joint_13_0"
+      - "multi_joint_14_0"
+    inactive_indices:
+      - 7
+      - 10
+      - 11
+      - 14
+      - 15
+      - 18
+      - 22
+      - 30
+      - 33
+      - 34
+      - 37
+      - 38
+      - 41
+      - 45
+    inactive_joint_names:
+      - "joint_0_0"
+      - "joint_3_0"
+      - "joint_4_0"
+      - "joint_7_0"
+      - "joint_8_0"
+      - "joint_11_0"
+      - "joint_15_0"
+      - "multi_joint_0_0"
+      - "multi_joint_3_0"
+      - "multi_joint_4_0"
+      - "multi_joint_7_0"
+      - "multi_joint_8_0"
+      - "multi_joint_11_0"
+      - "multi_joint_15_0"
+    mimic_indices: []
+    mimic_joint_names: []
+    mimic_parent_joint_names: {}
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices: []
+    actuator_mimic_joint_names: []
+    groups:
+      left_panda_shoulder:
+        joint_names_expr:
+          - "panda_joint[1-4]"
+        matched_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        active_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        mimic_indices: []
+        matched_joint_names:
+          - "panda_joint1"
+          - "panda_joint2"
+          - "panda_joint3"
+          - "panda_joint4"
+        active_joint_names:
+          - "panda_joint1"
+          - "panda_joint2"
+          - "panda_joint3"
+          - "panda_joint4"
+        mimic_joint_names: []
+      left_panda_wrist:
+        joint_names_expr:
+          - "panda_joint[5-7]"
+        matched_indices:
+          - 4
+          - 5
+          - 6
+        active_indices:
+          - 4
+          - 5
+          - 6
+        mimic_indices: []
+        matched_joint_names:
+          - "panda_joint5"
+          - "panda_joint6"
+          - "panda_joint7"
+        active_joint_names:
+          - "panda_joint5"
+          - "panda_joint6"
+          - "panda_joint7"
+        mimic_joint_names: []
+      right_panda_shoulder:
+        joint_names_expr:
+          - "multi_panda_joint[1-4]"
+        matched_indices:
+          - 23
+          - 24
+          - 25
+          - 26
+        active_indices:
+          - 23
+          - 24
+          - 25
+          - 26
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_panda_joint1"
+          - "multi_panda_joint2"
+          - "multi_panda_joint3"
+          - "multi_panda_joint4"
+        active_joint_names:
+          - "multi_panda_joint1"
+          - "multi_panda_joint2"
+          - "multi_panda_joint3"
+          - "multi_panda_joint4"
+        mimic_joint_names: []
+      right_panda_wrist:
+        joint_names_expr:
+          - "multi_panda_joint[5-7]"
+        matched_indices:
+          - 27
+          - 28
+          - 29
+        active_indices:
+          - 27
+          - 28
+          - 29
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_panda_joint5"
+          - "multi_panda_joint6"
+          - "multi_panda_joint7"
+        active_joint_names:
+          - "multi_panda_joint5"
+          - "multi_panda_joint6"
+          - "multi_panda_joint7"
+        mimic_joint_names: []
+      left_allegro:
+        joint_names_expr:
+          - "joint_[0-9]+_0"
+        matched_indices:
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+        active_indices:
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+        mimic_indices: []
+        matched_joint_names:
+          - "joint_0_0"
+          - "joint_1_0"
+          - "joint_2_0"
+          - "joint_3_0"
+          - "joint_4_0"
+          - "joint_5_0"
+          - "joint_6_0"
+          - "joint_7_0"
+          - "joint_8_0"
+          - "joint_9_0"
+          - "joint_10_0"
+          - "joint_11_0"
+          - "joint_12_0"
+          - "joint_13_0"
+          - "joint_14_0"
+          - "joint_15_0"
+        active_joint_names:
+          - "joint_0_0"
+          - "joint_1_0"
+          - "joint_2_0"
+          - "joint_3_0"
+          - "joint_4_0"
+          - "joint_5_0"
+          - "joint_6_0"
+          - "joint_7_0"
+          - "joint_8_0"
+          - "joint_9_0"
+          - "joint_10_0"
+          - "joint_11_0"
+          - "joint_12_0"
+          - "joint_13_0"
+          - "joint_14_0"
+          - "joint_15_0"
+        mimic_joint_names: []
+      right_allegro:
+        joint_names_expr:
+          - "multi_joint_[0-9]+_0"
+        matched_indices:
+          - 30
+          - 31
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+        active_indices:
+          - 30
+          - 31
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_joint_0_0"
+          - "multi_joint_1_0"
+          - "multi_joint_2_0"
+          - "multi_joint_3_0"
+          - "multi_joint_4_0"
+          - "multi_joint_5_0"
+          - "multi_joint_6_0"
+          - "multi_joint_7_0"
+          - "multi_joint_8_0"
+          - "multi_joint_9_0"
+          - "multi_joint_10_0"
+          - "multi_joint_11_0"
+          - "multi_joint_12_0"
+          - "multi_joint_13_0"
+          - "multi_joint_14_0"
+          - "multi_joint_15_0"
+        active_joint_names:
+          - "multi_joint_0_0"
+          - "multi_joint_1_0"
+          - "multi_joint_2_0"
+          - "multi_joint_3_0"
+          - "multi_joint_4_0"
+          - "multi_joint_5_0"
+          - "multi_joint_6_0"
+          - "multi_joint_7_0"
+          - "multi_joint_8_0"
+          - "multi_joint_9_0"
+          - "multi_joint_10_0"
+          - "multi_joint_11_0"
+          - "multi_joint_12_0"
+          - "multi_joint_13_0"
+          - "multi_joint_14_0"
+          - "multi_joint_15_0"
+        mimic_joint_names: []
+  multi_panda_with_orca:
+    alias: "panda_orca"
+    robot_config: "dex2bench/robots/multi_panda_with_orca.py"
+    asset_dir: "Bench2Dex/Robots_p/panda+orca"
+    urdf_path: "Bench2Dex/Robots_p/panda+orca/multi_panda_with_orca.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/panda+orca/usd/multi_panda_with_orca.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 48
+    active_dof: 40
+    inactive_dof: 8
+    mimic_dof: 0
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "panda_joint1"
+      - "panda_joint2"
+      - "panda_joint3"
+      - "panda_joint4"
+      - "panda_joint5"
+      - "panda_joint6"
+      - "panda_joint7"
+      - "left_wrist"
+      - "left_thumb_mcp"
+      - "left_thumb_abd"
+      - "left_thumb_pip"
+      - "left_thumb_dip"
+      - "left_index_abd"
+      - "left_index_mcp"
+      - "left_index_pip"
+      - "left_middle_abd"
+      - "left_middle_mcp"
+      - "left_middle_pip"
+      - "left_ring_abd"
+      - "left_ring_mcp"
+      - "left_ring_pip"
+      - "left_pinky_abd"
+      - "left_pinky_mcp"
+      - "left_pinky_pip"
+      - "multi_panda_joint1"
+      - "multi_panda_joint2"
+      - "multi_panda_joint3"
+      - "multi_panda_joint4"
+      - "multi_panda_joint5"
+      - "multi_panda_joint6"
+      - "multi_panda_joint7"
+      - "right_wrist"
+      - "right_thumb_mcp"
+      - "right_thumb_abd"
+      - "right_thumb_pip"
+      - "right_thumb_dip"
+      - "right_index_abd"
+      - "right_index_mcp"
+      - "right_index_pip"
+      - "right_middle_abd"
+      - "right_middle_mcp"
+      - "right_middle_pip"
+      - "right_ring_abd"
+      - "right_ring_mcp"
+      - "right_ring_pip"
+      - "right_pinky_abd"
+      - "right_pinky_mcp"
+      - "right_pinky_pip"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 13
+      - 14
+      - 16
+      - 17
+      - 19
+      - 20
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 37
+      - 38
+      - 40
+      - 41
+      - 43
+      - 44
+      - 46
+      - 47
+    active_joint_names:
+      - "panda_joint1"
+      - "panda_joint2"
+      - "panda_joint3"
+      - "panda_joint4"
+      - "panda_joint5"
+      - "panda_joint6"
+      - "panda_joint7"
+      - "left_wrist"
+      - "left_thumb_mcp"
+      - "left_thumb_abd"
+      - "left_thumb_pip"
+      - "left_thumb_dip"
+      - "left_index_mcp"
+      - "left_index_pip"
+      - "left_middle_mcp"
+      - "left_middle_pip"
+      - "left_ring_mcp"
+      - "left_ring_pip"
+      - "left_pinky_mcp"
+      - "left_pinky_pip"
+      - "multi_panda_joint1"
+      - "multi_panda_joint2"
+      - "multi_panda_joint3"
+      - "multi_panda_joint4"
+      - "multi_panda_joint5"
+      - "multi_panda_joint6"
+      - "multi_panda_joint7"
+      - "right_wrist"
+      - "right_thumb_mcp"
+      - "right_thumb_abd"
+      - "right_thumb_pip"
+      - "right_thumb_dip"
+      - "right_index_mcp"
+      - "right_index_pip"
+      - "right_middle_mcp"
+      - "right_middle_pip"
+      - "right_ring_mcp"
+      - "right_ring_pip"
+      - "right_pinky_mcp"
+      - "right_pinky_pip"
+    inactive_indices:
+      - 12
+      - 15
+      - 18
+      - 21
+      - 36
+      - 39
+      - 42
+      - 45
+    inactive_joint_names:
+      - "left_index_abd"
+      - "left_middle_abd"
+      - "left_ring_abd"
+      - "left_pinky_abd"
+      - "right_index_abd"
+      - "right_middle_abd"
+      - "right_ring_abd"
+      - "right_pinky_abd"
+    mimic_indices: []
+    mimic_joint_names: []
+    mimic_parent_joint_names: {}
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices: []
+    actuator_mimic_joint_names: []
+    groups:
+      left_panda_shoulder:
+        joint_names_expr:
+          - "panda_joint[1-4]"
+        matched_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        active_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        mimic_indices: []
+        matched_joint_names:
+          - "panda_joint1"
+          - "panda_joint2"
+          - "panda_joint3"
+          - "panda_joint4"
+        active_joint_names:
+          - "panda_joint1"
+          - "panda_joint2"
+          - "panda_joint3"
+          - "panda_joint4"
+        mimic_joint_names: []
+      left_panda_wrist:
+        joint_names_expr:
+          - "panda_joint[5-7]"
+        matched_indices:
+          - 4
+          - 5
+          - 6
+        active_indices:
+          - 4
+          - 5
+          - 6
+        mimic_indices: []
+        matched_joint_names:
+          - "panda_joint5"
+          - "panda_joint6"
+          - "panda_joint7"
+        active_joint_names:
+          - "panda_joint5"
+          - "panda_joint6"
+          - "panda_joint7"
+        mimic_joint_names: []
+      right_panda_shoulder:
+        joint_names_expr:
+          - "multi_panda_joint[1-4]"
+        matched_indices:
+          - 24
+          - 25
+          - 26
+          - 27
+        active_indices:
+          - 24
+          - 25
+          - 26
+          - 27
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_panda_joint1"
+          - "multi_panda_joint2"
+          - "multi_panda_joint3"
+          - "multi_panda_joint4"
+        active_joint_names:
+          - "multi_panda_joint1"
+          - "multi_panda_joint2"
+          - "multi_panda_joint3"
+          - "multi_panda_joint4"
+        mimic_joint_names: []
+      right_panda_wrist:
+        joint_names_expr:
+          - "multi_panda_joint[5-7]"
+        matched_indices:
+          - 28
+          - 29
+          - 30
+        active_indices:
+          - 28
+          - 29
+          - 30
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_panda_joint5"
+          - "multi_panda_joint6"
+          - "multi_panda_joint7"
+        active_joint_names:
+          - "multi_panda_joint5"
+          - "multi_panda_joint6"
+          - "multi_panda_joint7"
+        mimic_joint_names: []
+      left_orca:
+        joint_names_expr:
+          - "left_wrist"
+          - "left_thumb_(mcp|abd|pip|dip)"
+          - "left_(index|middle|ring|pinky)_(abd|mcp|pip)"
+        matched_indices:
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+        active_indices:
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+        mimic_indices: []
+        matched_joint_names:
+          - "left_wrist"
+          - "left_thumb_mcp"
+          - "left_thumb_abd"
+          - "left_thumb_pip"
+          - "left_thumb_dip"
+          - "left_index_abd"
+          - "left_index_mcp"
+          - "left_index_pip"
+          - "left_middle_abd"
+          - "left_middle_mcp"
+          - "left_middle_pip"
+          - "left_ring_abd"
+          - "left_ring_mcp"
+          - "left_ring_pip"
+          - "left_pinky_abd"
+          - "left_pinky_mcp"
+          - "left_pinky_pip"
+        active_joint_names:
+          - "left_wrist"
+          - "left_thumb_mcp"
+          - "left_thumb_abd"
+          - "left_thumb_pip"
+          - "left_thumb_dip"
+          - "left_index_abd"
+          - "left_index_mcp"
+          - "left_index_pip"
+          - "left_middle_abd"
+          - "left_middle_mcp"
+          - "left_middle_pip"
+          - "left_ring_abd"
+          - "left_ring_mcp"
+          - "left_ring_pip"
+          - "left_pinky_abd"
+          - "left_pinky_mcp"
+          - "left_pinky_pip"
+        mimic_joint_names: []
+      right_orca:
+        joint_names_expr:
+          - "right_wrist"
+          - "right_thumb_(mcp|abd|pip|dip)"
+          - "right_(index|middle|ring|pinky)_(abd|mcp|pip)"
+        matched_indices:
+          - 31
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+        active_indices:
+          - 31
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+        mimic_indices: []
+        matched_joint_names:
+          - "right_wrist"
+          - "right_thumb_mcp"
+          - "right_thumb_abd"
+          - "right_thumb_pip"
+          - "right_thumb_dip"
+          - "right_index_abd"
+          - "right_index_mcp"
+          - "right_index_pip"
+          - "right_middle_abd"
+          - "right_middle_mcp"
+          - "right_middle_pip"
+          - "right_ring_abd"
+          - "right_ring_mcp"
+          - "right_ring_pip"
+          - "right_pinky_abd"
+          - "right_pinky_mcp"
+          - "right_pinky_pip"
+        active_joint_names:
+          - "right_wrist"
+          - "right_thumb_mcp"
+          - "right_thumb_abd"
+          - "right_thumb_pip"
+          - "right_thumb_dip"
+          - "right_index_abd"
+          - "right_index_mcp"
+          - "right_index_pip"
+          - "right_middle_abd"
+          - "right_middle_mcp"
+          - "right_middle_pip"
+          - "right_ring_abd"
+          - "right_ring_mcp"
+          - "right_ring_pip"
+          - "right_pinky_abd"
+          - "right_pinky_mcp"
+          - "right_pinky_pip"
+        mimic_joint_names: []
+  multi_rm_65_with_revo2:
+    alias: "rm_65_revo2"
+    robot_config: "dex2bench/robots/multi_rm_65_with_revo2.py"
+    asset_dir: "Bench2Dex/Robots_p/rm_65+BrainCo"
+    urdf_path: "Bench2Dex/Robots_p/rm_65+BrainCo/urdf/muitl_rm_65_with_revo2_.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/rm_65+BrainCo/usd/muitl_rm_65_with_revo2_.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 34
+    active_dof: 24
+    inactive_dof: 10
+    mimic_dof: 10
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "joint1"
+      - "joint2"
+      - "joint3"
+      - "joint4"
+      - "joint5"
+      - "joint6"
+      - "right_thumb_metacarpal_joint"
+      - "right_thumb_proximal_joint"
+      - "right_thumb_distal_joint"
+      - "right_index_proximal_joint"
+      - "right_index_distal_joint"
+      - "right_middle_proximal_joint"
+      - "right_middle_distal_joint"
+      - "right_ring_proximal_joint"
+      - "right_ring_distal_joint"
+      - "right_pinky_proximal_joint"
+      - "right_pinky_distal_joint"
+      - "l_joint1"
+      - "l_joint2"
+      - "l_joint3"
+      - "l_joint4"
+      - "l_joint5"
+      - "l_joint6"
+      - "left_thumb_metacarpal_joint"
+      - "left_thumb_proximal_joint"
+      - "left_thumb_distal_joint"
+      - "left_index_proximal_joint"
+      - "left_index_distal_joint"
+      - "left_middle_proximal_joint"
+      - "left_middle_distal_joint"
+      - "left_ring_proximal_joint"
+      - "left_ring_distal_joint"
+      - "left_pinky_proximal_joint"
+      - "left_pinky_distal_joint"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 9
+      - 11
+      - 13
+      - 15
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 26
+      - 28
+      - 30
+      - 32
+    active_joint_names:
+      - "joint1"
+      - "joint2"
+      - "joint3"
+      - "joint4"
+      - "joint5"
+      - "joint6"
+      - "right_thumb_metacarpal_joint"
+      - "right_thumb_proximal_joint"
+      - "right_index_proximal_joint"
+      - "right_middle_proximal_joint"
+      - "right_ring_proximal_joint"
+      - "right_pinky_proximal_joint"
+      - "l_joint1"
+      - "l_joint2"
+      - "l_joint3"
+      - "l_joint4"
+      - "l_joint5"
+      - "l_joint6"
+      - "left_thumb_metacarpal_joint"
+      - "left_thumb_proximal_joint"
+      - "left_index_proximal_joint"
+      - "left_middle_proximal_joint"
+      - "left_ring_proximal_joint"
+      - "left_pinky_proximal_joint"
+    inactive_indices:
+      - 8
+      - 10
+      - 12
+      - 14
+      - 16
+      - 25
+      - 27
+      - 29
+      - 31
+      - 33
+    inactive_joint_names:
+      - "right_thumb_distal_joint"
+      - "right_index_distal_joint"
+      - "right_middle_distal_joint"
+      - "right_ring_distal_joint"
+      - "right_pinky_distal_joint"
+      - "left_thumb_distal_joint"
+      - "left_index_distal_joint"
+      - "left_middle_distal_joint"
+      - "left_ring_distal_joint"
+      - "left_pinky_distal_joint"
+    mimic_indices:
+      - 8
+      - 10
+      - 12
+      - 14
+      - 16
+      - 25
+      - 27
+      - 29
+      - 31
+      - 33
+    mimic_joint_names:
+      - "right_thumb_distal_joint"
+      - "right_index_distal_joint"
+      - "right_middle_distal_joint"
+      - "right_ring_distal_joint"
+      - "right_pinky_distal_joint"
+      - "left_thumb_distal_joint"
+      - "left_index_distal_joint"
+      - "left_middle_distal_joint"
+      - "left_ring_distal_joint"
+      - "left_pinky_distal_joint"
+    mimic_parent_joint_names:
+      "right_thumb_distal_joint": "right_thumb_proximal_joint"
+      "right_index_distal_joint": "right_index_proximal_joint"
+      "right_middle_distal_joint": "right_middle_proximal_joint"
+      "right_ring_distal_joint": "right_ring_proximal_joint"
+      "right_pinky_distal_joint": "right_pinky_proximal_joint"
+      "left_thumb_distal_joint": "left_thumb_proximal_joint"
+      "left_index_distal_joint": "left_index_proximal_joint"
+      "left_middle_distal_joint": "left_middle_proximal_joint"
+      "left_ring_distal_joint": "left_ring_proximal_joint"
+      "left_pinky_distal_joint": "left_pinky_proximal_joint"
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices:
+      - 8
+      - 10
+      - 12
+      - 14
+      - 16
+      - 25
+      - 27
+      - 29
+      - 31
+      - 33
+    actuator_mimic_joint_names:
+      - "right_thumb_distal_joint"
+      - "right_index_distal_joint"
+      - "right_middle_distal_joint"
+      - "right_ring_distal_joint"
+      - "right_pinky_distal_joint"
+      - "left_thumb_distal_joint"
+      - "left_index_distal_joint"
+      - "left_middle_distal_joint"
+      - "left_ring_distal_joint"
+      - "left_pinky_distal_joint"
+    groups:
+      right_rm65_shoulder:
+        joint_names_expr:
+          - "joint[1-2]"
+        matched_indices:
+          - 0
+          - 1
+        active_indices:
+          - 0
+          - 1
+        mimic_indices: []
+        matched_joint_names:
+          - "joint1"
+          - "joint2"
+        active_joint_names:
+          - "joint1"
+          - "joint2"
+        mimic_joint_names: []
+      right_rm65_elbow_wrist:
+        joint_names_expr:
+          - "joint[3-6]"
+        matched_indices:
+          - 2
+          - 3
+          - 4
+          - 5
+        active_indices:
+          - 2
+          - 3
+          - 4
+          - 5
+        mimic_indices: []
+        matched_joint_names:
+          - "joint3"
+          - "joint4"
+          - "joint5"
+          - "joint6"
+        active_joint_names:
+          - "joint3"
+          - "joint4"
+          - "joint5"
+          - "joint6"
+        mimic_joint_names: []
+      left_rm65_shoulder:
+        joint_names_expr:
+          - "l_joint[1-2]"
+        matched_indices:
+          - 17
+          - 18
+        active_indices:
+          - 17
+          - 18
+        mimic_indices: []
+        matched_joint_names:
+          - "l_joint1"
+          - "l_joint2"
+        active_joint_names:
+          - "l_joint1"
+          - "l_joint2"
+        mimic_joint_names: []
+      left_rm65_elbow_wrist:
+        joint_names_expr:
+          - "l_joint[3-6]"
+        matched_indices:
+          - 19
+          - 20
+          - 21
+          - 22
+        active_indices:
+          - 19
+          - 20
+          - 21
+          - 22
+        mimic_indices: []
+        matched_joint_names:
+          - "l_joint3"
+          - "l_joint4"
+          - "l_joint5"
+          - "l_joint6"
+        active_joint_names:
+          - "l_joint3"
+          - "l_joint4"
+          - "l_joint5"
+          - "l_joint6"
+        mimic_joint_names: []
+      right_revo2:
+        joint_names_expr:
+          - "right_thumb_.*_joint"
+          - "right_(index|middle|ring|pinky)_(proximal|distal)_joint"
+        matched_indices:
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+        active_indices:
+          - 6
+          - 7
+          - 9
+          - 11
+          - 13
+          - 15
+        mimic_indices:
+          - 8
+          - 10
+          - 12
+          - 14
+          - 16
+        matched_joint_names:
+          - "right_thumb_metacarpal_joint"
+          - "right_thumb_proximal_joint"
+          - "right_thumb_distal_joint"
+          - "right_index_proximal_joint"
+          - "right_index_distal_joint"
+          - "right_middle_proximal_joint"
+          - "right_middle_distal_joint"
+          - "right_ring_proximal_joint"
+          - "right_ring_distal_joint"
+          - "right_pinky_proximal_joint"
+          - "right_pinky_distal_joint"
+        active_joint_names:
+          - "right_thumb_metacarpal_joint"
+          - "right_thumb_proximal_joint"
+          - "right_index_proximal_joint"
+          - "right_middle_proximal_joint"
+          - "right_ring_proximal_joint"
+          - "right_pinky_proximal_joint"
+        mimic_joint_names:
+          - "right_thumb_distal_joint"
+          - "right_index_distal_joint"
+          - "right_middle_distal_joint"
+          - "right_ring_distal_joint"
+          - "right_pinky_distal_joint"
+      left_revo2:
+        joint_names_expr:
+          - "left_thumb_.*_joint"
+          - "left_(index|middle|ring|pinky)_(proximal|distal)_joint"
+        matched_indices:
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+          - 30
+          - 31
+          - 32
+          - 33
+        active_indices:
+          - 23
+          - 24
+          - 26
+          - 28
+          - 30
+          - 32
+        mimic_indices:
+          - 25
+          - 27
+          - 29
+          - 31
+          - 33
+        matched_joint_names:
+          - "left_thumb_metacarpal_joint"
+          - "left_thumb_proximal_joint"
+          - "left_thumb_distal_joint"
+          - "left_index_proximal_joint"
+          - "left_index_distal_joint"
+          - "left_middle_proximal_joint"
+          - "left_middle_distal_joint"
+          - "left_ring_proximal_joint"
+          - "left_ring_distal_joint"
+          - "left_pinky_proximal_joint"
+          - "left_pinky_distal_joint"
+        active_joint_names:
+          - "left_thumb_metacarpal_joint"
+          - "left_thumb_proximal_joint"
+          - "left_index_proximal_joint"
+          - "left_middle_proximal_joint"
+          - "left_ring_proximal_joint"
+          - "left_pinky_proximal_joint"
+        mimic_joint_names:
+          - "left_thumb_distal_joint"
+          - "left_index_distal_joint"
+          - "left_middle_distal_joint"
+          - "left_ring_distal_joint"
+          - "left_pinky_distal_joint"
+  multi_ur5_rh56dfx_with_flange:
+    alias: "ur5_rh56dfx"
+    robot_config: "dex2bench/robots/multi_ur5_rh56dfx_with_flange.py"
+    asset_dir: "Bench2Dex/Robots_p/ur5+RH56DFX"
+    urdf_path: "Bench2Dex/Robots_p/ur5+RH56DFX/urdf/Multi_UR5_RH56DFX_with_flange.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/ur5+RH56DFX/usd/Multi_UR5_RH56DFX_with_flange.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 36
+    active_dof: 24
+    inactive_dof: 12
+    mimic_dof: 12
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "right_thumb_1_joint"
+      - "right_thumb_2_joint"
+      - "right_thumb_3_joint"
+      - "right_thumb_4_joint"
+      - "right_index_1_joint"
+      - "right_index_2_joint"
+      - "right_middle_1_joint"
+      - "right_middle_2_joint"
+      - "right_ring_1_joint"
+      - "right_ring_2_joint"
+      - "right_little_1_joint"
+      - "right_little_2_joint"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "left_thumb_1_joint"
+      - "left_thumb_2_joint"
+      - "left_thumb_3_joint"
+      - "left_thumb_4_joint"
+      - "left_index_1_joint"
+      - "left_index_2_joint"
+      - "left_middle_1_joint"
+      - "left_middle_2_joint"
+      - "left_ring_1_joint"
+      - "left_ring_2_joint"
+      - "left_little_1_joint"
+      - "left_little_2_joint"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 10
+      - 12
+      - 14
+      - 16
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 28
+      - 30
+      - 32
+      - 34
+    active_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "right_thumb_1_joint"
+      - "right_thumb_2_joint"
+      - "right_index_1_joint"
+      - "right_middle_1_joint"
+      - "right_ring_1_joint"
+      - "right_little_1_joint"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "left_thumb_1_joint"
+      - "left_thumb_2_joint"
+      - "left_index_1_joint"
+      - "left_middle_1_joint"
+      - "left_ring_1_joint"
+      - "left_little_1_joint"
+    inactive_indices:
+      - 8
+      - 9
+      - 11
+      - 13
+      - 15
+      - 17
+      - 26
+      - 27
+      - 29
+      - 31
+      - 33
+      - 35
+    inactive_joint_names:
+      - "right_thumb_3_joint"
+      - "right_thumb_4_joint"
+      - "right_index_2_joint"
+      - "right_middle_2_joint"
+      - "right_ring_2_joint"
+      - "right_little_2_joint"
+      - "left_thumb_3_joint"
+      - "left_thumb_4_joint"
+      - "left_index_2_joint"
+      - "left_middle_2_joint"
+      - "left_ring_2_joint"
+      - "left_little_2_joint"
+    mimic_indices:
+      - 8
+      - 9
+      - 11
+      - 13
+      - 15
+      - 17
+      - 26
+      - 27
+      - 29
+      - 31
+      - 33
+      - 35
+    mimic_joint_names:
+      - "right_thumb_3_joint"
+      - "right_thumb_4_joint"
+      - "right_index_2_joint"
+      - "right_middle_2_joint"
+      - "right_ring_2_joint"
+      - "right_little_2_joint"
+      - "left_thumb_3_joint"
+      - "left_thumb_4_joint"
+      - "left_index_2_joint"
+      - "left_middle_2_joint"
+      - "left_ring_2_joint"
+      - "left_little_2_joint"
+    mimic_parent_joint_names:
+      "right_thumb_3_joint": "right_thumb_2_joint"
+      "right_thumb_4_joint": "right_thumb_3_joint"
+      "right_index_2_joint": "right_index_1_joint"
+      "right_middle_2_joint": "right_middle_1_joint"
+      "right_ring_2_joint": "right_ring_1_joint"
+      "right_little_2_joint": "right_little_1_joint"
+      "left_thumb_3_joint": "left_thumb_2_joint"
+      "left_thumb_4_joint": "left_thumb_3_joint"
+      "left_index_2_joint": "left_index_1_joint"
+      "left_middle_2_joint": "left_middle_1_joint"
+      "left_ring_2_joint": "left_ring_1_joint"
+      "left_little_2_joint": "left_little_1_joint"
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices:
+      - 8
+      - 9
+      - 11
+      - 13
+      - 15
+      - 17
+      - 26
+      - 27
+      - 29
+      - 31
+      - 33
+      - 35
+    actuator_mimic_joint_names:
+      - "right_thumb_3_joint"
+      - "right_thumb_4_joint"
+      - "right_index_2_joint"
+      - "right_middle_2_joint"
+      - "right_ring_2_joint"
+      - "right_little_2_joint"
+      - "left_thumb_3_joint"
+      - "left_thumb_4_joint"
+      - "left_index_2_joint"
+      - "left_middle_2_joint"
+      - "left_ring_2_joint"
+      - "left_little_2_joint"
+    groups:
+      arm_shoulder:
+        joint_names_expr:
+          - "shoulder_.*"
+          - "L_arm_shoulder_.*"
+        matched_indices:
+          - 0
+          - 1
+          - 18
+          - 19
+        active_indices:
+          - 0
+          - 1
+          - 18
+          - 19
+        mimic_indices: []
+        matched_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        active_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        mimic_joint_names: []
+      arm_elbow:
+        joint_names_expr:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        matched_indices:
+          - 2
+          - 20
+        active_indices:
+          - 2
+          - 20
+        mimic_indices: []
+        matched_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        active_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        mimic_joint_names: []
+      arm_wrist:
+        joint_names_expr:
+          - "wrist_[1-3]_joint"
+          - "L_arm_wrist_[1-3]_joint"
+        matched_indices:
+          - 3
+          - 4
+          - 5
+          - 21
+          - 22
+          - 23
+        active_indices:
+          - 3
+          - 4
+          - 5
+          - 21
+          - 22
+          - 23
+        mimic_indices: []
+        matched_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        active_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        mimic_joint_names: []
+      right_hand:
+        joint_names_expr:
+          - "right_thumb_[1-4]_joint"
+          - "right_(index|middle|ring|little)_[1-2]_joint"
+        matched_indices:
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+        active_indices:
+          - 6
+          - 7
+          - 10
+          - 12
+          - 14
+          - 16
+        mimic_indices:
+          - 8
+          - 9
+          - 11
+          - 13
+          - 15
+          - 17
+        matched_joint_names:
+          - "right_thumb_1_joint"
+          - "right_thumb_2_joint"
+          - "right_thumb_3_joint"
+          - "right_thumb_4_joint"
+          - "right_index_1_joint"
+          - "right_index_2_joint"
+          - "right_middle_1_joint"
+          - "right_middle_2_joint"
+          - "right_ring_1_joint"
+          - "right_ring_2_joint"
+          - "right_little_1_joint"
+          - "right_little_2_joint"
+        active_joint_names:
+          - "right_thumb_1_joint"
+          - "right_thumb_2_joint"
+          - "right_index_1_joint"
+          - "right_middle_1_joint"
+          - "right_ring_1_joint"
+          - "right_little_1_joint"
+        mimic_joint_names:
+          - "right_thumb_3_joint"
+          - "right_thumb_4_joint"
+          - "right_index_2_joint"
+          - "right_middle_2_joint"
+          - "right_ring_2_joint"
+          - "right_little_2_joint"
+      left_hand:
+        joint_names_expr:
+          - "left_thumb_[1-4]_joint"
+          - "left_(index|middle|ring|little)_[1-2]_joint"
+        matched_indices:
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+          - 30
+          - 31
+          - 32
+          - 33
+          - 34
+          - 35
+        active_indices:
+          - 24
+          - 25
+          - 28
+          - 30
+          - 32
+          - 34
+        mimic_indices:
+          - 26
+          - 27
+          - 29
+          - 31
+          - 33
+          - 35
+        matched_joint_names:
+          - "left_thumb_1_joint"
+          - "left_thumb_2_joint"
+          - "left_thumb_3_joint"
+          - "left_thumb_4_joint"
+          - "left_index_1_joint"
+          - "left_index_2_joint"
+          - "left_middle_1_joint"
+          - "left_middle_2_joint"
+          - "left_ring_1_joint"
+          - "left_ring_2_joint"
+          - "left_little_1_joint"
+          - "left_little_2_joint"
+        active_joint_names:
+          - "left_thumb_1_joint"
+          - "left_thumb_2_joint"
+          - "left_index_1_joint"
+          - "left_middle_1_joint"
+          - "left_ring_1_joint"
+          - "left_little_1_joint"
+        mimic_joint_names:
+          - "left_thumb_3_joint"
+          - "left_thumb_4_joint"
+          - "left_index_2_joint"
+          - "left_middle_2_joint"
+          - "left_ring_2_joint"
+          - "left_little_2_joint"
+  multi_ur5_rh5dg2_with_flange:
+    alias: "ur5_rh5dg2"
+    robot_config: "dex2bench/robots/multi_ur5_rh5dg2_with_flange.py"
+    asset_dir: "Bench2Dex/Robots_p/ur5+RH5DG2"
+    urdf_path: "Bench2Dex/Robots_p/ur5+RH5DG2/urdf/Multi_UR5_RH5DG2_with_flange.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/ur5+RH5DG2/usd/Multi_UR5_RH5DG2_with_flange.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 48
+    active_dof: 38
+    inactive_dof: 10
+    mimic_dof: 10
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "right_thumb_yaw_joint"
+      - "right_thumb_mcp_joint"
+      - "right_thumb_pip_joint"
+      - "right_thumb_dip_joint"
+      - "right_index_pitch_joint"
+      - "right_index_mcp_joint"
+      - "right_index_pip_joint"
+      - "right_index_dip_joint"
+      - "right_middle_pitch_joint"
+      - "right_middle_mcp_joint"
+      - "right_middle_pip_joint"
+      - "right_middle_dip_joint"
+      - "right_ring_mcp_joint"
+      - "right_ring_pip_joint"
+      - "right_ring_dip_joint"
+      - "right_pinky_mcp_joint"
+      - "right_pinky_pip_joint"
+      - "right_pinky_dip_joint"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "left_thumb_yaw_joint"
+      - "left_thumb_mcp_joint"
+      - "left_thumb_pip_joint"
+      - "left_thumb_dip_joint"
+      - "left_index_pitch_joint"
+      - "left_index_mcp_joint"
+      - "left_index_pip_joint"
+      - "left_index_dip_joint"
+      - "left_middle_pitch_joint"
+      - "left_middle_mcp_joint"
+      - "left_middle_pip_joint"
+      - "left_middle_dip_joint"
+      - "left_ring_mcp_joint"
+      - "left_ring_pip_joint"
+      - "left_ring_dip_joint"
+      - "left_pinky_mcp_joint"
+      - "left_pinky_pip_joint"
+      - "left_pinky_dip_joint"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 9
+      - 10
+      - 11
+      - 12
+      - 14
+      - 15
+      - 16
+      - 18
+      - 19
+      - 21
+      - 22
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 33
+      - 34
+      - 35
+      - 36
+      - 38
+      - 39
+      - 40
+      - 42
+      - 43
+      - 45
+      - 46
+    active_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "right_thumb_yaw_joint"
+      - "right_thumb_mcp_joint"
+      - "right_thumb_dip_joint"
+      - "right_index_pitch_joint"
+      - "right_index_mcp_joint"
+      - "right_index_pip_joint"
+      - "right_middle_pitch_joint"
+      - "right_middle_mcp_joint"
+      - "right_middle_pip_joint"
+      - "right_ring_mcp_joint"
+      - "right_ring_pip_joint"
+      - "right_pinky_mcp_joint"
+      - "right_pinky_pip_joint"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "left_thumb_yaw_joint"
+      - "left_thumb_mcp_joint"
+      - "left_thumb_dip_joint"
+      - "left_index_pitch_joint"
+      - "left_index_mcp_joint"
+      - "left_index_pip_joint"
+      - "left_middle_pitch_joint"
+      - "left_middle_mcp_joint"
+      - "left_middle_pip_joint"
+      - "left_ring_mcp_joint"
+      - "left_ring_pip_joint"
+      - "left_pinky_mcp_joint"
+      - "left_pinky_pip_joint"
+    inactive_indices:
+      - 8
+      - 13
+      - 17
+      - 20
+      - 23
+      - 32
+      - 37
+      - 41
+      - 44
+      - 47
+    inactive_joint_names:
+      - "right_thumb_pip_joint"
+      - "right_index_dip_joint"
+      - "right_middle_dip_joint"
+      - "right_ring_dip_joint"
+      - "right_pinky_dip_joint"
+      - "left_thumb_pip_joint"
+      - "left_index_dip_joint"
+      - "left_middle_dip_joint"
+      - "left_ring_dip_joint"
+      - "left_pinky_dip_joint"
+    mimic_indices:
+      - 8
+      - 13
+      - 17
+      - 20
+      - 23
+      - 32
+      - 37
+      - 41
+      - 44
+      - 47
+    mimic_joint_names:
+      - "right_thumb_pip_joint"
+      - "right_index_dip_joint"
+      - "right_middle_dip_joint"
+      - "right_ring_dip_joint"
+      - "right_pinky_dip_joint"
+      - "left_thumb_pip_joint"
+      - "left_index_dip_joint"
+      - "left_middle_dip_joint"
+      - "left_ring_dip_joint"
+      - "left_pinky_dip_joint"
+    mimic_parent_joint_names:
+      "right_thumb_pip_joint": "right_thumb_mcp_joint"
+      "right_index_dip_joint": "right_index_pip_joint"
+      "right_middle_dip_joint": "right_middle_pip_joint"
+      "right_ring_dip_joint": "right_ring_pip_joint"
+      "right_pinky_dip_joint": "right_pinky_pip_joint"
+      "left_thumb_pip_joint": "left_thumb_mcp_joint"
+      "left_index_dip_joint": "left_index_pip_joint"
+      "left_middle_dip_joint": "left_middle_pip_joint"
+      "left_ring_dip_joint": "left_ring_pip_joint"
+      "left_pinky_dip_joint": "left_pinky_pip_joint"
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices:
+      - 8
+      - 13
+      - 17
+      - 20
+      - 23
+      - 32
+      - 37
+      - 41
+      - 44
+      - 47
+    actuator_mimic_joint_names:
+      - "right_thumb_pip_joint"
+      - "right_index_dip_joint"
+      - "right_middle_dip_joint"
+      - "right_ring_dip_joint"
+      - "right_pinky_dip_joint"
+      - "left_thumb_pip_joint"
+      - "left_index_dip_joint"
+      - "left_middle_dip_joint"
+      - "left_ring_dip_joint"
+      - "left_pinky_dip_joint"
+    groups:
+      arm_shoulder:
+        joint_names_expr:
+          - "shoulder_.*"
+          - "L_arm_shoulder_.*"
+        matched_indices:
+          - 0
+          - 1
+          - 24
+          - 25
+        active_indices:
+          - 0
+          - 1
+          - 24
+          - 25
+        mimic_indices: []
+        matched_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        active_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        mimic_joint_names: []
+      arm_elbow:
+        joint_names_expr:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        matched_indices:
+          - 2
+          - 26
+        active_indices:
+          - 2
+          - 26
+        mimic_indices: []
+        matched_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        active_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        mimic_joint_names: []
+      arm_wrist:
+        joint_names_expr:
+          - "wrist_[1-3]_joint"
+          - "L_arm_wrist_[1-3]_joint"
+        matched_indices:
+          - 3
+          - 4
+          - 5
+          - 27
+          - 28
+          - 29
+        active_indices:
+          - 3
+          - 4
+          - 5
+          - 27
+          - 28
+          - 29
+        mimic_indices: []
+        matched_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        active_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        mimic_joint_names: []
+      right_hand:
+        joint_names_expr:
+          - "right_thumb_(yaw|mcp|pip|dip)_joint"
+          - "right_(index|middle)_(pitch|mcp|pip|dip)_joint"
+          - "right_(ring|pinky)_(mcp|pip|dip)_joint"
+        matched_indices:
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+        active_indices:
+          - 6
+          - 7
+          - 9
+          - 10
+          - 11
+          - 12
+          - 14
+          - 15
+          - 16
+          - 18
+          - 19
+          - 21
+          - 22
+        mimic_indices:
+          - 8
+          - 13
+          - 17
+          - 20
+          - 23
+        matched_joint_names:
+          - "right_thumb_yaw_joint"
+          - "right_thumb_mcp_joint"
+          - "right_thumb_pip_joint"
+          - "right_thumb_dip_joint"
+          - "right_index_pitch_joint"
+          - "right_index_mcp_joint"
+          - "right_index_pip_joint"
+          - "right_index_dip_joint"
+          - "right_middle_pitch_joint"
+          - "right_middle_mcp_joint"
+          - "right_middle_pip_joint"
+          - "right_middle_dip_joint"
+          - "right_ring_mcp_joint"
+          - "right_ring_pip_joint"
+          - "right_ring_dip_joint"
+          - "right_pinky_mcp_joint"
+          - "right_pinky_pip_joint"
+          - "right_pinky_dip_joint"
+        active_joint_names:
+          - "right_thumb_yaw_joint"
+          - "right_thumb_mcp_joint"
+          - "right_thumb_dip_joint"
+          - "right_index_pitch_joint"
+          - "right_index_mcp_joint"
+          - "right_index_pip_joint"
+          - "right_middle_pitch_joint"
+          - "right_middle_mcp_joint"
+          - "right_middle_pip_joint"
+          - "right_ring_mcp_joint"
+          - "right_ring_pip_joint"
+          - "right_pinky_mcp_joint"
+          - "right_pinky_pip_joint"
+        mimic_joint_names:
+          - "right_thumb_pip_joint"
+          - "right_index_dip_joint"
+          - "right_middle_dip_joint"
+          - "right_ring_dip_joint"
+          - "right_pinky_dip_joint"
+      left_hand:
+        joint_names_expr:
+          - "left_thumb_(yaw|mcp|pip|dip)_joint"
+          - "left_(index|middle)_(pitch|mcp|pip|dip)_joint"
+          - "left_(ring|pinky)_(mcp|pip|dip)_joint"
+        matched_indices:
+          - 30
+          - 31
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+        active_indices:
+          - 30
+          - 31
+          - 33
+          - 34
+          - 35
+          - 36
+          - 38
+          - 39
+          - 40
+          - 42
+          - 43
+          - 45
+          - 46
+        mimic_indices:
+          - 32
+          - 37
+          - 41
+          - 44
+          - 47
+        matched_joint_names:
+          - "left_thumb_yaw_joint"
+          - "left_thumb_mcp_joint"
+          - "left_thumb_pip_joint"
+          - "left_thumb_dip_joint"
+          - "left_index_pitch_joint"
+          - "left_index_mcp_joint"
+          - "left_index_pip_joint"
+          - "left_index_dip_joint"
+          - "left_middle_pitch_joint"
+          - "left_middle_mcp_joint"
+          - "left_middle_pip_joint"
+          - "left_middle_dip_joint"
+          - "left_ring_mcp_joint"
+          - "left_ring_pip_joint"
+          - "left_ring_dip_joint"
+          - "left_pinky_mcp_joint"
+          - "left_pinky_pip_joint"
+          - "left_pinky_dip_joint"
+        active_joint_names:
+          - "left_thumb_yaw_joint"
+          - "left_thumb_mcp_joint"
+          - "left_thumb_dip_joint"
+          - "left_index_pitch_joint"
+          - "left_index_mcp_joint"
+          - "left_index_pip_joint"
+          - "left_middle_pitch_joint"
+          - "left_middle_mcp_joint"
+          - "left_middle_pip_joint"
+          - "left_ring_mcp_joint"
+          - "left_ring_pip_joint"
+          - "left_pinky_mcp_joint"
+          - "left_pinky_pip_joint"
+        mimic_joint_names:
+          - "left_thumb_pip_joint"
+          - "left_index_dip_joint"
+          - "left_middle_dip_joint"
+          - "left_ring_dip_joint"
+          - "left_pinky_dip_joint"
+  multi_ur5_schunk_hand_with_flange:
+    alias: "ur5_schunk_hand"
+    robot_config: "dex2bench/robots/multi_ur5_schunk_hand_with_flange.py"
+    asset_dir: "Bench2Dex/Robots_p/ur5+schunk_hand"
+    urdf_path: "Bench2Dex/Robots_p/ur5+schunk_hand/urdf/Multi_UR5_schunk_hand_with_flange.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/ur5+schunk_hand/usd/Multi_UR5_schunk_hand_with_flange.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 52
+    active_dof: 30
+    inactive_dof: 22
+    mimic_dof: 22
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "right_hand_Thumb_Flexion"
+      - "right_hand_Thumb_Opposition"
+      - "right_hand_j5"
+      - "right_hand_j3"
+      - "right_hand_j4"
+      - "right_hand_Index_Finger_Distal"
+      - "right_hand_Index_Finger_Proximal"
+      - "right_hand_j14"
+      - "right_hand_Middle_Finger_Proximal"
+      - "right_hand_Middle_Finger_Distal"
+      - "right_hand_j15"
+      - "right_hand_Ring_Finger"
+      - "right_hand_j12"
+      - "right_hand_j16"
+      - "right_hand_Pinky"
+      - "right_hand_j13"
+      - "right_hand_j17"
+      - "right_hand_index_spread"
+      - "right_hand_ring_spread"
+      - "right_hand_Finger_Spread"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "left_hand_Thumb_Flexion"
+      - "left_hand_Thumb_Opposition"
+      - "left_hand_j5"
+      - "left_hand_j3"
+      - "left_hand_j4"
+      - "left_hand_Index_Finger_Distal"
+      - "left_hand_Index_Finger_Proximal"
+      - "left_hand_j14"
+      - "left_hand_Middle_Finger_Proximal"
+      - "left_hand_Middle_Finger_Distal"
+      - "left_hand_j15"
+      - "left_hand_Ring_Finger"
+      - "left_hand_j12"
+      - "left_hand_j16"
+      - "left_hand_Pinky"
+      - "left_hand_j13"
+      - "left_hand_j17"
+      - "left_hand_index_spread"
+      - "left_hand_ring_spread"
+      - "left_hand_Finger_Spread"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 11
+      - 12
+      - 14
+      - 15
+      - 17
+      - 20
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 37
+      - 38
+      - 40
+      - 41
+      - 43
+      - 46
+      - 51
+    active_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "right_hand_Thumb_Flexion"
+      - "right_hand_Thumb_Opposition"
+      - "right_hand_Index_Finger_Distal"
+      - "right_hand_Index_Finger_Proximal"
+      - "right_hand_Middle_Finger_Proximal"
+      - "right_hand_Middle_Finger_Distal"
+      - "right_hand_Ring_Finger"
+      - "right_hand_Pinky"
+      - "right_hand_Finger_Spread"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "left_hand_Thumb_Flexion"
+      - "left_hand_Thumb_Opposition"
+      - "left_hand_Index_Finger_Distal"
+      - "left_hand_Index_Finger_Proximal"
+      - "left_hand_Middle_Finger_Proximal"
+      - "left_hand_Middle_Finger_Distal"
+      - "left_hand_Ring_Finger"
+      - "left_hand_Pinky"
+      - "left_hand_Finger_Spread"
+    inactive_indices:
+      - 8
+      - 9
+      - 10
+      - 13
+      - 16
+      - 18
+      - 19
+      - 21
+      - 22
+      - 23
+      - 24
+      - 34
+      - 35
+      - 36
+      - 39
+      - 42
+      - 44
+      - 45
+      - 47
+      - 48
+      - 49
+      - 50
+    inactive_joint_names:
+      - "right_hand_j5"
+      - "right_hand_j3"
+      - "right_hand_j4"
+      - "right_hand_j14"
+      - "right_hand_j15"
+      - "right_hand_j12"
+      - "right_hand_j16"
+      - "right_hand_j13"
+      - "right_hand_j17"
+      - "right_hand_index_spread"
+      - "right_hand_ring_spread"
+      - "left_hand_j5"
+      - "left_hand_j3"
+      - "left_hand_j4"
+      - "left_hand_j14"
+      - "left_hand_j15"
+      - "left_hand_j12"
+      - "left_hand_j16"
+      - "left_hand_j13"
+      - "left_hand_j17"
+      - "left_hand_index_spread"
+      - "left_hand_ring_spread"
+    mimic_indices:
+      - 8
+      - 9
+      - 10
+      - 13
+      - 16
+      - 18
+      - 19
+      - 21
+      - 22
+      - 23
+      - 24
+      - 34
+      - 35
+      - 36
+      - 39
+      - 42
+      - 44
+      - 45
+      - 47
+      - 48
+      - 49
+      - 50
+    mimic_joint_names:
+      - "right_hand_j5"
+      - "right_hand_j3"
+      - "right_hand_j4"
+      - "right_hand_j14"
+      - "right_hand_j15"
+      - "right_hand_j12"
+      - "right_hand_j16"
+      - "right_hand_j13"
+      - "right_hand_j17"
+      - "right_hand_index_spread"
+      - "right_hand_ring_spread"
+      - "left_hand_j5"
+      - "left_hand_j3"
+      - "left_hand_j4"
+      - "left_hand_j14"
+      - "left_hand_j15"
+      - "left_hand_j12"
+      - "left_hand_j16"
+      - "left_hand_j13"
+      - "left_hand_j17"
+      - "left_hand_index_spread"
+      - "left_hand_ring_spread"
+    mimic_parent_joint_names:
+      "right_hand_j5": "right_hand_Thumb_Opposition"
+      "right_hand_j3": "right_hand_Thumb_Flexion"
+      "right_hand_j4": "right_hand_Thumb_Flexion"
+      "right_hand_j14": "right_hand_Index_Finger_Distal"
+      "right_hand_j15": "right_hand_Middle_Finger_Distal"
+      "right_hand_j12": "right_hand_Ring_Finger"
+      "right_hand_j16": "right_hand_Ring_Finger"
+      "right_hand_j13": "right_hand_Pinky"
+      "right_hand_j17": "right_hand_Pinky"
+      "right_hand_index_spread": "right_hand_Finger_Spread"
+      "right_hand_ring_spread": "right_hand_Finger_Spread"
+      "left_hand_j5": "left_hand_Thumb_Opposition"
+      "left_hand_j3": "left_hand_Thumb_Flexion"
+      "left_hand_j4": "left_hand_Thumb_Flexion"
+      "left_hand_j14": "left_hand_Index_Finger_Distal"
+      "left_hand_j15": "left_hand_Middle_Finger_Distal"
+      "left_hand_j12": "left_hand_Ring_Finger"
+      "left_hand_j16": "left_hand_Ring_Finger"
+      "left_hand_j13": "left_hand_Pinky"
+      "left_hand_j17": "left_hand_Pinky"
+      "left_hand_index_spread": "left_hand_Finger_Spread"
+      "left_hand_ring_spread": "left_hand_Finger_Spread"
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices:
+      - 8
+      - 9
+      - 10
+      - 13
+      - 16
+      - 18
+      - 19
+      - 21
+      - 22
+      - 23
+      - 24
+      - 34
+      - 35
+      - 36
+      - 39
+      - 42
+      - 44
+      - 45
+      - 47
+      - 48
+      - 49
+      - 50
+    actuator_mimic_joint_names:
+      - "right_hand_j5"
+      - "right_hand_j3"
+      - "right_hand_j4"
+      - "right_hand_j14"
+      - "right_hand_j15"
+      - "right_hand_j12"
+      - "right_hand_j16"
+      - "right_hand_j13"
+      - "right_hand_j17"
+      - "right_hand_index_spread"
+      - "right_hand_ring_spread"
+      - "left_hand_j5"
+      - "left_hand_j3"
+      - "left_hand_j4"
+      - "left_hand_j14"
+      - "left_hand_j15"
+      - "left_hand_j12"
+      - "left_hand_j16"
+      - "left_hand_j13"
+      - "left_hand_j17"
+      - "left_hand_index_spread"
+      - "left_hand_ring_spread"
+    groups:
+      arm_shoulder:
+        joint_names_expr:
+          - "shoulder_.*"
+          - "L_arm_shoulder_.*"
+        matched_indices:
+          - 0
+          - 1
+          - 26
+          - 27
+        active_indices:
+          - 0
+          - 1
+          - 26
+          - 27
+        mimic_indices: []
+        matched_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        active_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        mimic_joint_names: []
+      arm_elbow:
+        joint_names_expr:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        matched_indices:
+          - 2
+          - 28
+        active_indices:
+          - 2
+          - 28
+        mimic_indices: []
+        matched_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        active_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        mimic_joint_names: []
+      arm_wrist:
+        joint_names_expr:
+          - "wrist_[1-3]_joint"
+          - "L_arm_wrist_[1-3]_joint"
+        matched_indices:
+          - 3
+          - 4
+          - 5
+          - 29
+          - 30
+          - 31
+        active_indices:
+          - 3
+          - 4
+          - 5
+          - 29
+          - 30
+          - 31
+        mimic_indices: []
+        matched_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        active_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        mimic_joint_names: []
+      right_hand:
+        joint_names_expr:
+          - "right_hand_(Thumb_Flexion|Thumb_Opposition|Index_Finger_Proximal|Index_Finger_Distal|Middle_Finger_Proximal|Middle_Finger_Distal|Ring_Finger|Pinky|Finger_Spread)"
+        matched_indices:
+          - 6
+          - 7
+          - 11
+          - 12
+          - 14
+          - 15
+          - 17
+          - 20
+          - 25
+        active_indices:
+          - 6
+          - 7
+          - 11
+          - 12
+          - 14
+          - 15
+          - 17
+          - 20
+          - 25
+        mimic_indices: []
+        matched_joint_names:
+          - "right_hand_Thumb_Flexion"
+          - "right_hand_Thumb_Opposition"
+          - "right_hand_Index_Finger_Distal"
+          - "right_hand_Index_Finger_Proximal"
+          - "right_hand_Middle_Finger_Proximal"
+          - "right_hand_Middle_Finger_Distal"
+          - "right_hand_Ring_Finger"
+          - "right_hand_Pinky"
+          - "right_hand_Finger_Spread"
+        active_joint_names:
+          - "right_hand_Thumb_Flexion"
+          - "right_hand_Thumb_Opposition"
+          - "right_hand_Index_Finger_Distal"
+          - "right_hand_Index_Finger_Proximal"
+          - "right_hand_Middle_Finger_Proximal"
+          - "right_hand_Middle_Finger_Distal"
+          - "right_hand_Ring_Finger"
+          - "right_hand_Pinky"
+          - "right_hand_Finger_Spread"
+        mimic_joint_names: []
+      right_hand_mimic:
+        joint_names_expr:
+          - "right_hand_(j3|j4|j5|j12|j13|j14|j15|j16|j17|index_spread|ring_spread)"
+        matched_indices:
+          - 8
+          - 9
+          - 10
+          - 13
+          - 16
+          - 18
+          - 19
+          - 21
+          - 22
+          - 23
+          - 24
+        active_indices: []
+        mimic_indices:
+          - 8
+          - 9
+          - 10
+          - 13
+          - 16
+          - 18
+          - 19
+          - 21
+          - 22
+          - 23
+          - 24
+        matched_joint_names:
+          - "right_hand_j5"
+          - "right_hand_j3"
+          - "right_hand_j4"
+          - "right_hand_j14"
+          - "right_hand_j15"
+          - "right_hand_j12"
+          - "right_hand_j16"
+          - "right_hand_j13"
+          - "right_hand_j17"
+          - "right_hand_index_spread"
+          - "right_hand_ring_spread"
+        active_joint_names: []
+        mimic_joint_names:
+          - "right_hand_j5"
+          - "right_hand_j3"
+          - "right_hand_j4"
+          - "right_hand_j14"
+          - "right_hand_j15"
+          - "right_hand_j12"
+          - "right_hand_j16"
+          - "right_hand_j13"
+          - "right_hand_j17"
+          - "right_hand_index_spread"
+          - "right_hand_ring_spread"
+      left_hand:
+        joint_names_expr:
+          - "left_hand_(Thumb_Flexion|Thumb_Opposition|Index_Finger_Proximal|Index_Finger_Distal|Middle_Finger_Proximal|Middle_Finger_Distal|Ring_Finger|Pinky|Finger_Spread)"
+        matched_indices:
+          - 32
+          - 33
+          - 37
+          - 38
+          - 40
+          - 41
+          - 43
+          - 46
+          - 51
+        active_indices:
+          - 32
+          - 33
+          - 37
+          - 38
+          - 40
+          - 41
+          - 43
+          - 46
+          - 51
+        mimic_indices: []
+        matched_joint_names:
+          - "left_hand_Thumb_Flexion"
+          - "left_hand_Thumb_Opposition"
+          - "left_hand_Index_Finger_Distal"
+          - "left_hand_Index_Finger_Proximal"
+          - "left_hand_Middle_Finger_Proximal"
+          - "left_hand_Middle_Finger_Distal"
+          - "left_hand_Ring_Finger"
+          - "left_hand_Pinky"
+          - "left_hand_Finger_Spread"
+        active_joint_names:
+          - "left_hand_Thumb_Flexion"
+          - "left_hand_Thumb_Opposition"
+          - "left_hand_Index_Finger_Distal"
+          - "left_hand_Index_Finger_Proximal"
+          - "left_hand_Middle_Finger_Proximal"
+          - "left_hand_Middle_Finger_Distal"
+          - "left_hand_Ring_Finger"
+          - "left_hand_Pinky"
+          - "left_hand_Finger_Spread"
+        mimic_joint_names: []
+      left_hand_mimic:
+        joint_names_expr:
+          - "left_hand_(j3|j4|j5|j12|j13|j14|j15|j16|j17|index_spread|ring_spread)"
+        matched_indices:
+          - 34
+          - 35
+          - 36
+          - 39
+          - 42
+          - 44
+          - 45
+          - 47
+          - 48
+          - 49
+          - 50
+        active_indices: []
+        mimic_indices:
+          - 34
+          - 35
+          - 36
+          - 39
+          - 42
+          - 44
+          - 45
+          - 47
+          - 48
+          - 49
+          - 50
+        matched_joint_names:
+          - "left_hand_j5"
+          - "left_hand_j3"
+          - "left_hand_j4"
+          - "left_hand_j14"
+          - "left_hand_j15"
+          - "left_hand_j12"
+          - "left_hand_j16"
+          - "left_hand_j13"
+          - "left_hand_j17"
+          - "left_hand_index_spread"
+          - "left_hand_ring_spread"
+        active_joint_names: []
+        mimic_joint_names:
+          - "left_hand_j5"
+          - "left_hand_j3"
+          - "left_hand_j4"
+          - "left_hand_j14"
+          - "left_hand_j15"
+          - "left_hand_j12"
+          - "left_hand_j16"
+          - "left_hand_j13"
+          - "left_hand_j17"
+          - "left_hand_index_spread"
+          - "left_hand_ring_spread"
+  multi_ur5_shadow_hand_with_flange:
+    alias: "ur5_shadow_hand"
+    robot_config: "dex2bench/robots/multi_ur5_shadow_hand_with_flange.py"
+    asset_dir: "Bench2Dex/Robots_p/ur5+shadow_hand"
+    urdf_path: "Bench2Dex/Robots_p/ur5+shadow_hand/urdf/Multi_UR5_shadow_hand_with_flange.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/ur5+shadow_hand/usd/Multi_UR5_shadow_hand_with_flange.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 60
+    active_dof: 56
+    inactive_dof: 4
+    mimic_dof: 0
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "WRJ2"
+      - "WRJ1"
+      - "FFJ4"
+      - "FFJ3"
+      - "FFJ2"
+      - "FFJ1"
+      - "MFJ4"
+      - "MFJ3"
+      - "MFJ2"
+      - "MFJ1"
+      - "RFJ4"
+      - "RFJ3"
+      - "RFJ2"
+      - "RFJ1"
+      - "LFJ5"
+      - "LFJ4"
+      - "LFJ3"
+      - "LFJ2"
+      - "LFJ1"
+      - "THJ5"
+      - "THJ4"
+      - "THJ3"
+      - "THJ2"
+      - "THJ1"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "l_WRJ2"
+      - "l_WRJ1"
+      - "l_FFJ4"
+      - "l_FFJ3"
+      - "l_FFJ2"
+      - "l_FFJ1"
+      - "l_MFJ4"
+      - "l_MFJ3"
+      - "l_MFJ2"
+      - "l_MFJ1"
+      - "l_RFJ4"
+      - "l_RFJ3"
+      - "l_RFJ2"
+      - "l_RFJ1"
+      - "l_LFJ5"
+      - "l_LFJ4"
+      - "l_LFJ3"
+      - "l_LFJ2"
+      - "l_LFJ1"
+      - "l_THJ5"
+      - "l_THJ4"
+      - "l_THJ3"
+      - "l_THJ2"
+      - "l_THJ1"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 49
+      - 51
+      - 52
+      - 53
+      - 54
+      - 55
+      - 56
+      - 58
+      - 59
+    active_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "WRJ2"
+      - "WRJ1"
+      - "FFJ4"
+      - "FFJ3"
+      - "FFJ2"
+      - "FFJ1"
+      - "MFJ4"
+      - "MFJ3"
+      - "MFJ2"
+      - "MFJ1"
+      - "RFJ4"
+      - "RFJ3"
+      - "RFJ2"
+      - "RFJ1"
+      - "LFJ4"
+      - "LFJ3"
+      - "LFJ2"
+      - "LFJ1"
+      - "THJ5"
+      - "THJ4"
+      - "THJ2"
+      - "THJ1"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "l_WRJ2"
+      - "l_WRJ1"
+      - "l_FFJ4"
+      - "l_FFJ3"
+      - "l_FFJ2"
+      - "l_FFJ1"
+      - "l_MFJ4"
+      - "l_MFJ3"
+      - "l_MFJ2"
+      - "l_MFJ1"
+      - "l_RFJ4"
+      - "l_RFJ3"
+      - "l_RFJ2"
+      - "l_RFJ1"
+      - "l_LFJ4"
+      - "l_LFJ3"
+      - "l_LFJ2"
+      - "l_LFJ1"
+      - "l_THJ5"
+      - "l_THJ4"
+      - "l_THJ2"
+      - "l_THJ1"
+    inactive_indices:
+      - 20
+      - 27
+      - 50
+      - 57
+    inactive_joint_names:
+      - "LFJ5"
+      - "THJ3"
+      - "l_LFJ5"
+      - "l_THJ3"
+    mimic_indices: []
+    mimic_joint_names: []
+    mimic_parent_joint_names: {}
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices: []
+    actuator_mimic_joint_names: []
+    groups:
+      arm_shoulder:
+        joint_names_expr:
+          - "shoulder_.*"
+          - "L_arm_shoulder_.*"
+        matched_indices:
+          - 0
+          - 1
+          - 30
+          - 31
+        active_indices:
+          - 0
+          - 1
+          - 30
+          - 31
+        mimic_indices: []
+        matched_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        active_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        mimic_joint_names: []
+      arm_elbow:
+        joint_names_expr:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        matched_indices:
+          - 2
+          - 32
+        active_indices:
+          - 2
+          - 32
+        mimic_indices: []
+        matched_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        active_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        mimic_joint_names: []
+      arm_wrist:
+        joint_names_expr:
+          - "wrist_[1-3]_joint"
+          - "L_arm_wrist_[1-3]_joint"
+        matched_indices:
+          - 3
+          - 4
+          - 5
+          - 33
+          - 34
+          - 35
+        active_indices:
+          - 3
+          - 4
+          - 5
+          - 33
+          - 34
+          - 35
+        mimic_indices: []
+        matched_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        active_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        mimic_joint_names: []
+      right_hand_wrist:
+        joint_names_expr:
+          - "WRJ[1-2]"
+        matched_indices:
+          - 6
+          - 7
+        active_indices:
+          - 6
+          - 7
+        mimic_indices: []
+        matched_joint_names:
+          - "WRJ2"
+          - "WRJ1"
+        active_joint_names:
+          - "WRJ2"
+          - "WRJ1"
+        mimic_joint_names: []
+      right_hand_fingers:
+        joint_names_expr:
+          - "FFJ[1-4]"
+          - "MFJ[1-4]"
+          - "RFJ[1-4]"
+          - "LFJ[1-5]"
+          - "THJ[1-5]"
+        matched_indices:
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+        active_indices:
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+        mimic_indices: []
+        matched_joint_names:
+          - "FFJ4"
+          - "FFJ3"
+          - "FFJ2"
+          - "FFJ1"
+          - "MFJ4"
+          - "MFJ3"
+          - "MFJ2"
+          - "MFJ1"
+          - "RFJ4"
+          - "RFJ3"
+          - "RFJ2"
+          - "RFJ1"
+          - "LFJ5"
+          - "LFJ4"
+          - "LFJ3"
+          - "LFJ2"
+          - "LFJ1"
+          - "THJ5"
+          - "THJ4"
+          - "THJ3"
+          - "THJ2"
+          - "THJ1"
+        active_joint_names:
+          - "FFJ4"
+          - "FFJ3"
+          - "FFJ2"
+          - "FFJ1"
+          - "MFJ4"
+          - "MFJ3"
+          - "MFJ2"
+          - "MFJ1"
+          - "RFJ4"
+          - "RFJ3"
+          - "RFJ2"
+          - "RFJ1"
+          - "LFJ5"
+          - "LFJ4"
+          - "LFJ3"
+          - "LFJ2"
+          - "LFJ1"
+          - "THJ5"
+          - "THJ4"
+          - "THJ3"
+          - "THJ2"
+          - "THJ1"
+        mimic_joint_names: []
+      left_hand_wrist:
+        joint_names_expr:
+          - "l_WRJ[1-2]"
+        matched_indices:
+          - 36
+          - 37
+        active_indices:
+          - 36
+          - 37
+        mimic_indices: []
+        matched_joint_names:
+          - "l_WRJ2"
+          - "l_WRJ1"
+        active_joint_names:
+          - "l_WRJ2"
+          - "l_WRJ1"
+        mimic_joint_names: []
+      left_hand_fingers:
+        joint_names_expr:
+          - "l_FFJ[1-4]"
+          - "l_MFJ[1-4]"
+          - "l_RFJ[1-4]"
+          - "l_LFJ[1-5]"
+          - "l_THJ[1-5]"
+        matched_indices:
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+          - 48
+          - 49
+          - 50
+          - 51
+          - 52
+          - 53
+          - 54
+          - 55
+          - 56
+          - 57
+          - 58
+          - 59
+        active_indices:
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+          - 48
+          - 49
+          - 50
+          - 51
+          - 52
+          - 53
+          - 54
+          - 55
+          - 56
+          - 57
+          - 58
+          - 59
+        mimic_indices: []
+        matched_joint_names:
+          - "l_FFJ4"
+          - "l_FFJ3"
+          - "l_FFJ2"
+          - "l_FFJ1"
+          - "l_MFJ4"
+          - "l_MFJ3"
+          - "l_MFJ2"
+          - "l_MFJ1"
+          - "l_RFJ4"
+          - "l_RFJ3"
+          - "l_RFJ2"
+          - "l_RFJ1"
+          - "l_LFJ5"
+          - "l_LFJ4"
+          - "l_LFJ3"
+          - "l_LFJ2"
+          - "l_LFJ1"
+          - "l_THJ5"
+          - "l_THJ4"
+          - "l_THJ3"
+          - "l_THJ2"
+          - "l_THJ1"
+        active_joint_names:
+          - "l_FFJ4"
+          - "l_FFJ3"
+          - "l_FFJ2"
+          - "l_FFJ1"
+          - "l_MFJ4"
+          - "l_MFJ3"
+          - "l_MFJ2"
+          - "l_MFJ1"
+          - "l_RFJ4"
+          - "l_RFJ3"
+          - "l_RFJ2"
+          - "l_RFJ1"
+          - "l_LFJ5"
+          - "l_LFJ4"
+          - "l_LFJ3"
+          - "l_LFJ2"
+          - "l_LFJ1"
+          - "l_THJ5"
+          - "l_THJ4"
+          - "l_THJ3"
+          - "l_THJ2"
+          - "l_THJ1"
+        mimic_joint_names: []
+  multi_ur5_wuji_with_flange:
+    alias: "ur5_wuji"
+    robot_config: "dex2bench/robots/multi_ur5_wuji_with_flange.py"
+    asset_dir: "Bench2Dex/Robots_p/ur5+wuji"
+    urdf_path: "Bench2Dex/Robots_p/ur5+wuji/urdf/Multi_UR5_wuji_with_flange.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/ur5+wuji/usd/Multi_UR5_wuji_with_flange.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 52
+    active_dof: 52
+    inactive_dof: 0
+    mimic_dof: 0
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "right_finger1_joint1"
+      - "right_finger1_joint2"
+      - "right_finger1_joint3"
+      - "right_finger1_joint4"
+      - "right_finger2_joint1"
+      - "right_finger2_joint2"
+      - "right_finger2_joint3"
+      - "right_finger2_joint4"
+      - "right_finger3_joint1"
+      - "right_finger3_joint2"
+      - "right_finger3_joint3"
+      - "right_finger3_joint4"
+      - "right_finger4_joint1"
+      - "right_finger4_joint2"
+      - "right_finger4_joint3"
+      - "right_finger4_joint4"
+      - "right_finger5_joint1"
+      - "right_finger5_joint2"
+      - "right_finger5_joint3"
+      - "right_finger5_joint4"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "left_finger1_joint1"
+      - "left_finger1_joint2"
+      - "left_finger1_joint3"
+      - "left_finger1_joint4"
+      - "left_finger2_joint1"
+      - "left_finger2_joint2"
+      - "left_finger2_joint3"
+      - "left_finger2_joint4"
+      - "left_finger3_joint1"
+      - "left_finger3_joint2"
+      - "left_finger3_joint3"
+      - "left_finger3_joint4"
+      - "left_finger4_joint1"
+      - "left_finger4_joint2"
+      - "left_finger4_joint3"
+      - "left_finger4_joint4"
+      - "left_finger5_joint1"
+      - "left_finger5_joint2"
+      - "left_finger5_joint3"
+      - "left_finger5_joint4"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 49
+      - 50
+      - 51
+    active_joint_names:
+      - "shoulder_pan_joint"
+      - "shoulder_lift_joint"
+      - "elbow_joint"
+      - "wrist_1_joint"
+      - "wrist_2_joint"
+      - "wrist_3_joint"
+      - "right_finger1_joint1"
+      - "right_finger1_joint2"
+      - "right_finger1_joint3"
+      - "right_finger1_joint4"
+      - "right_finger2_joint1"
+      - "right_finger2_joint2"
+      - "right_finger2_joint3"
+      - "right_finger2_joint4"
+      - "right_finger3_joint1"
+      - "right_finger3_joint2"
+      - "right_finger3_joint3"
+      - "right_finger3_joint4"
+      - "right_finger4_joint1"
+      - "right_finger4_joint2"
+      - "right_finger4_joint3"
+      - "right_finger4_joint4"
+      - "right_finger5_joint1"
+      - "right_finger5_joint2"
+      - "right_finger5_joint3"
+      - "right_finger5_joint4"
+      - "L_arm_shoulder_pan_joint"
+      - "L_arm_shoulder_lift_joint"
+      - "L_arm_elbow_joint"
+      - "L_arm_wrist_1_joint"
+      - "L_arm_wrist_2_joint"
+      - "L_arm_wrist_3_joint"
+      - "left_finger1_joint1"
+      - "left_finger1_joint2"
+      - "left_finger1_joint3"
+      - "left_finger1_joint4"
+      - "left_finger2_joint1"
+      - "left_finger2_joint2"
+      - "left_finger2_joint3"
+      - "left_finger2_joint4"
+      - "left_finger3_joint1"
+      - "left_finger3_joint2"
+      - "left_finger3_joint3"
+      - "left_finger3_joint4"
+      - "left_finger4_joint1"
+      - "left_finger4_joint2"
+      - "left_finger4_joint3"
+      - "left_finger4_joint4"
+      - "left_finger5_joint1"
+      - "left_finger5_joint2"
+      - "left_finger5_joint3"
+      - "left_finger5_joint4"
+    inactive_indices: []
+    inactive_joint_names: []
+    mimic_indices: []
+    mimic_joint_names: []
+    mimic_parent_joint_names: {}
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices: []
+    actuator_mimic_joint_names: []
+    groups:
+      arm_shoulder:
+        joint_names_expr:
+          - "shoulder_.*"
+          - "L_arm_shoulder_.*"
+        matched_indices:
+          - 0
+          - 1
+          - 26
+          - 27
+        active_indices:
+          - 0
+          - 1
+          - 26
+          - 27
+        mimic_indices: []
+        matched_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        active_joint_names:
+          - "shoulder_pan_joint"
+          - "shoulder_lift_joint"
+          - "L_arm_shoulder_pan_joint"
+          - "L_arm_shoulder_lift_joint"
+        mimic_joint_names: []
+      arm_elbow:
+        joint_names_expr:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        matched_indices:
+          - 2
+          - 28
+        active_indices:
+          - 2
+          - 28
+        mimic_indices: []
+        matched_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        active_joint_names:
+          - "elbow_joint"
+          - "L_arm_elbow_joint"
+        mimic_joint_names: []
+      arm_wrist:
+        joint_names_expr:
+          - "wrist_[1-3]_joint"
+          - "L_arm_wrist_[1-3]_joint"
+        matched_indices:
+          - 3
+          - 4
+          - 5
+          - 29
+          - 30
+          - 31
+        active_indices:
+          - 3
+          - 4
+          - 5
+          - 29
+          - 30
+          - 31
+        mimic_indices: []
+        matched_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        active_joint_names:
+          - "wrist_1_joint"
+          - "wrist_2_joint"
+          - "wrist_3_joint"
+          - "L_arm_wrist_1_joint"
+          - "L_arm_wrist_2_joint"
+          - "L_arm_wrist_3_joint"
+        mimic_joint_names: []
+      right_hand:
+        joint_names_expr:
+          - "right_finger[1-5]_joint[1-4]"
+        matched_indices:
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+        active_indices:
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+        mimic_indices: []
+        matched_joint_names:
+          - "right_finger1_joint1"
+          - "right_finger1_joint2"
+          - "right_finger1_joint3"
+          - "right_finger1_joint4"
+          - "right_finger2_joint1"
+          - "right_finger2_joint2"
+          - "right_finger2_joint3"
+          - "right_finger2_joint4"
+          - "right_finger3_joint1"
+          - "right_finger3_joint2"
+          - "right_finger3_joint3"
+          - "right_finger3_joint4"
+          - "right_finger4_joint1"
+          - "right_finger4_joint2"
+          - "right_finger4_joint3"
+          - "right_finger4_joint4"
+          - "right_finger5_joint1"
+          - "right_finger5_joint2"
+          - "right_finger5_joint3"
+          - "right_finger5_joint4"
+        active_joint_names:
+          - "right_finger1_joint1"
+          - "right_finger1_joint2"
+          - "right_finger1_joint3"
+          - "right_finger1_joint4"
+          - "right_finger2_joint1"
+          - "right_finger2_joint2"
+          - "right_finger2_joint3"
+          - "right_finger2_joint4"
+          - "right_finger3_joint1"
+          - "right_finger3_joint2"
+          - "right_finger3_joint3"
+          - "right_finger3_joint4"
+          - "right_finger4_joint1"
+          - "right_finger4_joint2"
+          - "right_finger4_joint3"
+          - "right_finger4_joint4"
+          - "right_finger5_joint1"
+          - "right_finger5_joint2"
+          - "right_finger5_joint3"
+          - "right_finger5_joint4"
+        mimic_joint_names: []
+      left_hand:
+        joint_names_expr:
+          - "left_finger[1-5]_joint[1-4]"
+        matched_indices:
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+          - 48
+          - 49
+          - 50
+          - 51
+        active_indices:
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+          - 46
+          - 47
+          - 48
+          - 49
+          - 50
+          - 51
+        mimic_indices: []
+        matched_joint_names:
+          - "left_finger1_joint1"
+          - "left_finger1_joint2"
+          - "left_finger1_joint3"
+          - "left_finger1_joint4"
+          - "left_finger2_joint1"
+          - "left_finger2_joint2"
+          - "left_finger2_joint3"
+          - "left_finger2_joint4"
+          - "left_finger3_joint1"
+          - "left_finger3_joint2"
+          - "left_finger3_joint3"
+          - "left_finger3_joint4"
+          - "left_finger4_joint1"
+          - "left_finger4_joint2"
+          - "left_finger4_joint3"
+          - "left_finger4_joint4"
+          - "left_finger5_joint1"
+          - "left_finger5_joint2"
+          - "left_finger5_joint3"
+          - "left_finger5_joint4"
+        active_joint_names:
+          - "left_finger1_joint1"
+          - "left_finger1_joint2"
+          - "left_finger1_joint3"
+          - "left_finger1_joint4"
+          - "left_finger2_joint1"
+          - "left_finger2_joint2"
+          - "left_finger2_joint3"
+          - "left_finger2_joint4"
+          - "left_finger3_joint1"
+          - "left_finger3_joint2"
+          - "left_finger3_joint3"
+          - "left_finger3_joint4"
+          - "left_finger4_joint1"
+          - "left_finger4_joint2"
+          - "left_finger4_joint3"
+          - "left_finger4_joint4"
+          - "left_finger5_joint1"
+          - "left_finger5_joint2"
+          - "left_finger5_joint3"
+          - "left_finger5_joint4"
+        mimic_joint_names: []
+  multi_xarm7_with_ability:
+    alias: "xarm7_ability"
+    robot_config: "dex2bench/robots/multi_xarm7_with_ability.py"
+    asset_dir: "Bench2Dex/Robots_p/xarm+ability"
+    urdf_path: "Bench2Dex/Robots_p/xarm+ability/multi_xarm7_with_ability.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/xarm+ability/usd/multi_xarm7_with_ability.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 34
+    active_dof: 26
+    inactive_dof: 8
+    mimic_dof: 8
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "xarm_l_joint1"
+      - "xarm_l_joint2"
+      - "xarm_l_joint3"
+      - "xarm_l_joint4"
+      - "xarm_l_joint5"
+      - "xarm_l_joint6"
+      - "xarm_l_joint7"
+      - "index_q1"
+      - "index_q2"
+      - "middle_q1"
+      - "middle_q2"
+      - "ring_q1"
+      - "ring_q2"
+      - "pinky_q1"
+      - "pinky_q2"
+      - "thumb_q1"
+      - "thumb_q2"
+      - "multi_xarm_r_joint1"
+      - "multi_xarm_r_joint2"
+      - "multi_xarm_r_joint3"
+      - "multi_xarm_r_joint4"
+      - "multi_xarm_r_joint5"
+      - "multi_xarm_r_joint6"
+      - "multi_xarm_r_joint7"
+      - "multi_index_q1"
+      - "multi_index_q2"
+      - "multi_middle_q1"
+      - "multi_middle_q2"
+      - "multi_ring_q1"
+      - "multi_ring_q2"
+      - "multi_pinky_q1"
+      - "multi_pinky_q2"
+      - "multi_thumb_q1"
+      - "multi_thumb_q2"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 9
+      - 11
+      - 13
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 26
+      - 28
+      - 30
+      - 32
+      - 33
+    active_joint_names:
+      - "xarm_l_joint1"
+      - "xarm_l_joint2"
+      - "xarm_l_joint3"
+      - "xarm_l_joint4"
+      - "xarm_l_joint5"
+      - "xarm_l_joint6"
+      - "xarm_l_joint7"
+      - "index_q1"
+      - "middle_q1"
+      - "ring_q1"
+      - "pinky_q1"
+      - "thumb_q1"
+      - "thumb_q2"
+      - "multi_xarm_r_joint1"
+      - "multi_xarm_r_joint2"
+      - "multi_xarm_r_joint3"
+      - "multi_xarm_r_joint4"
+      - "multi_xarm_r_joint5"
+      - "multi_xarm_r_joint6"
+      - "multi_xarm_r_joint7"
+      - "multi_index_q1"
+      - "multi_middle_q1"
+      - "multi_ring_q1"
+      - "multi_pinky_q1"
+      - "multi_thumb_q1"
+      - "multi_thumb_q2"
+    inactive_indices:
+      - 8
+      - 10
+      - 12
+      - 14
+      - 25
+      - 27
+      - 29
+      - 31
+    inactive_joint_names:
+      - "index_q2"
+      - "middle_q2"
+      - "ring_q2"
+      - "pinky_q2"
+      - "multi_index_q2"
+      - "multi_middle_q2"
+      - "multi_ring_q2"
+      - "multi_pinky_q2"
+    mimic_indices:
+      - 8
+      - 10
+      - 12
+      - 14
+      - 25
+      - 27
+      - 29
+      - 31
+    mimic_joint_names:
+      - "index_q2"
+      - "middle_q2"
+      - "ring_q2"
+      - "pinky_q2"
+      - "multi_index_q2"
+      - "multi_middle_q2"
+      - "multi_ring_q2"
+      - "multi_pinky_q2"
+    mimic_parent_joint_names:
+      "index_q2": "index_q1"
+      "middle_q2": "middle_q1"
+      "ring_q2": "ring_q1"
+      "pinky_q2": "pinky_q1"
+      "multi_index_q2": "multi_index_q1"
+      "multi_middle_q2": "multi_middle_q1"
+      "multi_ring_q2": "multi_ring_q1"
+      "multi_pinky_q2": "multi_pinky_q1"
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices:
+      - 8
+      - 10
+      - 12
+      - 14
+      - 25
+      - 27
+      - 29
+      - 31
+    actuator_mimic_joint_names:
+      - "index_q2"
+      - "middle_q2"
+      - "ring_q2"
+      - "pinky_q2"
+      - "multi_index_q2"
+      - "multi_middle_q2"
+      - "multi_ring_q2"
+      - "multi_pinky_q2"
+    groups:
+      left_xarm_shoulder:
+        joint_names_expr:
+          - "xarm_l_joint[1-4]"
+        matched_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        active_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        mimic_indices: []
+        matched_joint_names:
+          - "xarm_l_joint1"
+          - "xarm_l_joint2"
+          - "xarm_l_joint3"
+          - "xarm_l_joint4"
+        active_joint_names:
+          - "xarm_l_joint1"
+          - "xarm_l_joint2"
+          - "xarm_l_joint3"
+          - "xarm_l_joint4"
+        mimic_joint_names: []
+      left_xarm_wrist:
+        joint_names_expr:
+          - "xarm_l_joint[5-7]"
+        matched_indices:
+          - 4
+          - 5
+          - 6
+        active_indices:
+          - 4
+          - 5
+          - 6
+        mimic_indices: []
+        matched_joint_names:
+          - "xarm_l_joint5"
+          - "xarm_l_joint6"
+          - "xarm_l_joint7"
+        active_joint_names:
+          - "xarm_l_joint5"
+          - "xarm_l_joint6"
+          - "xarm_l_joint7"
+        mimic_joint_names: []
+      right_xarm_shoulder:
+        joint_names_expr:
+          - "multi_xarm_r_joint[1-4]"
+        matched_indices:
+          - 17
+          - 18
+          - 19
+          - 20
+        active_indices:
+          - 17
+          - 18
+          - 19
+          - 20
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_xarm_r_joint1"
+          - "multi_xarm_r_joint2"
+          - "multi_xarm_r_joint3"
+          - "multi_xarm_r_joint4"
+        active_joint_names:
+          - "multi_xarm_r_joint1"
+          - "multi_xarm_r_joint2"
+          - "multi_xarm_r_joint3"
+          - "multi_xarm_r_joint4"
+        mimic_joint_names: []
+      right_xarm_wrist:
+        joint_names_expr:
+          - "multi_xarm_r_joint[5-7]"
+        matched_indices:
+          - 21
+          - 22
+          - 23
+        active_indices:
+          - 21
+          - 22
+          - 23
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_xarm_r_joint5"
+          - "multi_xarm_r_joint6"
+          - "multi_xarm_r_joint7"
+        active_joint_names:
+          - "multi_xarm_r_joint5"
+          - "multi_xarm_r_joint6"
+          - "multi_xarm_r_joint7"
+        mimic_joint_names: []
+      left_ability:
+        joint_names_expr:
+          - "index_q[1-2]"
+          - "middle_q[1-2]"
+          - "ring_q[1-2]"
+          - "pinky_q[1-2]"
+          - "thumb_q[1-2]"
+        matched_indices:
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+        active_indices:
+          - 7
+          - 9
+          - 11
+          - 13
+          - 15
+          - 16
+        mimic_indices:
+          - 8
+          - 10
+          - 12
+          - 14
+        matched_joint_names:
+          - "index_q1"
+          - "index_q2"
+          - "middle_q1"
+          - "middle_q2"
+          - "ring_q1"
+          - "ring_q2"
+          - "pinky_q1"
+          - "pinky_q2"
+          - "thumb_q1"
+          - "thumb_q2"
+        active_joint_names:
+          - "index_q1"
+          - "middle_q1"
+          - "ring_q1"
+          - "pinky_q1"
+          - "thumb_q1"
+          - "thumb_q2"
+        mimic_joint_names:
+          - "index_q2"
+          - "middle_q2"
+          - "ring_q2"
+          - "pinky_q2"
+      right_ability:
+        joint_names_expr:
+          - "multi_index_q[1-2]"
+          - "multi_middle_q[1-2]"
+          - "multi_ring_q[1-2]"
+          - "multi_pinky_q[1-2]"
+          - "multi_thumb_q[1-2]"
+        matched_indices:
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+          - 30
+          - 31
+          - 32
+          - 33
+        active_indices:
+          - 24
+          - 26
+          - 28
+          - 30
+          - 32
+          - 33
+        mimic_indices:
+          - 25
+          - 27
+          - 29
+          - 31
+        matched_joint_names:
+          - "multi_index_q1"
+          - "multi_index_q2"
+          - "multi_middle_q1"
+          - "multi_middle_q2"
+          - "multi_ring_q1"
+          - "multi_ring_q2"
+          - "multi_pinky_q1"
+          - "multi_pinky_q2"
+          - "multi_thumb_q1"
+          - "multi_thumb_q2"
+        active_joint_names:
+          - "multi_index_q1"
+          - "multi_middle_q1"
+          - "multi_ring_q1"
+          - "multi_pinky_q1"
+          - "multi_thumb_q1"
+          - "multi_thumb_q2"
+        mimic_joint_names:
+          - "multi_index_q2"
+          - "multi_middle_q2"
+          - "multi_ring_q2"
+          - "multi_pinky_q2"
+  multi_xarm7_with_leap:
+    alias: "xarm7_leap"
+    robot_config: "dex2bench/robots/multi_xarm7_with_leap.py"
+    asset_dir: "Bench2Dex/Robots_p/xarm+leap"
+    urdf_path: "Bench2Dex/Robots_p/xarm+leap/multi_xarm7_with_leap.urdf"
+    usd_path: "../dex2bench_dataset/Robots_p/xarm+leap/usd/multi_xarm7_with_leap.usd"
+    full_joint_names_source: "urdf_non_fixed_with_isaac_name_sanitize"
+    full_dof: 46
+    active_dof: 40
+    inactive_dof: 6
+    mimic_dof: 0
+    passive_dof: 0
+    name_sanitize: {}
+    full_joint_names:
+      - "joint1"
+      - "joint2"
+      - "joint3"
+      - "joint4"
+      - "joint5"
+      - "joint6"
+      - "joint7"
+      - "leap_l_0"
+      - "leap_l_1"
+      - "leap_l_2"
+      - "leap_l_3"
+      - "leap_l_4"
+      - "leap_l_5"
+      - "leap_l_6"
+      - "leap_l_7"
+      - "leap_l_8"
+      - "leap_l_9"
+      - "leap_l_10"
+      - "leap_l_11"
+      - "leap_l_12"
+      - "leap_l_13"
+      - "leap_l_14"
+      - "leap_l_15"
+      - "multi_joint1"
+      - "multi_joint2"
+      - "multi_joint3"
+      - "multi_joint4"
+      - "multi_joint5"
+      - "multi_joint6"
+      - "multi_joint7"
+      - "multi_leap_r_0"
+      - "multi_leap_r_1"
+      - "multi_leap_r_2"
+      - "multi_leap_r_3"
+      - "multi_leap_r_4"
+      - "multi_leap_r_5"
+      - "multi_leap_r_6"
+      - "multi_leap_r_7"
+      - "multi_leap_r_8"
+      - "multi_leap_r_9"
+      - "multi_leap_r_10"
+      - "multi_leap_r_11"
+      - "multi_leap_r_12"
+      - "multi_leap_r_13"
+      - "multi_leap_r_14"
+      - "multi_leap_r_15"
+    active_indices:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 8
+      - 9
+      - 10
+      - 12
+      - 13
+      - 14
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 31
+      - 32
+      - 33
+      - 35
+      - 36
+      - 37
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+    active_joint_names:
+      - "joint1"
+      - "joint2"
+      - "joint3"
+      - "joint4"
+      - "joint5"
+      - "joint6"
+      - "joint7"
+      - "leap_l_1"
+      - "leap_l_2"
+      - "leap_l_3"
+      - "leap_l_5"
+      - "leap_l_6"
+      - "leap_l_7"
+      - "leap_l_9"
+      - "leap_l_10"
+      - "leap_l_11"
+      - "leap_l_12"
+      - "leap_l_13"
+      - "leap_l_14"
+      - "leap_l_15"
+      - "multi_joint1"
+      - "multi_joint2"
+      - "multi_joint3"
+      - "multi_joint4"
+      - "multi_joint5"
+      - "multi_joint6"
+      - "multi_joint7"
+      - "multi_leap_r_1"
+      - "multi_leap_r_2"
+      - "multi_leap_r_3"
+      - "multi_leap_r_5"
+      - "multi_leap_r_6"
+      - "multi_leap_r_7"
+      - "multi_leap_r_9"
+      - "multi_leap_r_10"
+      - "multi_leap_r_11"
+      - "multi_leap_r_12"
+      - "multi_leap_r_13"
+      - "multi_leap_r_14"
+      - "multi_leap_r_15"
+    inactive_indices:
+      - 7
+      - 11
+      - 15
+      - 30
+      - 34
+      - 38
+    inactive_joint_names:
+      - "leap_l_0"
+      - "leap_l_4"
+      - "leap_l_8"
+      - "multi_leap_r_0"
+      - "multi_leap_r_4"
+      - "multi_leap_r_8"
+    mimic_indices: []
+    mimic_joint_names: []
+    mimic_parent_joint_names: {}
+    passive_indices: []
+    passive_joint_names: []
+    actuator_mimic_indices: []
+    actuator_mimic_joint_names: []
+    groups:
+      left_xarm_shoulder:
+        joint_names_expr:
+          - "joint[1-4]"
+        matched_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        active_indices:
+          - 0
+          - 1
+          - 2
+          - 3
+        mimic_indices: []
+        matched_joint_names:
+          - "joint1"
+          - "joint2"
+          - "joint3"
+          - "joint4"
+        active_joint_names:
+          - "joint1"
+          - "joint2"
+          - "joint3"
+          - "joint4"
+        mimic_joint_names: []
+      left_xarm_wrist:
+        joint_names_expr:
+          - "joint[5-7]"
+        matched_indices:
+          - 4
+          - 5
+          - 6
+        active_indices:
+          - 4
+          - 5
+          - 6
+        mimic_indices: []
+        matched_joint_names:
+          - "joint5"
+          - "joint6"
+          - "joint7"
+        active_joint_names:
+          - "joint5"
+          - "joint6"
+          - "joint7"
+        mimic_joint_names: []
+      right_xarm_shoulder:
+        joint_names_expr:
+          - "multi_joint[1-4]"
+        matched_indices:
+          - 23
+          - 24
+          - 25
+          - 26
+        active_indices:
+          - 23
+          - 24
+          - 25
+          - 26
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_joint1"
+          - "multi_joint2"
+          - "multi_joint3"
+          - "multi_joint4"
+        active_joint_names:
+          - "multi_joint1"
+          - "multi_joint2"
+          - "multi_joint3"
+          - "multi_joint4"
+        mimic_joint_names: []
+      right_xarm_wrist:
+        joint_names_expr:
+          - "multi_joint[5-7]"
+        matched_indices:
+          - 27
+          - 28
+          - 29
+        active_indices:
+          - 27
+          - 28
+          - 29
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_joint5"
+          - "multi_joint6"
+          - "multi_joint7"
+        active_joint_names:
+          - "multi_joint5"
+          - "multi_joint6"
+          - "multi_joint7"
+        mimic_joint_names: []
+      left_leap:
+        joint_names_expr:
+          - "leap_l_[0-9]+"
+        matched_indices:
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+        active_indices:
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+        mimic_indices: []
+        matched_joint_names:
+          - "leap_l_0"
+          - "leap_l_1"
+          - "leap_l_2"
+          - "leap_l_3"
+          - "leap_l_4"
+          - "leap_l_5"
+          - "leap_l_6"
+          - "leap_l_7"
+          - "leap_l_8"
+          - "leap_l_9"
+          - "leap_l_10"
+          - "leap_l_11"
+          - "leap_l_12"
+          - "leap_l_13"
+          - "leap_l_14"
+          - "leap_l_15"
+        active_joint_names:
+          - "leap_l_0"
+          - "leap_l_1"
+          - "leap_l_2"
+          - "leap_l_3"
+          - "leap_l_4"
+          - "leap_l_5"
+          - "leap_l_6"
+          - "leap_l_7"
+          - "leap_l_8"
+          - "leap_l_9"
+          - "leap_l_10"
+          - "leap_l_11"
+          - "leap_l_12"
+          - "leap_l_13"
+          - "leap_l_14"
+          - "leap_l_15"
+        mimic_joint_names: []
+      right_leap:
+        joint_names_expr:
+          - "multi_leap_r_[0-9]+"
+        matched_indices:
+          - 30
+          - 31
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+        active_indices:
+          - 30
+          - 31
+          - 32
+          - 33
+          - 34
+          - 35
+          - 36
+          - 37
+          - 38
+          - 39
+          - 40
+          - 41
+          - 42
+          - 43
+          - 44
+          - 45
+        mimic_indices: []
+        matched_joint_names:
+          - "multi_leap_r_0"
+          - "multi_leap_r_1"
+          - "multi_leap_r_2"
+          - "multi_leap_r_3"
+          - "multi_leap_r_4"
+          - "multi_leap_r_5"
+          - "multi_leap_r_6"
+          - "multi_leap_r_7"
+          - "multi_leap_r_8"
+          - "multi_leap_r_9"
+          - "multi_leap_r_10"
+          - "multi_leap_r_11"
+          - "multi_leap_r_12"
+          - "multi_leap_r_13"
+          - "multi_leap_r_14"
+          - "multi_leap_r_15"
+        active_joint_names:
+          - "multi_leap_r_0"
+          - "multi_leap_r_1"
+          - "multi_leap_r_2"
+          - "multi_leap_r_3"
+          - "multi_leap_r_4"
+          - "multi_leap_r_5"
+          - "multi_leap_r_6"
+          - "multi_leap_r_7"
+          - "multi_leap_r_8"
+          - "multi_leap_r_9"
+          - "multi_leap_r_10"
+          - "multi_leap_r_11"
+          - "multi_leap_r_12"
+          - "multi_leap_r_13"
+          - "multi_leap_r_14"
+          - "multi_leap_r_15"
+        mimic_joint_names: []

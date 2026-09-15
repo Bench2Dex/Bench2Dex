@@ -1,0 +1,33 @@
+arm:
+  num_joints: 7
+  urdf_path: kuka+sharpa/multi_iiwa7_with_sharpa.urdf
+  ee_axes_mapping: ["+y", "+z", "+x"]
+  joint_margin: 0.05
+
+  right:
+    joint_names:
+      - multi_A1
+      - multi_A2
+      - multi_A3
+      - multi_A4
+      - multi_A5
+      - multi_A6
+      - multi_A7
+    ee_body: "multi_link_7"
+    pin_ee_frame: "multi_link_7"
+    pin_arm_q_indices: [29, 30, 31, 32, 33, 34, 35]
+    ee_offset: [-0.07, 0.0, 0.07]
+
+  left:
+    joint_names:
+      - A1
+      - A2
+      - A3
+      - A4
+      - A5
+      - A6
+      - A7
+    ee_body: "link_7"
+    pin_ee_frame: "link_7"
+    pin_arm_q_indices: [0, 1, 2, 3, 4, 5, 6]
+    ee_offset: [-0.07, 0.0, 0.07]

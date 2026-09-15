@@ -1,0 +1,198 @@
+defaults:
+  - _self_
+
+name: robot_${task.name}
+_target_: diffusion_policy.workspace.robotworkspace.RobotWorkspace
+
+task_name: ${task.name}
+shape_meta: ${task.shape_meta}
+exp_name: "dex2scene"
+
+horizon: 8
+n_obs_steps: 3
+n_action_steps: 6
+n_latency_steps: 0
+dataset_obs_steps: ${n_obs_steps}
+past_action_visible: False
+keypoint_visible_rate: 1.0
+obs_as_global_cond: True
+
+policy:
+  _target_: diffusion_policy.policy.diffusion_unet_image_policy.DiffusionUnetImagePolicy
+  shape_meta: ${shape_meta}
+
+  noise_scheduler:
+    _target_: diffusers.schedulers.scheduling_ddpm.DDPMScheduler
+    num_train_timesteps: 100
+    beta_start: 0.0001
+    beta_end: 0.02
+    beta_schedule: squaredcos_cap_v2
+    variance_type: fixed_small
+    clip_sample: True
+    prediction_type: epsilon
+
+  obs_encoder:
+    _target_: diffusion_policy.model.vision.multi_image_obs_encoder.MultiImageObsEncoder
+    shape_meta: ${shape_meta}
+    rgb_model:
+      _target_: diffusion_policy.model.vision.model_getter.get_resnet
+      name: resnet18
+      weights: null
+    resize_shape: [216, 288]
+    crop_shape: null
+    random_crop: False
+    use_group_norm: True
+    share_rgb_model: False
+    imagenet_norm: True
+
+  horizon: ${horizon}
+  n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
+  n_obs_steps: ${n_obs_steps}
+  num_inference_steps: 100
+  obs_as_global_cond: ${obs_as_global_cond}
+  diffusion_step_embed_dim: 128
+  down_dims: [256, 512, 1024]
+  kernel_size: 5
+  n_groups: 8
+  cond_predict_scale: True
+
+ema:
+  _target_: diffusion_policy.model.diffusion.ema_model.EMAModel
+  update_after_step: 0
+  inv_gamma: 1.0
+  power: 0.75
+  min_value: 0.0
+  max_value: 0.9999
+
+dataloader:
+  batch_size: 8
+  num_workers: 0
+  shuffle: True
+  pin_memory: True
+  persistent_workers: False
+
+val_dataloader:
+  batch_size: 8
+  num_workers: 0
+  shuffle: False
+  pin_memory: True
+  persistent_workers: False
+
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 1.0e-4
+  betas: [0.95, 0.999]
+  eps: 1.0e-8
+  weight_decay: 1.0e-6
+
+training:
+  device: "cuda:0"
+  seed: 42
+  multi_gpu: false
+  local_rank: 0
+  rank: 0
+  world_size: 1
+  global_batch_size: null
+  debug: False
+  resume: True
+  lr_scheduler: cosine
+  lr_warmup_steps: 500
+  num_epochs: 600
+  gradient_accumulate_every: 1
+  use_ema: True
+  freeze_encoder: False
+  rollout_every: 50
+  checkpoint_every: 5
+  val_every: 1
+  sample_every: 5
+  disable_train_sampling: True
+  log_every_steps: 20
+  max_train_steps: null
+  max_val_steps: null
+  tqdm_interval_sec: 1.0
+
+logging:
+  project: diffusion_policy_debug
+  resume: True
+  mode: online
+  name: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}
+  tags: ["${name}", "${task_name}", "${exp_name}"]
+  id: null
+  group: null
+
+checkpoint:
+  topk:
+    monitor_key: test_mean_score
+    mode: max
+    k: 5
+    format_str: 'epoch={epoch:04d}-test_mean_score={test_mean_score:.3f}.ckpt'
+  save_last_ckpt: True
+  save_last_snapshot: False
+
+multi_run:
+  run_dir: data/outputs/${now:%Y.%m.%d}/${now:%H.%M.%S}_${name}_${task_name}
+  wandb_name_base: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}
+
+hydra:
+  job:
+    override_dirname: ${name}
+  run:
+    dir: data/outputs/${now:%Y.%m.%d}/${now:%H.%M.%S}_${name}_${task_name}
+  sweep:
+    dir: data/outputs/${now:%Y.%m.%d}/${now:%H.%M.%S}_${name}_${task_name}
+    subdir: ${hydra.job.num}
+
+task:
+  name: 42_trash_disposal
+  image_shape: [3, 480, 640]
+  robot_key: multi_ur5_rh56dfx_with_flange
+  use_active_dof: true
+  action_dim: 24
+  shape_meta:
+    obs:
+      right_cam:
+        shape: [3, 480, 640]
+        type: rgb
+      left_cam:
+        shape: [3, 480, 640]
+        type: rgb
+      stereo_left_cam:
+        shape: [3, 480, 640]
+        type: rgb
+      stereo_right_cam:
+        shape: [3, 480, 640]
+        type: rgb
+      agent_pos:
+        shape:
+          - ${task.action_dim}
+        type: low_dim
+    action:
+      shape:
+        - ${task.action_dim}
+  dataset:
+    # -- HDF5 dataset (on-the-fly JPEG decode, slow) --
+    # _target_: diffusion_policy.dataset.dex2scene_hdf5_dataset.Dex2SceneHdf5Dataset
+    # dataset_dir: ../teleopdata_and_ckpt/dataset/42_trash_disposal/replay-generalization
+    # batch_size: ${dataloader.batch_size}
+    # horizon: ${horizon}
+    # pad_before: ${eval:'${n_obs_steps}-1'}
+    # pad_after: ${eval:'${n_action_steps}-1'}
+    # seed: 42
+    # val_ratio: 0.0
+    # max_train_episodes: null
+    # image_shape: ${task.image_shape}
+    # use_active_dof: ${task.use_active_dof}
+    # robot_key: ${task.robot_key}
+    # n_obs_steps: ${n_obs_steps}
+
+    # -- Zarr dataset (preprocessed, no decode overhead) --
+    _target_: diffusion_policy.dataset.dex2scene_zarr_dataset.Dex2SceneZarrDataset
+    zarr_path: ???   # override via CLI: task.dataset.zarr_path=/path/to/output.zarr
+    batch_size: ${dataloader.batch_size}
+    horizon: ${horizon}
+    n_obs_steps: ${n_obs_steps}
+    pad_before: ${eval:'${n_obs_steps}-1'}
+    pad_after: ${eval:'${n_action_steps}-1'}
+    seed: 42
+    val_ratio: 0.0
+    max_train_episodes: null

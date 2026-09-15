@@ -1,0 +1,128 @@
+description: Use the left hand to first place the spoon into the mug, use the right hand to place the mug under the faucet, use the left hand to open the faucet to fill the mug and then close it, and use the right hand to place the mug onto the tray.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb: [[-1.1, -0.55, 0.75], [1.1, 0.55, 0.75]]
+assets:
+  a094_faucet:
+    path: ../../dex2bench_dataset/Objects/094_faucet/02_faucet/01/usd_decomposition_linux/mobility.usd
+    scale: [0.3, 0.3, 0.3]
+    body_type: articulation
+    spawn:
+      articulation_props:
+        fix_root_link: true
+      mass_props:
+        density: 300.0
+      actuators:
+        handles:
+          joint_names_expr: [joint_0, joint_1]
+          effort_limit_sim: 20.0
+          velocity_limit_sim: 8.0
+          stiffness: 0.0
+          damping: 1.0
+  a025_mug:
+    path: ../../dex2bench_dataset/Objects/025_mug/usd_sdf_linux/textured.usd
+    scale: [1.5, 1.5, 1.5]
+    body_type: dynamic
+  a031_spoon:
+    path: ../../dex2bench_dataset/Objects/031_spoon/usd_decomposition_linux/textured.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+  a130_tray:
+    path: ../../dex2bench_dataset/Objects/130_tray/usd_sdf_linux/base3.usd
+    scale: [0.25, 0.25, 0.25]
+    body_type: dynamic
+    spawn:
+      rigid_props:
+        kinematic_enabled: true
+objects:
+- id: obj_094_faucet_1
+  asset: a094_faucet
+  rpy_deg: [0, 0, 90]
+  position: [-0.05, 0.25]
+  generalization:
+    freeze_pose: true
+- id: obj_025_mug_1
+  asset: a025_mug
+  rpy_deg: [0, 0, -10]
+  position: [0.1, 0.07]
+- id: obj_130_tray_1
+  asset: a130_tray
+  rpy_deg: [90, 0, 0]
+  position: [0.52, 0.15]
+  generalization:
+    freeze_pose: true
+- id: obj_031_spoon_1
+  asset: a031_spoon
+  rpy_deg: [90, 0, 180]
+  position: [-0.3, 0.1]
+layout:
+  zone: tabletop
+  objects: [obj_094_faucet_1, obj_025_mug_1, obj_130_tray_1, obj_031_spoon_1]
+  yaw_range: [0, 0]
+success_conditions:
+- type: custom
+  evaluator: success.custom.task_67_faucet_cup_water_fill
+metrics:
+  task_family: articulation_multi
+  expert_time_step: 1928
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_025_mug_1, obj_031_spoon_1]
+  terminal:
+    # dwell 3.0s gives the robot time to withdraw its fingers from the mug
+    # handle after placing it on the tray.
+    dwell_time_s: 3.0
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_67_faucet_cup_water_fill
+  stages:
+  - id: spoon_in_mug
+    depends_on: []
+    success_condition:
+      type: custom
+      evaluator: success.custom.task_67_faucet_cup_water_fill
+      params: {phase: spoon_in_mug}
+  - id: mug_under_faucet
+    depends_on: [spoon_in_mug]
+    success_condition:
+      type: custom
+      evaluator: success.custom.task_67_faucet_cup_water_fill
+      params: {phase: mug_under_faucet}
+  - id: faucet_open_close
+    depends_on: [mug_under_faucet]
+    success_condition:
+      type: custom
+      evaluator: success.custom.task_67_faucet_cup_water_fill
+      params: {phase: faucet_open_close}
+  - id: mug_on_tray
+    depends_on: [faucet_open_close]
+    success_condition:
+      type: custom
+      evaluator: success.custom.task_67_faucet_cup_water_fill
+      params: {phase: mug_on_tray}
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_025_mug_1, obj_031_spoon_1]
+      allowed_placed_conditions:
+        obj_025_mug_1:
+          type: custom
+          evaluator: success.custom.task_67_faucet_cup_water_fill
+          params: {phase: mug_on_tray}

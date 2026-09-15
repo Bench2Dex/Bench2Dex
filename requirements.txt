@@ -1,0 +1,43 @@
+# dex2scene — direct dependencies only
+# Full frozen environment: requirements-full-freeze.txt
+#
+# Python 3.11. Install the PyTorch build matching your CUDA runtime first.
+#
+# IsaacSim / IsaacLab must be installed separately:
+#   isaacsim >= 5.1.0
+#   isaaclab  (clone & editable install, see README)
+
+# ---------- core simulation ----------
+numpy >= 1.26, < 2
+torch >= 2.7
+torchvision >= 0.22
+h5py >= 3.10
+PyYAML >= 6.0
+usd-core >= 26.0
+
+# ---------- data / collection ----------
+opencv-python >= 4.8
+Pillow >= 10.0
+imageio >= 2.34
+pandas >= 2.0
+pynput >= 1.7
+tqdm >= 4.66
+zstandard >= 0.22
+
+# ---------- visualization tools ----------
+Flask >= 3.0
+matplotlib >= 3.8
+
+# ---------- teleop ----------
+pinocchio >= 2.7            # arm IK (CLIK)
+dex-retargeting >= 0.4      # hand retargeting (DexPilot)
+scipy >= 1.11               # rotation utilities
+
+# ---------- offline label generation ----------
+trimesh >= 4.0                  # GT occupancy mesh voxelization
+
+# ---------- optional: RL / training ----------
+# gymnasium >= 1.0
+# stable-baselines3 >= 2.0
+# skrl >= 1.4
+# tensorboard >= 2.14

@@ -1,0 +1,158 @@
+description: Right hand and left hand in turn assemble the green, red, blue, yellow puzzle pieces onto the fixed white puzzle piece in the center of the table, forming a rectangle.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a326_piece_1:
+    path: ../../dex2bench_dataset/Objects/326_jigsaw_puzzle/01_jigsaw_puzzle/01/usd_sdf_linux/jigsaw_puzzle_fixed_Puzzle_Piece_1__0_sdf.usd
+    scale: [1.0, 1.0, 1]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.15
+      rigid_props:
+        kinematic_enabled: true
+        contact_offset: 0.005
+        rest_offset: 0.002
+  a326_piece_2:
+    path: ../../dex2bench_dataset/Objects/326_jigsaw_puzzle/01_jigsaw_puzzle/01/usd_sdf_linux/jigsaw_puzzle_fixed_Puzzle_Piece_2_008802_0_sdf.usd
+    scale: [1.0, 1.0, 1]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.15
+      rigid_props:
+        contact_offset: 0.005
+        rest_offset: 0.002
+  a326_piece_3:
+    path: ../../dex2bench_dataset/Objects/326_jigsaw_puzzle/01_jigsaw_puzzle/01/usd_sdf_linux/jigsaw_puzzle_fixed_Puzzle_Piece_3_D31E29_0_sdf.usd
+    scale: [1.0, 1.0, 1]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.15
+      rigid_props:
+        contact_offset: 0.005
+        rest_offset: 0.002
+  a326_piece_4:
+    path: ../../dex2bench_dataset/Objects/326_jigsaw_puzzle/01_jigsaw_puzzle/01/usd_sdf_linux/jigsaw_puzzle_fixed_Puzzle_Piece_4_1E5AD8_0_sdf.usd
+    scale: [1.0, 1.0, 1]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.15
+      rigid_props:
+        contact_offset: 0.005
+        rest_offset: 0.002
+  a326_piece_5:
+    path: ../../dex2bench_dataset/Objects/326_jigsaw_puzzle/01_jigsaw_puzzle/01/usd_sdf_linux/jigsaw_puzzle_fixed_Puzzle_Piece_5_FFC107_0_sdf.usd
+    scale: [1.0, 1.0, 1]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.15
+      rigid_props:
+        contact_offset: 0.005
+        rest_offset: 0.002
+objects:
+  - id: obj_326_piece_0
+    asset: a326_piece_1
+    rpy_deg: [0, 0, -90]
+    position: [-0.15, 0.355]
+    generalization:
+      freeze_pose: true
+  - id: obj_326_piece_1
+    asset: a326_piece_1
+    rpy_deg: [0, 0, 0]
+    position: [-0.067, 0.3825]
+    generalization:
+      freeze_pose: true
+  - id: obj_326_piece_2
+    asset: a326_piece_2
+    rpy_deg: [0, 0, 0]
+    position: [0.250, 0.350]
+  - id: obj_326_piece_3
+    asset: a326_piece_3
+    rpy_deg: [0, 0, -90]
+    position: [-0.200, 0.210]
+  - id: obj_326_piece_4
+    asset: a326_piece_4
+    rpy_deg: [0, 0, -90]
+    position: [-0.360, 0.160]
+  - id: obj_326_piece_5
+    asset: a326_piece_5
+    rpy_deg: [0, 0, 0]
+    position: [0.150, 0.150]
+
+layout:
+  zone: tabletop
+  objects: [obj_326_piece_0,obj_326_piece_1, obj_326_piece_2, obj_326_piece_3, obj_326_piece_4, obj_326_piece_5]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_73_jigsaw_puzzle_assembly
+    params: {}
+metrics:
+  task_family: tetris_block_manipulation
+  expert_time_step: 2426
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_326_piece_1, obj_326_piece_2, obj_326_piece_3, obj_326_piece_4, obj_326_piece_5]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_73_jigsaw_puzzle_assembly
+      params: {}
+  stages:
+    - id: assemble_piece_2
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_73_jigsaw_puzzle_assembly
+        params: {phase: obj_326_piece_2}
+    - id: assemble_piece_3
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_73_jigsaw_puzzle_assembly
+        params: {phase: obj_326_piece_3}
+    - id: assemble_piece_4
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_73_jigsaw_puzzle_assembly
+        params: {phase: obj_326_piece_4}
+    - id: assemble_piece_5
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_73_jigsaw_puzzle_assembly
+        params: {phase: obj_326_piece_5}
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_326_piece_1, obj_326_piece_2, obj_326_piece_3, obj_326_piece_4, obj_326_piece_5]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25

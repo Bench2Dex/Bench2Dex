@@ -1,0 +1,34 @@
+retargeting:
+  type: DexPilot
+  scaling_factor: 1.07
+  project_dist: 0.01
+  escape_dist: 0.02
+  low_pass_alpha: 0.2
+
+  hand_offset_xyz: [0.04, 0.0, -0.05]
+  hand_scale_xyz: [1.5, 0.8, 1.2]
+  mano_correction_vis: true
+
+  right:
+    urdf_path: jaka_zu7+dexhand021/urdf/Right_Hand.urdf
+    wrist_link_name: "r_p_link4"
+    finger_tip_link_names:
+      - r_f_link1_tip
+      - r_f_link2_tip
+      - r_f_link3_tip
+      - r_f_link4_tip
+      - r_f_link5_tip
+    mano_to_pinocchio_rpy: [1.5708, 0, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 3.12414]
+
+  left:
+    urdf_path: jaka_zu7+dexhand021/urdf/Left_Hand.urdf
+    wrist_link_name: "l_p_link4"
+    finger_tip_link_names:
+      - l_f_link1_tip
+      - l_f_link2_tip
+      - l_f_link3_tip
+      - l_f_link4_tip
+      - l_f_link5_tip
+    mano_to_pinocchio_rpy: [-1.5708, 0, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 0]

@@ -1,0 +1,31 @@
+arm:
+  num_joints: 6
+  urdf_path: rm_65+BrainCo/urdf/muitl_rm_65_with_revo2_.urdf
+  ee_axes_mapping: ["+y", "+z", "+x"]
+  joint_margin: 0.05
+
+  right:
+    joint_names:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+    ee_body: "Link6"
+    pin_ee_frame: "Link6"
+    pin_arm_q_indices: auto
+    ee_offset: [-0.07, 0.0, 0.05]
+
+  left:
+    joint_names:
+      - l_joint1
+      - l_joint2
+      - l_joint3
+      - l_joint4
+      - l_joint5
+      - l_joint6
+    ee_body: "l_Link6"
+    pin_ee_frame: "l_Link6"
+    pin_arm_q_indices: auto
+    ee_offset: [-0.07, 0.0, 0.05]

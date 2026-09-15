@@ -1,0 +1,40 @@
+arm:
+  num_joints: 7
+  urdf_path: xarm+ability/multi_xarm7_with_ability.urdf
+  ee_axes_mapping: ["-z", "+y", "+x"]
+  joint_margin: 0.05
+
+  right:
+    # Span <= 2*pi each; HOME-centred (j1=+1.57, j3=0, j5=+1.57, j7=-1.57).
+    joint_lower: [ 0.0, -3.6298, -3.1416, -3.3336, -1.5708, -1.6930, -4.7124]
+    joint_upper: [ 3.1416,  0.5236,  3.1416,  0.7854,  4.7124,  3.1416,  1.5708]
+    joint_names:
+      - multi_xarm_r_joint1
+      - multi_xarm_r_joint2
+      - multi_xarm_r_joint3
+      - multi_xarm_r_joint4
+      - multi_xarm_r_joint5
+      - multi_xarm_r_joint6
+      - multi_xarm_r_joint7
+    ee_body: "multi_xarm_r_link7"
+    pin_ee_frame: "multi_xarm_r_link7"
+    pin_arm_q_indices: [0, 1, 2, 3, 4, 5, 6]
+    ee_offset: [0.0, -0.11, 0.06]
+
+  left:
+    # Same range as right (HOME-centred). xArm7 dual is NOT mirror-installed:
+    # the two arms share joint orientation except j1's base rotation.
+    joint_lower: [-3.1416, -3.6298, -3.1416, -3.3336, -1.5708, -1.6930, -4.7124]
+    joint_upper: [ 0.0,  0.5236,  3.1416,  0.7854,  4.7124,  3.1416,  1.5708]
+    joint_names:
+      - xarm_l_joint1
+      - xarm_l_joint2
+      - xarm_l_joint3
+      - xarm_l_joint4
+      - xarm_l_joint5
+      - xarm_l_joint6
+      - xarm_l_joint7
+    ee_body: "xarm_l_link7"
+    pin_ee_frame: "xarm_l_link7"
+    pin_arm_q_indices: [17, 18, 19, 20, 21, 22, 23]
+    ee_offset: [0.0, -0.11, 0.06]

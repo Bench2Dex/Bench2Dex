@@ -1,0 +1,252 @@
+description: Open microwave door with left hand, bring bowl to microwave with right hand, place baguette into bowl with left hand, place bowl into microwave with right hand, close microwave door with left hand.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a163_baguette:
+    path: ../../dex2bench_dataset/Objects/163_baguette/usd_decomposition_linux/base3.usd
+    scale: [0.45, 0.45, 0.45]
+    body_type: dynamic
+  a104_microwave:
+    path: ../../dex2bench_dataset/Objects/104_microwave/01_microwave/02/usd_decomposition_linux/mobility.usd
+    scale: [0.3465, 0.3465, 0.3465]
+    body_type: articulation
+    spawn:
+      articulation_props:
+        fix_root_link: true
+      mass_props:
+        density: 230.0
+      joint_pos:
+        joint_0: 0.1
+      actuators:
+        door:
+          joint_names_expr: [joint_0]
+          effort_limit_sim: 100.0
+          velocity_limit_sim: 4.0
+          stiffness: 0.0
+          damping: 0.1
+          armature: 0.05
+        rotary:
+          joint_names_expr: [joint_1, joint_2, joint_3, joint_4]
+          effort_limit_sim: 10.0
+          velocity_limit_sim: 20.0
+          stiffness: 0.0
+          damping: 0.3
+          armature: 0.05
+  a024_bowl:
+    path: ../../dex2bench_dataset/Objects/024_bowl/usd_decomposition_linux/textured.usd
+    scale: [1.5, 1.5, 1.5]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        density: 1.0
+  a151_milk-box:
+    path: ../../dex2bench_dataset/Objects/151_milk-box/usd_decomposition_linux/base3.usd
+    scale: [0.6, 0.6, 0.6]
+    body_type: dynamic
+objects:
+  - id: obj_163_baguette_1
+    asset: a163_baguette
+    rpy_deg: [90, 90, 90]
+    position: [-0.5, 0.1]
+  - id: obj_104_microwave_2
+    asset: a104_microwave
+    rpy_deg: [0, 0, 90]
+    position: [0, 0.42]
+    generalization:
+      freeze_pose: true
+    joint_pos:
+      joint_1: 0.006
+  - id: obj_024_bowl_3
+    asset: a024_bowl
+    rpy_deg: [0, 0, 0]
+    position: [0.5, 0.3]
+  - id: obj_151_milk_box_4
+    asset: a151_milk-box
+    rpy_deg: [0, 0, 0]
+    position: [-0.5, 0.25]
+layout:
+  zone: tabletop
+  objects: [obj_163_baguette_1, obj_104_microwave_2, obj_024_bowl_3, obj_151_milk_box_4]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_44_microwave_bowl_loading
+metrics:
+  task_family: articulation_door_place
+  expert_time_step: 2122
+  expert_time_source: mean steps_to_stable_success over 50/50 successful demos from origin-generalization
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_024_bowl_3, obj_163_baguette_1]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: all
+      conditions:
+        - type: object_in_container_zone
+          object: obj_024_bowl_3
+          container: obj_104_microwave_2
+          zone_lo: [-0.1428254, -0.1083366, -0.1677036]
+          zone_hi: [0.1571746, 0.2316634, 0.0922964]
+          object_center_offset: [-0.0222592, -0.0655335, 0.0404617]
+          container_center_offset: [-0.0071746, -0.0116634, 0.0077036]
+          container_frame: true
+        - type: object_upright
+          object: obj_024_bowl_3
+          tolerance_deg: 30
+        - type: all
+          conditions:
+            - type: object_in_container_zone
+              object: obj_163_baguette_1
+              container: obj_104_microwave_2
+              zone_lo: [-0.1428254, -0.1083366, -0.1677036]
+              zone_hi: [0.1571746, 0.2316634, 0.0922964]
+              object_center_offset: [3.67e-05, 0.0225, -2.0e-06]
+              container_center_offset: [-0.0071746, -0.0116634, 0.0077036]
+              container_frame: true
+            - type: all
+              conditions:
+                - type: object_upright
+                  object: obj_024_bowl_3
+                  tolerance_deg: 30
+                - type: object_inside
+                  object: obj_163_baguette_1
+                  container: obj_024_bowl_3
+                  object_center_offset: [3.67e-05, 0.0225, -2.0e-06]
+                  container_center_offset: [-0.02225925, -0.0655335, 0.0]
+                  tolerance: 0.125
+            - type: object_static
+              object: obj_163_baguette_1
+              threshold: 0.05
+              check_angular: false
+        - type: joint_state
+          object: obj_104_microwave_2
+          joint: joint_0
+          target: closed
+          tolerance: 0.2
+        - type: object_static
+          object: obj_024_bowl_3
+          threshold: 0.05
+          check_angular: false
+  stages:
+    - id: open_door
+      depends_on: []
+      success_condition:
+        type: joint_state
+        object: obj_104_microwave_2
+        joint: joint_0
+        target: open
+        tolerance: 0.15
+    - id: baguette_in_bowl
+      depends_on: [open_door]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_024_bowl_3
+            tolerance_deg: 30
+          - type: object_inside
+            object: obj_163_baguette_1
+            container: obj_024_bowl_3
+            object_center_offset: [3.67e-05, 0.0225, -2.0e-06]
+            container_center_offset: [-0.02225925, -0.0655335, 0.0]
+            tolerance: 0.125
+          - type: object_static
+            object: obj_163_baguette_1
+            threshold: 0.05
+            check_angular: false
+    - id: loaded_bowl_in_mw
+      depends_on: [baguette_in_bowl]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_in_container_zone
+            object: obj_024_bowl_3
+            container: obj_104_microwave_2
+            zone_lo: [-0.1428254, -0.1083366, -0.1677036]
+            zone_hi: [0.1571746, 0.2316634, 0.0922964]
+            object_center_offset: [-0.0222592, -0.0655335, 0.0404617]
+            container_center_offset: [-0.0071746, -0.0116634, 0.0077036]
+            container_frame: true
+          - type: object_upright
+            object: obj_024_bowl_3
+            tolerance_deg: 30
+          - type: object_static
+            object: obj_024_bowl_3
+            threshold: 0.05
+            check_angular: false
+          - type: object_in_container_zone
+            object: obj_163_baguette_1
+            container: obj_104_microwave_2
+            zone_lo: [-0.1428254, -0.1083366, -0.1677036]
+            zone_hi: [0.1571746, 0.2316634, 0.0922964]
+            object_center_offset: [3.67e-05, 0.0225, -2.0e-06]
+            container_center_offset: [-0.0071746, -0.0116634, 0.0077036]
+            container_frame: true
+          - type: object_inside
+            object: obj_163_baguette_1
+            container: obj_024_bowl_3
+            object_center_offset: [3.67e-05, 0.0225, -2.0e-06]
+            container_center_offset: [-0.02225925, -0.0655335, 0.0]
+            tolerance: 0.125
+          - type: object_static
+            object: obj_163_baguette_1
+            threshold: 0.05
+            check_angular: false
+    - id: close_door
+      depends_on: [loaded_bowl_in_mw]
+      success_condition:
+        type: joint_state
+        object: obj_104_microwave_2
+        joint: joint_0
+        target: closed
+        tolerance: 0.2
+  safety:
+    table_z: 0.75
+    high_speed:
+      enabled: true
+      threshold_mps: 2.0
+      tracked_objects: [obj_024_bowl_3, obj_163_baguette_1]
+    drop:
+      enabled: true
+      tracked_objects: [obj_024_bowl_3, obj_163_baguette_1]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_024_bowl_3:
+          type: object_in_container_zone
+          object: obj_024_bowl_3
+          container: obj_104_microwave_2
+          zone_lo: [-0.1428254, -0.1083366, -0.1677036]
+          zone_hi: [0.1571746, 0.2316634, 0.0922964]
+          object_center_offset: [-0.0222592, -0.0655335, 0.0404617]
+          container_center_offset: [-0.0071746, -0.0116634, 0.0077036]
+          container_frame: true
+        obj_163_baguette_1:
+          type: object_on
+          object: obj_163_baguette_1
+          target: obj_024_bowl_3
+          tolerance_xy: 0.15
+          tolerance_z: 0.12
+          object_center_offset: [3.67e-05, 0.0225, -2.0e-06]
+          target_center_offset: [-0.0222592, -0.0655335, 0.0]

@@ -1,0 +1,237 @@
+description: Use the left hand to move the shoe box to the center of the table, then use the right hand to place the pill bottle and toothpaste into the box, and use the left hand to place the hydrating
+  oil into the box.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb: [[-1.1, -0.55, 0.75], [1.1, 0.55, 0.75]]
+assets:
+  a129_shoebox:
+    path: ../../dex2bench_dataset/Objects/129_shoe-box/usd_decomposition_linux/base0.usd
+    scale: [0.45, 0.45, 0.45]
+    body_type: dynamic
+  a186_pillbottle:
+    path: ../../dex2bench_dataset/Objects/186_pillbottle/usd_decomposition_linux/base5.usd
+    scale: [0.075, 0.075, 0.075]
+    body_type: dynamic
+  a218_toothpaste:
+    path: ../../dex2bench_dataset/Objects/218_tooth-paste/usd_decomposition_linux/base0.usd
+    scale: [0.09, 0.09, 0.09]
+    body_type: dynamic
+  a211_hydratingoil:
+    path: ../../dex2bench_dataset/Objects/211_hydrating-oil/usd_decomposition_linux/base5.usd
+    scale: [0.075, 0.075, 0.075]
+    body_type: dynamic
+objects:
+- id: obj_129_shoe_box_1
+  asset: a129_shoebox
+  rpy_deg: [90, 0, 0]
+  position: [-0.4, 0.18]
+- id: obj_186_pillbottle_2
+  asset: a186_pillbottle
+  rpy_deg: [90, 0, 0]
+  position: [0.35, 0.3]
+- id: obj_218_tooth_paste_3
+  asset: a218_toothpaste
+  rpy_deg: [90, 0, 35]
+  position: [0.22, 0.18]
+- id: obj_211_hydrating_oil_4
+  asset: a211_hydratingoil
+  rpy_deg: [90, 0, 0]
+  position: [-0.08, 0.35]
+layout:
+  zone: tabletop
+  objects: [obj_129_shoe_box_1, obj_186_pillbottle_2, obj_218_tooth_paste_3, obj_211_hydrating_oil_4]
+  yaw_range: [0, 360]
+success_conditions:
+- type: custom
+  evaluator: success.custom.task_61_medicine_shoebox_pack
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 2067
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from replay-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_186_pillbottle_2, obj_218_tooth_paste_3, obj_211_hydrating_oil_4]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: all
+      conditions:
+      - type: all
+        conditions:
+        - type: object_upright
+          object: obj_129_shoe_box_1
+          tolerance_deg: 30
+          local_axis: y
+        - type: object_in_container_zone
+          object: obj_186_pillbottle_2
+          container: obj_129_shoe_box_1
+          container_center_offset: &id001 [0.0, 0.055, 0.0]
+          container_frame: true
+          zone_lo: &id002 [-0.11, -0.06, -0.15]
+          zone_hi: &id003 [0.11, 0.12, 0.15]
+      - type: all
+        conditions:
+        - type: object_upright
+          object: obj_129_shoe_box_1
+          tolerance_deg: 30
+          local_axis: y
+        - type: object_in_container_zone
+          object: obj_218_tooth_paste_3
+          container: obj_129_shoe_box_1
+          container_center_offset: *id001
+          container_frame: true
+          zone_lo: *id002
+          zone_hi: *id003
+      - type: all
+        conditions:
+        - type: object_upright
+          object: obj_129_shoe_box_1
+          tolerance_deg: 30
+          local_axis: y
+        - type: object_in_container_zone
+          object: obj_211_hydrating_oil_4
+          container: obj_129_shoe_box_1
+          container_center_offset: *id001
+          container_frame: true
+          zone_lo: *id002
+          zone_hi: *id003
+      - type: object_static
+        object: obj_186_pillbottle_2
+        threshold: 0.05
+        check_angular: false
+      - type: object_static
+        object: obj_218_tooth_paste_3
+        threshold: 0.05
+        check_angular: false
+      - type: object_static
+        object: obj_211_hydrating_oil_4
+        threshold: 0.05
+        check_angular: false
+  stages:
+  - id: place_1
+    depends_on: []
+    success_condition:
+      type: all
+      conditions:
+      - type: object_upright
+        object: obj_129_shoe_box_1
+        tolerance_deg: 30
+        local_axis: y
+      - type: object_in_container_zone
+        object: obj_186_pillbottle_2
+        container: obj_129_shoe_box_1
+        container_center_offset: *id001
+        container_frame: true
+        zone_lo: *id002
+        zone_hi: *id003
+      - type: object_static
+        object: obj_186_pillbottle_2
+        threshold: 0.05
+        check_angular: false
+  - id: place_2
+    depends_on: [place_1]
+    success_condition:
+      type: all
+      conditions:
+      - type: object_upright
+        object: obj_129_shoe_box_1
+        tolerance_deg: 30
+        local_axis: y
+      - type: object_in_container_zone
+        object: obj_218_tooth_paste_3
+        container: obj_129_shoe_box_1
+        container_center_offset: *id001
+        container_frame: true
+        zone_lo: *id002
+        zone_hi: *id003
+      - type: object_static
+        object: obj_218_tooth_paste_3
+        threshold: 0.05
+        check_angular: false
+  - id: place_3
+    depends_on: [place_2]
+    success_condition:
+      type: all
+      conditions:
+      - type: object_upright
+        object: obj_129_shoe_box_1
+        tolerance_deg: 30
+        local_axis: y
+      - type: object_in_container_zone
+        object: obj_211_hydrating_oil_4
+        container: obj_129_shoe_box_1
+        container_center_offset: *id001
+        container_frame: true
+        zone_lo: *id002
+        zone_hi: *id003
+      - type: object_static
+        object: obj_211_hydrating_oil_4
+        threshold: 0.05
+        check_angular: false
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_186_pillbottle_2, obj_218_tooth_paste_3, obj_211_hydrating_oil_4]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_211_hydrating_oil_4:
+          type: all
+          conditions:
+          - type: object_upright
+            object: obj_129_shoe_box_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_in_container_zone
+            object: obj_211_hydrating_oil_4
+            container: obj_129_shoe_box_1
+            container_center_offset: *id001
+            container_frame: true
+            zone_lo: *id002
+            zone_hi: *id003
+        obj_186_pillbottle_2:
+          type: all
+          conditions:
+          - type: object_upright
+            object: obj_129_shoe_box_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_in_container_zone
+            object: obj_186_pillbottle_2
+            container: obj_129_shoe_box_1
+            container_center_offset: *id001
+            container_frame: true
+            zone_lo: *id002
+            zone_hi: *id003
+        obj_218_tooth_paste_3:
+          type: all
+          conditions:
+          - type: object_upright
+            object: obj_129_shoe_box_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_in_container_zone
+            object: obj_218_tooth_paste_3
+            container: obj_129_shoe_box_1
+            container_center_offset: *id001
+            container_frame: true
+            zone_lo: *id002
+            zone_hi: *id003

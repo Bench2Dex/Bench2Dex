@@ -1,0 +1,236 @@
+# 遥操作录视频专用采集配置
+# 启用 RGB 相机 + 关节状态，关闭 tactile（避免弹性体网格报错）
+# 用法:
+#   python main.py --task scenes/06_fruit_bowl_loading.yaml \
+#     --teleop --collect --collect-config configs/collect/teleop_record.yaml \
+#     --enable_cameras
+
+profile:
+  dataset_version: teleop_record_v1
+  sensor_profile_id: teleop_record
+  sensor_profile_version: "1.0"
+
+dataset:
+  format: hdf5_per_episode
+  root: ./outputs
+  name: teleop_record
+
+capture:
+  fps: 20
+  step_stride: 5
+  max_buffer_mb: 4096
+
+modalities:
+  rgb: true
+  depth: false
+  object_pose: true
+  joint_state: true
+  box3d: false
+  box2d: false
+  occupancy: false
+  tactile: false          # 关闭 tactile，避免弹性体网格报错
+
+# Per-camera resolution override. [width, height], max 1920x1080.
+camera_pixel:
+  cam_chest: [640, 480]
+  cam_overhead: [640, 480]
+  cam_wrist_right: [640, 480]
+  cam_wrist_left: [640, 480]
+  cam_stereo_left: [640, 480]
+  cam_stereo_right: [640, 480]
+
+# cam_wist_right and cam_wrist_left are defined as robot_link mount type, but their parent_link and offset are defined in the robot_wrist_camera_profiles section. This is because the exact camera pose depends on the robot model, and we want to be able to easily switch between different robot models without having to redefine the camera parameters each time.
+camera_list:
+  - id: cam_chest
+    mount_type: world
+    position: [0.0, -0.40, 1.25]
+    target: [0.0, 0.00, 0.82]
+    width: 640
+    height: 480
+    focal_length: 18.0
+    horizontal_aperture: 20.955
+    clipping_range: [0.01, 20.0]
+  - id: cam_overhead
+    mount_type: world
+    position: [0.0, 0.0, 1.80]
+    target: [0.0, 0.0, 0.82]
+    width: 640
+    height: 480
+    focal_length: 15.0
+    horizontal_aperture: 20.955
+    clipping_range: [0.01, 20.0]
+  - id: cam_wrist_right
+    mount_type: robot_link
+    camera_type: fisheye
+    fisheye_camera_matrix: [[169.7056, 0.0, 320.0], [0.0, 169.7056, 240.0], [0.0, 0.0, 1.0]]
+    fisheye_distortion_coefficients: [-0.0416667, 0.0005208, -0.0000031, 0.0000000108]
+    fisheye_max_fov_deg: 180.0
+    parent_link: wrist_3_link
+    offset_xyz: [0.052620712, 0.057382115, 0.075768000]
+    offset_rpy: [-0.262750000, 0.084286000, 1.547360000]
+    width: 640
+    height: 480
+    clipping_range: [0.01, 5.0]
+  - id: cam_wrist_left
+    mount_type: robot_link
+    camera_type: fisheye
+    fisheye_camera_matrix: [[169.7056, 0.0, 320.0], [0.0, 169.7056, 240.0], [0.0, 0.0, 1.0]]
+    fisheye_distortion_coefficients: [-0.0416667, 0.0005208, -0.0000031, 0.0000000108]
+    fisheye_max_fov_deg: 180.0
+    parent_link: L_arm_wrist_3_link
+    offset_xyz: [-0.052529389, 0.057465743, 0.075768174]
+    offset_rpy: [0.261799551, 0.000000071, 1.569999956]
+    width: 640
+    height: 480
+    clipping_range: [0.01, 5.0]
+  # Stereo cameras (ZED 2) - 120mm baseline, 110°(H) FOV, 1920x1080
+  # Note: z=1.5 to avoid being blocked by robot arms (arm max height ~1.2m)
+  - id: cam_stereo_left
+    mount_type: world
+    position: [-0.06, -0.3, 1.50]
+    target: [-0.06, 0.0, 0.82]
+    width: 640
+    height: 480
+    focal_length: 7.34
+    horizontal_aperture: 20.955
+    clipping_range: [0.01, 20.0]
+  - id: cam_stereo_right
+    mount_type: world
+    position: [0.06, -0.3, 1.50]
+    target: [0.06, 0.0, 0.82]
+    width: 640
+    height: 480
+    focal_length: 7.34
+    horizontal_aperture: 20.955
+    clipping_range: [0.01, 20.0]
+
+robot_wrist_camera_profiles:
+  multi_iiwa7_with_sharpa:
+    cam_wrist_left:
+      parent_link: link_7
+      offset_xyz: [0.1, 0.05, 0.05]   
+      offset_rpy: [0.1571, 0.1571, -1.571]
+    cam_wrist_right:
+      parent_link: multi_link_7
+      offset_xyz: [0.1, -0.05, 0.05]
+      offset_rpy: [0.1571, -0.1571, -1.571]
+  multi_jaka_zu7_dexhand021_with_flange:
+    cam_wrist_left:
+      parent_link: l_Link_6
+      offset_xyz: [0.05, -0.140, 0.158]
+      offset_rpy: [0.1571, 0.1571, 3.14]
+    cam_wrist_right:
+      parent_link: Link_6
+      offset_xyz: [-0.05, -0.140, 0.158]
+      offset_rpy: [0.1571, -0.1571, 3.14]
+
+  multi_panda_with_orca:
+    cam_wrist_left:
+      parent_link: panda_link7
+      offset_xyz: [-0.070, 0.078, 0.25]
+      offset_rpy: [0.1571, 0.1571, 0.785]
+    cam_wrist_right:
+      parent_link: multi_panda_link7
+      offset_xyz: [-0.070, 0.078, 0.25]
+      offset_rpy: [0.1571, -0.1571, 0.785]
+
+  multi_panda_with_allegro:
+    cam_wrist_left:
+      parent_link: panda_link7
+      offset_xyz: [-0.070, 0.078, 0.082]
+      offset_rpy: [0.1571, 0.1571, 0.785]
+    cam_wrist_right:
+      parent_link: multi_panda_link7
+      offset_xyz: [-0.070, 0.078, 0.082]
+      offset_rpy: [0.1571, -0.1571, 0.785]
+
+  multi_rm_65_with_revo2:
+    cam_wrist_left:
+      parent_link: l_Link6
+      offset_xyz: [0.06, 0.04, 0.01]
+      offset_rpy: [0.1571, 0.1571, -1.571]
+    cam_wrist_right:
+      parent_link: Link6
+      offset_xyz: [0.06, -0.04, 0.01]
+      offset_rpy: [0.1571, -0.1571, -1.571]
+
+  multi_xarm7_with_ability:
+    cam_wrist_left:
+      parent_link: xarm_l_link7
+      offset_xyz: [-0.05, 0.1, 0.02]
+      offset_rpy: [0.1571, 0.1571, 0.000]
+    cam_wrist_right:
+      parent_link: multi_xarm_r_link7
+      offset_xyz: [0.05, 0.1, 0.02]
+      offset_rpy: [0.1571, -0.1571, 0.000]
+
+  multi_xarm7_with_leap:
+    cam_wrist_left:
+      parent_link: link7
+      offset_xyz: [0.1,0.05, 0]
+      offset_rpy: [0.1571, 0.1571, -1.571]
+    cam_wrist_right:
+      parent_link: multi_link7
+      offset_xyz: [0.1, -0.05, 0]
+      offset_rpy: [0.1571, -0.1571, -1.571]
+
+  multi_ur5_rh5dg2_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.05, 0.1, 0.06]
+      offset_rpy: [0.1571, 0.1571, 0]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.05, 0.1, 0.06]
+      offset_rpy: [0.1571, -0.1571, 0]
+
+  multi_ur5_rh56dfx_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.052529389, 0.057465743, 0.075768174]
+      offset_rpy: [0.261799551, 0.000000071, 1.569999956]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.052620712, 0.057382115, 0.075768000]
+      offset_rpy: [-0.262750000, 0.084286000, 1.547360000]
+  multi_ur5_shadow_hand_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.05, 0.13, 0.25]
+      offset_rpy: [0.1571, 0.1571, 0]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.05, 0.13, 0.25]
+      offset_rpy: [0.1571, -0.1571, 0]
+
+  multi_ur5_schunk_hand_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.05, 0.1, 0.06]
+      offset_rpy: [0.1571, 0.1571, 0]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.05, 0.1, 0.06]
+      offset_rpy: [0.1571, -0.1571, 0]
+  multi_ur5_wuji_with_flange:
+    cam_wrist_left:
+      parent_link: L_arm_wrist_3_link
+      offset_xyz: [-0.05, 0.1, 0.06]
+      offset_rpy: [0.1571, 0.1571, 0]
+    cam_wrist_right:
+      parent_link: wrist_3_link
+      offset_xyz: [0.05, 0.1, 0.06]
+      offset_rpy: [0.1571, -0.1571, 0]
+
+
+scene_background:
+  enabled: true
+  physics_enabled: false
+  fill_light_intensity: 800
+  fill_light_jitter_ratio: 0.0
+
+  type: usd_scene
+  category: iTHOR
+  uri: ../../../dex2bench_dataset/scenes/ithor/FloorPlan1_physics/scene.usda
+  yaw_deg: 180
+  scene_offset: [0, 0, 0.0]

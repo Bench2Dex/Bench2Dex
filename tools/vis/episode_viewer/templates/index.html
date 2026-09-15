@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HDF5 Episode Viewer</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <header class="toolbar">
+    <div class="file-block">
+      <div class="file-name" id="fileName">loading</div>
+      <div class="file-path" id="filePath"></div>
+      <div class="browser-controls">
+        <button class="browser-control-button" id="upDirBtn" title="Open parent folder">Up</button>
+        <span class="current-dir" id="currentDirLabel">/</span>
+        <button class="browser-control-button danger" id="deleteEntryBtn" title="Move current HDF5 file to deleted_items">Delete current</button>
+      </div>
+      <div class="episode-browser" id="episodeBrowser"></div>
+      <select class="episode-select" id="episodeSelect" title="Select HDF5 episode"></select>
+    </div>
+    <button class="icon-button" id="prevBtn" title="Previous frame">Prev</button>
+    <label class="frame-control">
+      <span>Frame</span>
+      <input id="frameInput" type="number" min="0" value="0">
+    </label>
+    <button class="icon-button" id="nextBtn" title="Next frame">Next</button>
+    <input class="frame-slider" id="frameSlider" type="range" min="0" max="0" value="0">
+    <button class="icon-button" id="playBtn" title="Play or pause">Play</button>
+    <label class="frame-control" title="Playback speed multiplier (1.0 = native FPS)">
+      <span>Speed</span>
+      <input id="speedInput" type="number" min="0.1" max="20" step="0.1" value="1.0" style="width: 4.5em;">
+      <span>×</span>
+    </label>
+    <div class="fps-chip" id="fpsChip">0 FPS</div>
+    <div class="fps-chip" id="prefetchChip" title="Background prefetch progress" style="display:none;"></div>
+    <button class="wide-button" id="jumpContactBtn">Jump to next tactile contact</button>
+    <div class="status-chips">
+      <span class="status-chip" id="validChip">valid</span>
+      <span class="status-chip" id="actionChip">action</span>
+      <span class="status-chip" id="successChip">success</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="workbench">
+      <section class="visual-pane">
+        <nav class="tabs" id="tabs">
+          <button class="tab-button active" data-tab="rgb">RGB</button>
+          <button class="tab-button" data-tab="depth">Depth</button>
+          <button class="tab-button" data-tab="occupancy">Occupancy</button>
+          <button class="tab-button" data-tab="box2d">Box2D</button>
+          <button class="tab-button" data-tab="box3d">Box3D</button>
+        </nav>
+        <div class="camera-grid" id="cameraGrid"></div>
+      </section>
+
+      <aside class="state-pane">
+        <section class="panel episode-panel">
+          <h2>Episode</h2>
+          <div class="summary-list" id="episodeSummary"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Objects</h2>
+          <div id="objectTables"></div>
+          <canvas class="topdown" id="topdownCanvas"></canvas>
+        </section>
+
+        <section class="panel">
+          <h2>Robot / Action</h2>
+          <div id="robotTables"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Time Series</h2>
+          <canvas class="series-canvas" id="seriesCanvas"></canvas>
+        </section>
+      </aside>
+    </section>
+
+    <section class="tactile-pane">
+      <div class="tactile-header">
+        <h2>Tactile TacMap</h2>
+        <span id="tactileStatus">loading</span>
+      </div>
+      <div class="tactile-grid" id="tactileGrid"></div>
+    </section>
+  </main>
+
+  <script src="static/app.js"></script>
+</body>
+</html>

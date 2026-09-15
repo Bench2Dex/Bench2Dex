@@ -1,0 +1,29 @@
+# Rich benchmark profile: RGB + depth + object pose + 3D/2D boxes
+# Optimized for benchmarking and evaluation
+
+profile:
+  dataset_version: raw_hdf5_v2
+  sensor_profile_id: bench_rich
+  sensor_profile_version: "1.0"
+
+dataset:
+  format: hdf5_per_episode
+  root: ./outputs
+  name: dex2scene_dataset
+
+capture:
+  fps: 100
+  step_stride: 5
+  max_buffer_mb: 4096
+
+modalities:
+  rgb: true
+  depth: true
+  object_pose: true
+  joint_state: true
+  box3d: true
+  box2d: true
+  occupancy: false
+  tactile: false
+
+# Note: camera_list inherits from default config (do not set to empty)

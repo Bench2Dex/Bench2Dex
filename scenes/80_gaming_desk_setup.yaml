@@ -1,0 +1,121 @@
+description: Straighten the monitor screen forward with both hands, press the ESC key with the left index finger, move the mouse back to the left side of the keyboard with the right hand, and click the left mouse button with the index finger.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a090_display:
+    path: ../../dex2bench_dataset/Objects/201_screen/usd_decomposition_linux/base3.usd
+    scale: [0.3, 0.3, 0.3]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 3.0
+  a098_keyboard:
+    path: ../../dex2bench_dataset/Objects/098_keyboard/02_keyboard/01/usd_decomposition_linux_rebuilt_fixed/mobility.usd
+    scale: [0.3, 0.3, 0.3]
+    body_type: articulation
+    spawn:
+      mass_props:
+        density: 200.0
+      actuators:
+        keys:
+          joint_names_expr: [joint_.*]
+          effort_limit_sim: 4.0
+          velocity_limit_sim: 1.0
+          stiffness: 30.0
+          damping: 0.5
+  a300_mouse:
+    path: ../../dex2bench_dataset/Objects/105_mouse/02_mouse/01/usd_baked_linux/mobility.usd
+    scale: [1, 1, 1]
+    body_type: articulation
+    spawn:
+      mass_props:
+        density: 150.0
+      actuators:
+        mouse_controls:
+          joint_names_expr: [joint_.*]
+          effort_limit_sim: 3.0
+          velocity_limit_sim: 2.0
+          stiffness: 20.0
+          damping: 0.5
+objects:
+  - id: obj_090_display_1
+    asset: a090_display
+    rpy_deg: [90, 0, 30]
+    position: [0, 0.3]
+  - id: obj_098_keyboard_2
+    asset: a098_keyboard
+    rpy_deg: [0, 0, 90]
+    position: [0, 0.05]
+    generalization:
+      freeze_pose: true
+  - id: obj_300_mouse_3
+    asset: a300_mouse
+    rpy_deg: [0, 0, -80]
+    position: [0.37, 0.16]
+layout:
+  zone: tabletop
+  objects: [obj_090_display_1, obj_098_keyboard_2, obj_300_mouse_3]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_80_gaming_desk_setup
+    params: {}
+metrics:
+  task_family: desk_organize_interaction
+  expert_time_step: 1185
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_300_mouse_3]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_80_gaming_desk_setup
+      params: {}
+  stages:
+    - id: straighten_monitor
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_80_gaming_desk_setup
+        params: {phase: monitor_straight}
+    - id: press_escape_key
+      depends_on: [straighten_monitor]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_80_gaming_desk_setup
+        params: {phase: esc_pressed}
+    - id: click_left_mouse_button
+      depends_on: [press_escape_key]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_80_gaming_desk_setup
+        params: {phase: mouse_clicked}
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_300_mouse_3]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25

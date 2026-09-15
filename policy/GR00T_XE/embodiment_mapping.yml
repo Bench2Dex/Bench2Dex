@@ -1,0 +1,703 @@
+# Cross-Embodiment Hand Joint Mapping
+# =====================================
+# Maps each robot's active hand joints to 44 unified semantic slots.
+# Left hand (22 slots) mirrors right hand (22 slots).
+#
+# Finger order (from hand_cfgs finger_tip_link_names):
+#   finger1 = thumb, finger2 = index, finger3 = middle,
+#   finger4 = ring, finger5 = pinky
+#
+# Unified action layout (64 dims):
+#   [0:6]   右手 arm ee pose (px, py, pz, rx, ry, rz)
+#   [6:12]  左手 arm ee pose (px, py, pz, rx, ry, rz)
+#   [12:34] 右手 hand (22 semantic slots)
+#   [34:56] 左手 hand (22 semantic slots)
+#   [56:64] padding (always 0)
+#
+# Each hand slot is described by:
+#   slot:  unified index (0-21 for right, 22-43 for left)
+#   desc:  human-readable description
+#   joints: per-robot joint name mapping (null = pad)
+
+hand_slots:
+  # ---- Right Hand (slots 0-21) ----
+  right:
+    - slot: 0
+      desc: "thumb base 0 (CMC / yaw / flexion)"
+      sharpa: multi_right_thumb_CMC_FE
+      shadow: THJ1
+      rh5dg2: right_thumb_yaw_joint
+      rh56dfx: right_thumb_1_joint
+      orca: right_thumb_mcp
+      revo2: right_thumb_metacarpal_joint
+      schunk: right_hand_Thumb_Flexion
+      ability: multi_thumb_q1
+      wuji: right_finger1_joint1
+      jaka: r_f_joint1_1
+      allegro: multi_joint_13_0
+      leap: multi_leap_r_12
+
+    - slot: 1
+      desc: "thumb base 1 (CMC_AA / mcp / opposition)"
+      sharpa: multi_right_thumb_CMC_AA
+      shadow: THJ2
+      rh5dg2: right_thumb_mcp_joint
+      rh56dfx: right_thumb_2_joint
+      orca: right_thumb_abd
+      revo2: right_thumb_proximal_joint
+      schunk: right_hand_Thumb_Opposition
+      ability: multi_thumb_q2
+      wuji: right_finger1_joint2
+      jaka: r_f_joint1_2
+      allegro: multi_joint_12_0
+      leap: multi_leap_r_13
+
+    - slot: 2
+      desc: "thumb mid 0 (MCP / pip)"
+      sharpa: multi_right_thumb_MCP_FE
+      shadow: THJ4
+      rh5dg2: right_thumb_dip_joint
+      rh56dfx: null
+      orca: right_thumb_pip
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger1_joint3
+      jaka: r_f_joint1_3
+      allegro: multi_joint_14_0
+      leap: multi_leap_r_14
+
+    - slot: 3
+      desc: "thumb mid 1 (IP / dip)"
+      sharpa: multi_right_thumb_IP
+      shadow: THJ5
+      rh5dg2: null
+      rh56dfx: null
+      orca: right_thumb_dip
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger1_joint4
+      jaka: r_f_joint1_4
+      allegro: null
+      leap: multi_leap_r_15
+
+    - slot: 4
+      desc: "index base 0 (MCP / pitch / proximal)"
+      sharpa: multi_right_index_MCP_FE
+      shadow: FFJ1
+      rh5dg2: right_index_pitch_joint
+      rh56dfx: right_index_1_joint
+      orca: right_index_mcp
+      revo2: right_index_proximal_joint
+      schunk: right_hand_Index_Finger_Proximal
+      ability: multi_index_q1
+      wuji: right_finger2_joint1
+      jaka: r_f_joint2_1
+      allegro: multi_joint_1_0
+      leap: multi_leap_r_1
+
+    - slot: 5
+      desc: "index base 1 (MCP_AA / mcp / abd)"
+      sharpa: multi_right_index_MCP_AA
+      shadow: FFJ2
+      rh5dg2: right_index_mcp_joint
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger2_joint2
+      jaka: r_f_joint2_2
+      allegro: null
+      leap: multi_leap_r_0
+
+    - slot: 6
+      desc: "index mid 0 (PIP / pip / distal)"
+      sharpa: multi_right_index_PIP
+      shadow: FFJ3
+      rh5dg2: right_index_pip_joint
+      rh56dfx: null
+      orca: right_index_pip
+      revo2: null
+      schunk: right_hand_Index_Finger_Distal
+      ability: null
+      wuji: right_finger2_joint3
+      jaka: r_f_joint2_3
+      allegro: multi_joint_2_0
+      leap: multi_leap_r_2
+
+    - slot: 7
+      desc: "index mid 1 (DIP)"
+      sharpa: multi_right_index_DIP
+      shadow: FFJ4
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger2_joint4
+      jaka: r_f_joint2_4
+      allegro: null
+      leap: multi_leap_r_3
+
+    - slot: 8
+      desc: "middle base 0 (MCP / pitch / proximal)"
+      sharpa: multi_right_middle_MCP_FE
+      shadow: MFJ1
+      rh5dg2: right_middle_pitch_joint
+      rh56dfx: right_middle_1_joint
+      orca: right_middle_mcp
+      revo2: right_middle_proximal_joint
+      schunk: right_hand_Middle_Finger_Proximal
+      ability: multi_middle_q1
+      wuji: right_finger3_joint1
+      jaka: r_f_joint3_1
+      allegro: multi_joint_5_0
+      leap: multi_leap_r_5
+
+    - slot: 9
+      desc: "middle base 1 (MCP_AA / mcp)"
+      sharpa: multi_right_middle_MCP_AA
+      shadow: MFJ2
+      rh5dg2: right_middle_mcp_joint
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger3_joint2
+      jaka: r_f_joint3_2
+      allegro: null
+      leap: multi_leap_r_4
+
+    - slot: 10
+      desc: "middle mid 0 (PIP / pip / distal)"
+      sharpa: multi_right_middle_PIP
+      shadow: MFJ3
+      rh5dg2: right_middle_pip_joint
+      rh56dfx: null
+      orca: right_middle_pip
+      revo2: null
+      schunk: right_hand_Middle_Finger_Distal
+      ability: null
+      wuji: right_finger3_joint3
+      jaka: r_f_joint3_3
+      allegro: multi_joint_6_0
+      leap: multi_leap_r_6
+
+    - slot: 11
+      desc: "middle mid 1 (DIP)"
+      sharpa: multi_right_middle_DIP
+      shadow: MFJ4
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger3_joint4
+      jaka: r_f_joint3_4
+      allegro: null
+      leap: multi_leap_r_7
+
+    - slot: 12
+      desc: "ring base 0 (MCP / proximal)"
+      sharpa: multi_right_ring_MCP_FE
+      shadow: RFJ1
+      rh5dg2: right_ring_mcp_joint
+      rh56dfx: right_ring_1_joint
+      orca: right_ring_mcp
+      revo2: right_ring_proximal_joint
+      schunk: right_hand_Ring_Finger
+      ability: multi_ring_q1
+      wuji: right_finger4_joint1
+      jaka: r_f_joint4_1
+      allegro: multi_joint_9_0
+      leap: multi_leap_r_9
+
+    - slot: 13
+      desc: "ring base 1 (MCP_AA / pip)"
+      sharpa: multi_right_ring_MCP_AA
+      shadow: RFJ2
+      rh5dg2: right_ring_pip_joint
+      rh56dfx: null
+      orca: right_ring_pip
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger4_joint2
+      jaka: r_f_joint4_2
+      allegro: null
+      leap: multi_leap_r_8
+
+    - slot: 14
+      desc: "ring mid 0 (PIP)"
+      sharpa: multi_right_ring_PIP
+      shadow: RFJ3
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger4_joint3
+      jaka: r_f_joint4_3
+      allegro: multi_joint_10_0
+      leap: multi_leap_r_10
+
+    - slot: 15
+      desc: "ring mid 1 (DIP)"
+      sharpa: multi_right_ring_DIP
+      shadow: RFJ4
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger4_joint4
+      jaka: r_f_joint4_4
+      allegro: null
+      leap: multi_leap_r_11
+
+    - slot: 16
+      desc: "pinky base 0 (MCP / proximal)"
+      sharpa: multi_right_pinky_MCP_FE
+      shadow: LFJ1
+      rh5dg2: right_pinky_mcp_joint
+      rh56dfx: right_little_1_joint
+      orca: right_pinky_mcp
+      revo2: right_pinky_proximal_joint
+      schunk: right_hand_Pinky
+      ability: multi_pinky_q1
+      wuji: right_finger5_joint1
+      jaka: r_f_joint5_1
+      allegro: null
+      leap: null
+
+    - slot: 17
+      desc: "pinky base 1 (MCP_AA / pip)"
+      sharpa: multi_right_pinky_MCP_AA
+      shadow: LFJ2
+      rh5dg2: right_pinky_pip_joint
+      rh56dfx: null
+      orca: right_pinky_pip
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger5_joint2
+      jaka: r_f_joint5_2
+      allegro: null
+      leap: null
+
+    - slot: 18
+      desc: "pinky mid 0 (PIP)"
+      sharpa: multi_right_pinky_PIP
+      shadow: LFJ3
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger5_joint3
+      jaka: r_f_joint5_3
+      allegro: null
+      leap: null
+
+    - slot: 19
+      desc: "pinky mid 1 (DIP)"
+      sharpa: multi_right_pinky_DIP
+      shadow: LFJ4
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: right_finger5_joint4
+      jaka: r_f_joint5_4
+      allegro: null
+      leap: null
+
+    - slot: 20
+      desc: "wrist 0 (rotation / finger spread)"
+      sharpa: null
+      shadow: WRJ1
+      rh5dg2: null
+      rh56dfx: null
+      orca: right_wrist
+      revo2: null
+      schunk: right_hand_Finger_Spread
+      ability: null
+      wuji: null
+      jaka: null
+      allegro: null
+      leap: null
+
+    - slot: 21
+      desc: "wrist 1 (rotation / grasp)"
+      sharpa: null
+      shadow: WRJ2
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: null
+      jaka: null
+      allegro: null
+      leap: null
+
+  # ---- Left Hand (slots 22-43, mirror of right) ----
+  left:
+    - slot: 22
+      desc: "thumb base 0 (CMC / yaw / flexion)"
+      sharpa: left_thumb_CMC_FE
+      shadow: l_THJ1
+      rh5dg2: left_thumb_yaw_joint
+      rh56dfx: left_thumb_1_joint
+      orca: left_thumb_mcp
+      revo2: left_thumb_metacarpal_joint
+      schunk: left_hand_Thumb_Flexion
+      ability: thumb_q1
+      wuji: left_finger1_joint1
+      jaka: l_f_joint1_1
+      allegro: joint_13_0
+      leap: leap_l_12
+
+    - slot: 23
+      desc: "thumb base 1 (CMC_AA / mcp / opposition)"
+      sharpa: left_thumb_CMC_AA
+      shadow: l_THJ2
+      rh5dg2: left_thumb_mcp_joint
+      rh56dfx: left_thumb_2_joint
+      orca: left_thumb_abd
+      revo2: left_thumb_proximal_joint
+      schunk: left_hand_Thumb_Opposition
+      ability: thumb_q2
+      wuji: left_finger1_joint2
+      jaka: l_f_joint1_2
+      allegro: joint_12_0
+      leap: leap_l_13
+
+    - slot: 24
+      desc: "thumb mid 0 (MCP / pip)"
+      sharpa: left_thumb_MCP_FE
+      shadow: l_THJ4
+      rh5dg2: left_thumb_dip_joint
+      rh56dfx: null
+      orca: left_thumb_pip
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger1_joint3
+      jaka: l_f_joint1_3
+      allegro: joint_14_0
+      leap: leap_l_14
+
+    - slot: 25
+      desc: "thumb mid 1 (IP / dip)"
+      sharpa: left_thumb_IP
+      shadow: l_THJ5
+      rh5dg2: null
+      rh56dfx: null
+      orca: left_thumb_dip
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger1_joint4
+      jaka: l_f_joint1_4
+      allegro: null
+      leap: leap_l_15
+
+    - slot: 26
+      desc: "index base 0 (MCP / pitch / proximal)"
+      sharpa: left_index_MCP_FE
+      shadow: l_FFJ1
+      rh5dg2: left_index_pitch_joint
+      rh56dfx: left_index_1_joint
+      orca: left_index_mcp
+      revo2: left_index_proximal_joint
+      schunk: left_hand_Index_Finger_Proximal
+      ability: index_q1
+      wuji: left_finger2_joint1
+      jaka: l_f_joint2_1
+      allegro: joint_1_0
+      leap: leap_l_1
+
+    - slot: 27
+      desc: "index base 1 (MCP_AA / mcp)"
+      sharpa: left_index_MCP_AA
+      shadow: l_FFJ2
+      rh5dg2: left_index_mcp_joint
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger2_joint2
+      jaka: l_f_joint2_2
+      allegro: null
+      leap: leap_l_0
+
+    - slot: 28
+      desc: "index mid 0 (PIP / pip / distal)"
+      sharpa: left_index_PIP
+      shadow: l_FFJ3
+      rh5dg2: left_index_pip_joint
+      rh56dfx: null
+      orca: left_index_pip
+      revo2: null
+      schunk: left_hand_Index_Finger_Distal
+      ability: null
+      wuji: left_finger2_joint3
+      jaka: l_f_joint2_3
+      allegro: joint_2_0
+      leap: leap_l_2
+
+    - slot: 29
+      desc: "index mid 1 (DIP)"
+      sharpa: left_index_DIP
+      shadow: l_FFJ4
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger2_joint4
+      jaka: l_f_joint2_4
+      allegro: null
+      leap: leap_l_3
+
+    - slot: 30
+      desc: "middle base 0 (MCP / pitch / proximal)"
+      sharpa: left_middle_MCP_FE
+      shadow: l_MFJ1
+      rh5dg2: left_middle_pitch_joint
+      rh56dfx: left_middle_1_joint
+      orca: left_middle_mcp
+      revo2: left_middle_proximal_joint
+      schunk: left_hand_Middle_Finger_Proximal
+      ability: middle_q1
+      wuji: left_finger3_joint1
+      jaka: l_f_joint3_1
+      allegro: joint_5_0
+      leap: leap_l_5
+
+    - slot: 31
+      desc: "middle base 1 (MCP_AA / mcp)"
+      sharpa: left_middle_MCP_AA
+      shadow: l_MFJ2
+      rh5dg2: left_middle_mcp_joint
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger3_joint2
+      jaka: l_f_joint3_2
+      allegro: null
+      leap: leap_l_4
+
+    - slot: 32
+      desc: "middle mid 0 (PIP / pip / distal)"
+      sharpa: left_middle_PIP
+      shadow: l_MFJ3
+      rh5dg2: left_middle_pip_joint
+      rh56dfx: null
+      orca: left_middle_pip
+      revo2: null
+      schunk: left_hand_Middle_Finger_Distal
+      ability: null
+      wuji: left_finger3_joint3
+      jaka: l_f_joint3_3
+      allegro: joint_6_0
+      leap: leap_l_6
+
+    - slot: 33
+      desc: "middle mid 1 (DIP)"
+      sharpa: left_middle_DIP
+      shadow: l_MFJ4
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger3_joint4
+      jaka: l_f_joint3_4
+      allegro: null
+      leap: leap_l_7
+
+    - slot: 34
+      desc: "ring base 0 (MCP / proximal)"
+      sharpa: left_ring_MCP_FE
+      shadow: l_RFJ1
+      rh5dg2: left_ring_mcp_joint
+      rh56dfx: left_ring_1_joint
+      orca: left_ring_mcp
+      revo2: left_ring_proximal_joint
+      schunk: left_hand_Ring_Finger
+      ability: ring_q1
+      wuji: left_finger4_joint1
+      jaka: l_f_joint4_1
+      allegro: joint_9_0
+      leap: leap_l_9
+
+    - slot: 35
+      desc: "ring base 1 (MCP_AA / pip)"
+      sharpa: left_ring_MCP_AA
+      shadow: l_RFJ2
+      rh5dg2: left_ring_pip_joint
+      rh56dfx: null
+      orca: left_ring_pip
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger4_joint2
+      jaka: l_f_joint4_2
+      allegro: null
+      leap: leap_l_8
+
+    - slot: 36
+      desc: "ring mid 0 (PIP)"
+      sharpa: left_ring_PIP
+      shadow: l_RFJ3
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger4_joint3
+      jaka: l_f_joint4_3
+      allegro: joint_10_0
+      leap: leap_l_10
+
+    - slot: 37
+      desc: "ring mid 1 (DIP)"
+      sharpa: left_ring_DIP
+      shadow: l_RFJ4
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger4_joint4
+      jaka: l_f_joint4_4
+      allegro: null
+      leap: leap_l_11
+
+    - slot: 38
+      desc: "pinky base 0 (MCP / proximal)"
+      sharpa: left_pinky_MCP_FE
+      shadow: l_LFJ1
+      rh5dg2: left_pinky_mcp_joint
+      rh56dfx: left_little_1_joint
+      orca: left_pinky_mcp
+      revo2: left_pinky_proximal_joint
+      schunk: left_hand_Pinky
+      ability: pinky_q1
+      wuji: left_finger5_joint1
+      jaka: l_f_joint5_1
+      allegro: null
+      leap: null
+
+    - slot: 39
+      desc: "pinky base 1 (MCP_AA / pip)"
+      sharpa: left_pinky_MCP_AA
+      shadow: l_LFJ2
+      rh5dg2: left_pinky_pip_joint
+      rh56dfx: null
+      orca: left_pinky_pip
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger5_joint2
+      jaka: l_f_joint5_2
+      allegro: null
+      leap: null
+
+    - slot: 40
+      desc: "pinky mid 0 (PIP)"
+      sharpa: left_pinky_PIP
+      shadow: l_LFJ3
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger5_joint3
+      jaka: l_f_joint5_3
+      allegro: null
+      leap: null
+
+    - slot: 41
+      desc: "pinky mid 1 (DIP)"
+      sharpa: left_pinky_DIP
+      shadow: l_LFJ4
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: left_finger5_joint4
+      jaka: l_f_joint5_4
+      allegro: null
+      leap: null
+
+    - slot: 42
+      desc: "wrist 0 (rotation / finger spread)"
+      sharpa: null
+      shadow: l_WRJ1
+      rh5dg2: null
+      rh56dfx: null
+      orca: left_wrist
+      revo2: null
+      schunk: left_hand_Finger_Spread
+      ability: null
+      wuji: null
+      jaka: null
+      allegro: null
+      leap: null
+
+    - slot: 43
+      desc: "wrist 1 (rotation / grasp)"
+      sharpa: null
+      shadow: l_WRJ2
+      rh5dg2: null
+      rh56dfx: null
+      orca: null
+      revo2: null
+      schunk: null
+      ability: null
+      wuji: null
+      jaka: null
+      allegro: null
+      leap: null
+
+# Special hand notes
+# ==================
+# Allegro: only 4 fingers (no pinky).  Recorded names are Isaac-sanitized:
+#   right "multi_joint_1_0" etc, left "joint_1_0" (UNDERSCORE, not "joint_1.0").
+#   Authored rows: joint_13_0+14_0=thumb, 1_0+2_0=index, 5_0+6_0=middle, 9_0+10_0=ring.
+# Leap: 4 fingers (thumb/index/middle/ring — no pinky), 16 joints per hand.
+#   Recorded right = multi_leap_r_0..15, left = leap_l_0..15.
+#   Finger groups taken from the leap URDF kinematic chain + *_tip_head fixed
+#   joints: index = chain ending "fingertip", middle = "fingertip_2", ring =
+#   "fingertip_3", thumb = 12..15.  Within a finger the authored slots follow
+#   palm→tip kinematic order → base0, base1, mid0, mid1 (base1 of index/middle/
+#   ring are the retargeter's locked "abd" joints 0/4/8).  Review on real hand.
+# Schunk: has Finger_Spread (global, not per-finger) → mapped to wrist_0 slot.
+# Orca: has wrist joint → mapped to wrist_0 slot.
+# RH56DFX: only 1 active joint per finger (thumb has 2), rest are mimic/coupled.
+# Revo2: only 1 active joint per finger except thumb has 2.
+# Jaka/Wuji: 4 joints per finger, all active.

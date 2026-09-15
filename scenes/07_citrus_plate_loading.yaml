@@ -1,0 +1,228 @@
+description: Use the left hand to place the farther lemon onto the plate, the right hand to move the paired orange near the plate, and the left hand to place that orange onto the plate; repeat for the remaining pair.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a029_plate:
+    path: ../../dex2bench_dataset/Objects/029_plate/usd_decomposition_linux/textured.usd
+    scale: [1.2, 1.2, 1.2]
+    body_type: dynamic
+  a014_lemon:
+    path: ../../dex2bench_dataset/Objects/014_lemon/usd_decomposition_linux/textured.usd
+    scale: [1.3, 1.3, 1.3]
+    body_type: dynamic
+  a017_orange:
+    path: ../../dex2bench_dataset/Objects/017_orange/usd_decomposition_linux/textured.usd
+    scale: [1.15, 1.15, 1.15]
+    body_type: dynamic
+objects:
+  - id: obj_029_plate_1
+    asset: a029_plate
+    rpy_deg: [0, 0, 0]
+    position: [0.0, 0.3]
+  - id: obj_014_lemon_2
+    asset: a014_lemon
+    rpy_deg: [0, 0, 0]
+    position: [-0.3, 0.3]
+  - id: obj_014_lemon_3
+    asset: a014_lemon
+    rpy_deg: [0, 0, 0]
+    position: [-0.2, 0]
+  - id: obj_017_orange_4
+    asset: a017_orange
+    rpy_deg: [0, 0, 0]
+    position: [0.26, 0.3]
+  - id: obj_017_orange_5
+    asset: a017_orange
+    rpy_deg: [0, 0, 0]
+    position: [0.21, 0.05]
+layout:
+  zone: tabletop
+  objects: [obj_029_plate_1, obj_014_lemon_2, obj_014_lemon_3]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_07_citrus_plate_loading
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 1203
+  expert_time_source: mean steps_to_stable_success over 50/50 successful demos from origin-generalization
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_017_orange_4, obj_014_lemon_2, obj_017_orange_5, obj_014_lemon_3]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: all
+      conditions:
+        - type: object_inside
+          object: obj_014_lemon_2
+          container: obj_029_plate_1
+          tolerance: 0.15
+          object_center_offset: [-0.0137527, 0.0281495, 0.0341555]
+          container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+        - type: object_inside
+          object: obj_014_lemon_3
+          container: obj_029_plate_1
+          tolerance: 0.15
+          object_center_offset: [-0.0137527, 0.0281495, 0.0341555]
+          container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+        - type: object_inside
+          object: obj_017_orange_4
+          container: obj_029_plate_1
+          tolerance: 0.15
+          object_center_offset: [-0.0079753, -0.021114, 0.0407422]
+          container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+        - type: object_inside
+          object: obj_017_orange_5
+          container: obj_029_plate_1
+          tolerance: 0.15
+          object_center_offset: [-0.0079753, -0.021114, 0.0407422]
+          container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+        - type: object_static
+          object: obj_014_lemon_2
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_014_lemon_3
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_017_orange_4
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_017_orange_5
+          threshold: 0.05
+          check_angular: false
+        - type: object_upright
+          object: obj_029_plate_1
+          tolerance_deg: 30
+  stages:
+    - id: place_lemon_2
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_inside
+            object: obj_014_lemon_2
+            container: obj_029_plate_1
+            tolerance: 0.15
+            object_center_offset: [-0.0137527, 0.0281495, 0.0341555]
+            container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+          - type: object_static
+            object: obj_014_lemon_2
+            threshold: 0.05
+            check_angular: false
+          - type: object_upright
+            object: obj_029_plate_1
+            tolerance_deg: 30
+    - id: place_lemon_3
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_inside
+            object: obj_014_lemon_3
+            container: obj_029_plate_1
+            tolerance: 0.15
+            object_center_offset: [-0.0137527, 0.0281495, 0.0341555]
+            container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+          - type: object_static
+            object: obj_014_lemon_3
+            threshold: 0.05
+            check_angular: false
+          - type: object_upright
+            object: obj_029_plate_1
+            tolerance_deg: 30
+    - id: place_orange_4
+      depends_on: [place_lemon_2, place_lemon_3]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_inside
+            object: obj_017_orange_4
+            container: obj_029_plate_1
+            tolerance: 0.15
+            object_center_offset: [-0.0079753, -0.021114, 0.0407422]
+            container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+          - type: object_static
+            object: obj_017_orange_4
+            threshold: 0.05
+            check_angular: false
+          - type: object_upright
+            object: obj_029_plate_1
+            tolerance_deg: 30
+    - id: place_orange_5
+      depends_on: [place_lemon_2, place_lemon_3]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_inside
+            object: obj_017_orange_5
+            container: obj_029_plate_1
+            tolerance: 0.15
+            object_center_offset: [-0.0079753, -0.021114, 0.0407422]
+            container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+          - type: object_static
+            object: obj_017_orange_5
+            threshold: 0.05
+            check_angular: false
+          - type: object_upright
+            object: obj_029_plate_1
+            tolerance_deg: 30
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_017_orange_4, obj_014_lemon_2, obj_017_orange_5, obj_014_lemon_3]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_017_orange_4:
+          type: object_inside
+          object: obj_017_orange_4
+          container: obj_029_plate_1
+          tolerance: 0.15
+          object_center_offset: [-0.0079753, -0.021114, 0.0407422]
+          container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+        obj_014_lemon_2:
+          type: object_inside
+          object: obj_014_lemon_2
+          container: obj_029_plate_1
+          tolerance: 0.15
+          object_center_offset: [-0.0137527, 0.0281495, 0.0341555]
+          container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+        obj_017_orange_5:
+          type: object_inside
+          object: obj_017_orange_5
+          container: obj_029_plate_1
+          tolerance: 0.15
+          object_center_offset: [-0.0079753, -0.021114, 0.0407422]
+          container_center_offset: [-0.0139452, 1.92e-05, 0.0]
+        obj_014_lemon_3:
+          type: object_inside
+          object: obj_014_lemon_3
+          container: obj_029_plate_1
+          tolerance: 0.15
+          object_center_offset: [-0.0137527, 0.0281495, 0.0341555]
+          container_center_offset: [-0.0139452, 1.92e-05, 0.0]

@@ -1,0 +1,53 @@
+# Basic experiment configuration
+policy_name: GR00T_n15_Tactile_Cross
+task_name: null
+task_config: null
+ckpt_setting: null
+ckpt_dir: null
+ckpt_name: gr00t_n15
+seed: null
+instruction_type: unseen
+policy_conda_env: GR00T_n15
+host: 127.0.0.1
+port: 9000
+episode_steps: 1800
+warmup_steps: 60
+num_episodes: 0
+
+# GR00T N1.5 configuration
+# Used by train.sh for finetuning. Points at the local HF cache copy on ssd
+# (downloaded during the first GR00T training run on 2026-07-28); avoids a
+# fresh HuggingFace download into ../.cache/huggingface on hdd.
+base_model_path: /inspire/ssd/project/roboticsystem2/ky26063/bench2dex_stuff/.cache/huggingface/hub/models--nvidia--GR00T-N1.5-3B/snapshots/869830fc749c35f34771aa5209f923ac57e4564e
+
+# Used by deploy/eval for the finetuned checkpoint.
+model_path: null
+embodiment_tag: new_embodiment
+data_config: policy.GR00T_n15_Tactile_Cross.gr00t_dex2bench_config:Dex2BenchGR00TDataConfig
+denoising_steps: 4
+action_horizon: 16
+execution_horizon: 4  # Replan after this prefix; keep server prediction horizon unchanged.
+camera_mode: 4cam  # 4cam: stereo pair + dual wrist; 3cam: overhead + dual wrist
+tactile_height: 240
+tactile_width: 240
+# state_dim / action_dim: auto-determined from robot_key when use_active_dof is true
+# Available robot_key values:
+#   multi_iiwa7_with_sharpa                  (active=58, full=58)
+#   multi_jaka_zu7_dexhand021_with_flange    (active=52, full=52)
+#   multi_panda_with_allegro                 (active=46, full=46)
+#   multi_panda_with_orca                    (active=48, full=48)
+#   multi_rm_65_with_revo2                   (active=24, full=34)
+#   multi_ur5_rh56dfx_with_flange            (active=24, full=36)
+#   multi_ur5_rh5dg2_with_flange             (active=38, full=48)
+#   multi_ur5_schunk_hand_with_flange        (active=30, full=52)
+#   multi_ur5_shadow_hand_with_flange        (active=60, full=60)
+#   multi_ur5_wuji_with_flange               (active=52, full=52)
+#   multi_xarm7_with_ability                 (active=26, full=34)
+#   multi_xarm7_with_leap                    (active=46, full=46)
+robot_key: multi_ur5_rh56dfx_with_flange
+max_state_dim: 64
+max_action_dim: 64
+use_active_dof: true
+action_keys:
+  - action.qpos
+device: cuda

@@ -1,0 +1,242 @@
+description: Use the right hand to place the drill and flat screwdriver into the wooden box, then use the left hand to place the wrench and Phillips screwdriver into the box.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a154_wooden_box:
+    path: ../../dex2bench_dataset/Objects/154_wooden_box/usd_decomposition_linux/base0.usd
+    scale: [0.14, 0.14, 0.14]
+    body_type: dynamic
+  a043_phillips_screwdriver:
+    path: ../../dex2bench_dataset/Objects/043_phillips_screwdriver/usd_decomposition_linux/textured.usd
+    scale: [1, 1, 1]
+    body_type: dynamic
+  a044_flat_screwdriver:
+    path: ../../dex2bench_dataset/Objects/044_flat_screwdriver/usd_decomposition_linux/textured.usd
+    scale: [1, 1, 1]
+    body_type: dynamic
+  a042_adjustable_wrench:
+    path: ../../dex2bench_dataset/Objects/042_adjustable_wrench/usd_decomposition_linux/textured.usd
+    scale: [1, 1, 2]
+    body_type: dynamic
+  a147_drill:
+    path: ../../dex2bench_dataset/Objects/147_drill/usd_decomposition_linux/base6.usd
+    scale: [0.11, 0.11, 0.11]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 1.5
+objects:
+  - id: obj_154_wooden_box_1
+    asset: a154_wooden_box
+    rpy_deg: [90, 0, 0]
+    position: [-0.04, 0.22]
+  - id: obj_043_phillips_screwdriver_2
+    asset: a043_phillips_screwdriver
+    rpy_deg: [90, 0, 0]
+    position: [-0.42, 0.3]
+  - id: obj_044_flat_screwdriver_3
+    asset: a044_flat_screwdriver
+    rpy_deg: [0, 0, 0]
+    position: [0.34, 0.34]
+  - id: obj_042_adjustable_wrench_4
+    asset: a042_adjustable_wrench
+    rpy_deg: [90, 0, 0]
+    position: [-0.35, 0.1]
+  - id: obj_147_drill_5
+    asset: a147_drill
+    rpy_deg: [0, -90, 30]
+    position: [0.35, 0.03]
+layout:
+  zone: tabletop
+  objects: [obj_154_wooden_box_1, obj_043_phillips_screwdriver_2, obj_044_flat_screwdriver_3, obj_042_adjustable_wrench_4, obj_147_drill_5]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_22_tool_box_loading
+metrics:
+  task_family: rigid_assembly
+  expert_time_step: 1361
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_043_phillips_screwdriver_2, obj_044_flat_screwdriver_3, obj_042_adjustable_wrench_4, obj_147_drill_5]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: all
+      conditions:
+        - type: custom
+          evaluator: success.custom.task_22_tool_box_loading
+        - type: object_static
+          object: obj_043_phillips_screwdriver_2
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_044_flat_screwdriver_3
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_042_adjustable_wrench_4
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_147_drill_5
+          threshold: 0.05
+          check_angular: false
+  stages:
+    - id: place_phillips
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_154_wooden_box_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_043_phillips_screwdriver_2
+            container: obj_154_wooden_box_1
+            tolerance: 0.18
+            container_center_offset: [0.0, 0.07, 0.0]
+            object_center_offset: [-0.042698, 0.0033815, 0.0173985]
+          - type: object_static
+            object: obj_043_phillips_screwdriver_2
+            threshold: 0.05
+            check_angular: false
+    - id: place_flat
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_154_wooden_box_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_044_flat_screwdriver_3
+            container: obj_154_wooden_box_1
+            tolerance: 0.18
+            container_center_offset: [0.0, 0.07, 0.0]
+            object_center_offset: [-0.0124925, 0.0116655, 0.0171135]
+          - type: object_static
+            object: obj_044_flat_screwdriver_3
+            threshold: 0.05
+            check_angular: false
+    - id: place_wrench
+      depends_on: [place_phillips, place_flat]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_154_wooden_box_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_042_adjustable_wrench_4
+            container: obj_154_wooden_box_1
+            tolerance: 0.18
+            container_center_offset: [0.0, 0.07, 0.0]
+            object_center_offset: [-0.0034875, -0.0123455, 0.008692]
+          - type: object_static
+            object: obj_042_adjustable_wrench_4
+            threshold: 0.05
+            check_angular: false
+    - id: place_drill
+      depends_on: [place_phillips, place_flat]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_154_wooden_box_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_147_drill_5
+            container: obj_154_wooden_box_1
+            tolerance: 0.18
+            container_center_offset: [0.0, 0.07, 0.0]
+            object_center_offset: [0.0, 0.0900622, 0.0]
+          - type: object_static
+            object: obj_147_drill_5
+            threshold: 0.05
+            check_angular: false
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_043_phillips_screwdriver_2, obj_044_flat_screwdriver_3, obj_042_adjustable_wrench_4, obj_147_drill_5]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_043_phillips_screwdriver_2:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_043_phillips_screwdriver_2
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+              container_center_offset: [0.0, 0.07, 0.0]
+              object_center_offset: [-0.042698, 0.0033815, 0.0173985]
+        obj_044_flat_screwdriver_3:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_044_flat_screwdriver_3
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+              container_center_offset: [0.0, 0.07, 0.0]
+              object_center_offset: [-0.0124925, 0.0116655, 0.0171135]
+        obj_042_adjustable_wrench_4:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_042_adjustable_wrench_4
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+              container_center_offset: [0.0, 0.07, 0.0]
+              object_center_offset: [-0.0034875, -0.0123455, 0.008692]
+        obj_147_drill_5:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_147_drill_5
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+              container_center_offset: [0.0, 0.07, 0.0]
+              object_center_offset: [0.0, 0.0900622, 0.0]

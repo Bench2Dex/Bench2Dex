@@ -1,0 +1,47 @@
+# Pi0.5 dex2bench deployment defaults.
+policy_name: pi05
+task_name: 06_fruit_bowl_loading
+task_config: replay
+seed: 100000000
+instruction_type: unseen
+host: 127.0.0.1
+port: 9000
+episode_steps: 800
+warmup_steps: 60
+num_episodes: 0
+# Pi05-specific
+
+train_config_name: pi05_base_dex2bench_full
+checkpoint_path: null
+train_action_horizon: 20
+eval_action_horizon: 20
+
+# action_dim / state_dim: auto-determined from robot_key when use_active_dof is true
+# Available robot_key values:
+#   multi_iiwa7_with_sharpa                  (active=58, full=58)
+#   multi_jaka_zu7_dexhand021_with_flange    (active=52, full=52)
+#   multi_panda_with_allegro                 (active=46, full=46)
+#   multi_panda_with_orca                    (active=48, full=48)
+#   multi_rm_65_with_revo2                   (active=24, full=34)
+#   multi_ur5_rh56dfx_with_flange            (active=24, full=36)
+#   multi_ur5_rh5dg2_with_flange             (active=38, full=48)
+#   multi_ur5_schunk_hand_with_flange        (active=30, full=52)
+#   multi_ur5_shadow_hand_with_flange        (active=60, full=60)
+#   multi_ur5_wuji_with_flange               (active=52, full=52)
+#   multi_xarm7_with_ability                 (active=26, full=34)
+#   multi_xarm7_with_leap                    (active=46, full=46)   
+
+robot_key: multi_xarm7_with_leap
+use_active_dof: true
+
+batch_size: 256
+fsdp_devices: 1
+num_workers: 32
+num_train_steps: 2000
+log_interval: 50
+save_interval: 1000
+
+lr_schedule_peak_lr: 1e-4
+lr_schedule_decay_lr: 1e-6
+lr_schedule_warmup_steps: 100
+lr_schedule_decay_steps: 2000

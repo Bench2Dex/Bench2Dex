@@ -1,0 +1,57 @@
+# ACT deploy config — kept minimal. Everything else is auto-detected or passed via CLI.
+task_name: null
+policy_name: ACT
+host: 127.0.0.1
+port: 9000
+seed: 100000000
+
+# ACT-specific arguments
+# action_dim / state_dim: auto-determined from robot_key when use_active_dof is true
+# Available robot_key values:
+#   multi_iiwa7_with_sharpa                  (active=54, full=58)
+#   multi_jaka_zu7_dexhand021_with_flange    (active=52, full=52)
+#   multi_panda_with_allegro                 (active=32, full=46)
+#   multi_panda_with_orca                    (active=40, full=48)
+#   multi_rm_65_with_revo2                   (active=24, full=34)
+#   multi_ur5_rh56dfx_with_flange            (active=24, full=36)
+#   multi_ur5_rh5dg2_with_flange             (active=38, full=48)
+#   multi_ur5_schunk_hand_with_flange        (active=30, full=52)
+#   multi_ur5_shadow_hand_with_flange        (active=56, full=60)
+#   multi_ur5_wuji_with_flange               (active=52, full=52)
+#   multi_xarm7_with_ability                 (active=26, full=34)
+#   multi_xarm7_with_leap                    (active=40, full=46)
+
+# Auto-detected from ckpt_dir — override only if auto-detection fails
+robot_key: null
+use_active_dof: true
+
+# ACT architecture (loaded from checkpoint, listed for reference)
+kl_weight: 10.0
+chunk_size: 30
+hidden_dim: 512
+dim_feedforward: 3200
+temporal_agg: false
+device: cuda:0
+ckpt_dir: null
+ckpt_name: policy_best.ckpt
+
+# Model backbone params (must match training — DETR parser requires these)
+backbone: resnet18
+position_embedding: sine
+enc_layers: 4
+dec_layers: 7
+nheads: 8
+dropout: 0.1
+pre_norm: false
+lr_backbone: 0.00001
+lr: 0.00001
+weight_decay: 0.0001
+masks: false
+dilation: false
+
+# Camera config
+camera_names:
+  - cam_right_wrist
+  - cam_left_wrist
+  - cam_stereo_left
+  - cam_stereo_right

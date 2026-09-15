@@ -1,0 +1,285 @@
+description: Place mini soccer ball into box, place tennis ball into box, place golf ball into box, place ping-pong ball into box.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a212_basket:
+    path: ../../dex2bench_dataset/Objects/154_wooden_box/usd_decomposition_linux/base0.usd
+    scale: [0.15, 0.15, 0.15]
+    body_type: dynamic
+  a053_mini_soccer_ball:
+    path: ../../dex2bench_dataset/Objects/053_mini_soccer_ball/usd_decomposition_linux/textured.usd
+    scale: [1.2, 1.2, 1.2]
+    body_type: dynamic
+  a056_tennis_ball:
+    path: ../../dex2bench_dataset/Objects/056_tennis_ball/usd_decomposition_linux/textured.usd
+    scale: [1, 1, 1]
+    body_type: dynamic
+  a058_golf_ball:
+    path: ../../dex2bench_dataset/Objects/058_golf_ball/usd_decomposition_linux/textured.usd
+    scale: [1, 1, 1]
+    body_type: dynamic
+  a144_table_tennis:
+    path: ../../dex2bench_dataset/Objects/144_table-tennis/usd_decomposition_linux/base1.usd
+    scale: [0.05, 0.05, 0.05]
+    body_type: dynamic
+objects:
+  - id: obj_212_basket_1
+    asset: a212_basket
+    rpy_deg: [90, 0, 0]
+    position: [0.4, 0.2]
+  - id: obj_053_mini_soccer_ball_2
+    asset: a053_mini_soccer_ball
+    rpy_deg: [0, 0, 0]
+    position: [-0.1, 0.2]
+  - id: obj_056_tennis_ball_3
+    asset: a056_tennis_ball
+    rpy_deg: [0, 0, 0]
+    position: [-0.35, 0.3]
+  - id: obj_058_golf_ball_4
+    asset: a058_golf_ball
+    rpy_deg: [0, 0, 0]
+    position: [0.08, 0.3]
+  - id: obj_144_table_tennis_5
+    asset: a144_table_tennis
+    rpy_deg: [0, 0, 0]
+    position: [0.25, -0.05]
+layout:
+  zone: tabletop
+  objects: [obj_212_basket_1, obj_053_mini_soccer_ball_2, obj_056_tennis_ball_3, obj_058_golf_ball_4, obj_144_table_tennis_5]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_27_ball_box_loading
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 2380
+  expert_time_source: mean steps_to_stable_success over 50/50 successful demos from origin-generalization
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_144_table_tennis_5, obj_056_tennis_ball_3, obj_053_mini_soccer_ball_2, obj_058_golf_ball_4]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: all
+      conditions:
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_212_basket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_053_mini_soccer_ball_2
+              container: obj_212_basket_1
+              tolerance: 0.22
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [-0.0074058, 0.0132354, 0.0747246]
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_212_basket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_056_tennis_ball_3
+              container: obj_212_basket_1
+              tolerance: 0.22
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [0.0082115, -0.044278, 0.0331315]
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_212_basket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_058_golf_ball_4
+              container: obj_212_basket_1
+              tolerance: 0.22
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [-0.0065395, -0.0304375, 0.0209435]
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_212_basket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_144_table_tennis_5
+              container: obj_212_basket_1
+              tolerance: 0.22
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [0.0, 0.0466254, 0.0]
+        - type: object_static
+          object: obj_053_mini_soccer_ball_2
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_056_tennis_ball_3
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_058_golf_ball_4
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_144_table_tennis_5
+          threshold: 0.05
+          check_angular: false
+  stages:
+    - id: place_soccer
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_212_basket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_053_mini_soccer_ball_2
+            container: obj_212_basket_1
+            tolerance: 0.22
+            container_center_offset: [0.0, 0.075, 0.0]
+            object_center_offset: [-0.0074058, 0.0132354, 0.0747246]
+          - type: object_static
+            object: obj_053_mini_soccer_ball_2
+            threshold: 0.05
+            check_angular: false
+    - id: place_tennis
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_212_basket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_056_tennis_ball_3
+            container: obj_212_basket_1
+            tolerance: 0.22
+            container_center_offset: [0.0, 0.075, 0.0]
+            object_center_offset: [0.0082115, -0.044278, 0.0331315]
+          - type: object_static
+            object: obj_056_tennis_ball_3
+            threshold: 0.05
+            check_angular: false
+    - id: place_golf
+      depends_on: [place_soccer, place_tennis]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_212_basket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_058_golf_ball_4
+            container: obj_212_basket_1
+            tolerance: 0.22
+            container_center_offset: [0.0, 0.075, 0.0]
+            object_center_offset: [-0.0065395, -0.0304375, 0.0209435]
+          - type: object_static
+            object: obj_058_golf_ball_4
+            threshold: 0.05
+            check_angular: false
+    - id: place_pingpong
+      depends_on: [place_soccer, place_tennis]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_212_basket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_144_table_tennis_5
+            container: obj_212_basket_1
+            tolerance: 0.22
+            container_center_offset: [0.0, 0.075, 0.0]
+            object_center_offset: [0.0, 0.0466254, 0.0]
+          - type: object_static
+            object: obj_144_table_tennis_5
+            threshold: 0.05
+            check_angular: false
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_144_table_tennis_5, obj_056_tennis_ball_3, obj_053_mini_soccer_ball_2, obj_058_golf_ball_4]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_144_table_tennis_5:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_212_basket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_144_table_tennis_5
+              container: obj_212_basket_1
+              tolerance: 0.22
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [0.0, 0.0466254, 0.0]
+        obj_056_tennis_ball_3:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_212_basket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_056_tennis_ball_3
+              container: obj_212_basket_1
+              tolerance: 0.22
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [0.0082115, -0.044278, 0.0331315]
+        obj_053_mini_soccer_ball_2:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_212_basket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_053_mini_soccer_ball_2
+              container: obj_212_basket_1
+              tolerance: 0.22
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [-0.0074058, 0.0132354, 0.0747246]
+        obj_058_golf_ball_4:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_212_basket_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_058_golf_ball_4
+              container: obj_212_basket_1
+              tolerance: 0.22
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [-0.0065395, -0.0304375, 0.0209435]

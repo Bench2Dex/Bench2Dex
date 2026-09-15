@@ -1,0 +1,137 @@
+description: Hold the bowl beside the pot with the left hand, use the right hand to ladle two scoops of soup from the pot into the bowl, carry the bowl with the left hand to the front-right area, and return the ladle with the right hand.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a333_portable_stove:
+    path: ../../dex2bench_dataset/Objects/332_gas_stove/01_gas_stove/01/usd_decomposition_linux/gas_stove_kitchen.usd
+    scale: [0.4, 0.4, 0.4]
+    body_type: dynamic
+    spawn:
+      rigid_props:
+        kinematic_enabled: true
+  a330_pot:
+    path: ../../dex2bench_dataset/Objects/330_kitchen_pack/01_kitchen_pack/01/usd_decomposition_linux/kitchen_pack_Pot_01_Pot_Mat_0.usd
+    scale: [0.0069, 0.0069, 0.0069]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 1.4
+      rigid_props:
+        kinematic_enabled: true
+  a330_bowl:
+    path: ../../dex2bench_dataset/Objects/330_kitchen_pack/01_kitchen_pack/01/usd_decomposition_linux/kitchen_pack_Bowl_phong2_0.usd
+    scale: [0.005, 0.005, 0.005]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.25
+  a330_ladle:
+    path: ../../dex2bench_dataset/Objects/330_kitchen_pack/01_kitchen_pack/01/usd_decomposition_linux/kitchen_pack_Ladle_Clutery_Mat_0.usd
+    scale: [0.011, 0.011, 0.011]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.15
+objects:
+  - id: obj_333_stove_1
+    asset: a333_portable_stove
+    rpy_deg: [90, 0, 0]
+    position: [0, 0.2]
+    generalization:
+      freeze_pose: true
+  - id: obj_330_pot_1
+    asset: a330_pot
+    rpy_deg: [0, 0, 0]
+    position: [0.0, 0.24, 0.06]
+    generalization:
+      freeze_pose: true
+  - id: obj_330_bowl_2
+    asset: a330_bowl
+    rpy_deg: [0, 0, 0]
+    position: [-0.5, 0.2]
+  - id: obj_330_ladle_3
+    asset: a330_ladle
+    rpy_deg: [0, 50, 180]
+    position: [0.07 , 0.24,0.22]
+layout:
+  zone: tabletop
+  objects: [obj_333_stove_1, obj_330_pot_1, obj_330_bowl_2, obj_330_ladle_3]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_76_soup_serving
+    params: {}
+metrics:
+  task_family: bimanual_soup_scoop_serve
+  expert_time_step: 1972
+  expert_time_source: "mean steps_to_stable_success over 49/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_330_bowl_2, obj_330_ladle_3]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_76_soup_serving
+      params: {}
+  stages:
+    - id: scoop_1
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_76_soup_serving
+        params: {phase: scoop1}
+    - id: scoop_2
+      depends_on: [scoop_1]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_76_soup_serving
+        params: {phase: scoop2}
+    - id: ladle_returned
+      depends_on: [scoop_2]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_76_soup_serving
+        params: {phase: ladle_returned}
+    - id: bowl_placed
+      depends_on: [scoop_2]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_76_soup_serving
+        params: {phase: bowl_placed}
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_330_bowl_2, obj_330_ladle_3]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_330_ladle_3:
+          type: custom
+          evaluator: success.custom.task_76_soup_serving
+          params: {phase: ladle_returned}
+        obj_330_bowl_2:
+          type: custom
+          evaluator: success.custom.task_76_soup_serving
+          params: {phase: bowl_placed}

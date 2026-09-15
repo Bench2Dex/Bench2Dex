@@ -1,0 +1,145 @@
+description: Use the right hand to place the monosodium glutamate into the box and move the box to the table center; then use the left hand to place the soy sauce into the box, followed by the vinegar.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a154_wooden_box:
+    path: ../../dex2bench_dataset/Objects/154_wooden_box/usd_decomposition_linux/base0.usd
+    scale: [0.15, 0.15, 0.15]
+    body_type: dynamic
+  a172_soy_sauce:
+    path: ../../dex2bench_dataset/Objects/172_soy-sauce/usd_decomposition_linux/base4.usd
+    scale: [1, 1, 1]
+    body_type: dynamic
+  a173_vinegar:
+    path: ../../dex2bench_dataset/Objects/173_vinegar/usd_decomposition_linux/base2.usd
+    scale: [0.9, 0.9, 0.75]
+    body_type: dynamic
+  a171_msg:
+    path: ../../dex2bench_dataset/Objects/171_msg/usd_decomposition_linux/base5.usd
+    scale: [0.05, 0.05, 0.05]
+    body_type: dynamic
+objects:
+  - id: obj_154_wooden_box_1
+    asset: a154_wooden_box
+    rpy_deg: [90, 0, 0]
+    position: [0.58, 0.15]
+  - id: obj_172_soy_sauce_2
+    asset: a172_soy_sauce
+    rpy_deg: [90, 0, 0]
+    position: [-0.4, 0.2]
+  - id: obj_173_vinegar_3
+    asset: a173_vinegar
+    rpy_deg: [90, 0, 0]
+    position: [-0.25, 0.1]
+  - id: obj_171_msg_4
+    asset: a171_msg
+    rpy_deg: [90, 0, 0]
+    position: [0.04, 0.25]
+layout:
+  zone: tabletop
+  objects: [obj_154_wooden_box_1, obj_172_soy_sauce_2, obj_173_vinegar_3, obj_171_msg_4]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_21_condiment_box_loading
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 1654
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_172_soy_sauce_2, obj_173_vinegar_3, obj_171_msg_4]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_21_condiment_box_loading
+  stages:
+    - id: place_soy_sauce
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_21_condiment_box_loading
+        params:
+          mode: soy
+    - id: place_vinegar
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_21_condiment_box_loading
+        params:
+          mode: vinegar
+    - id: place_msg
+      depends_on: [place_soy_sauce, place_vinegar]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_21_condiment_box_loading
+        params:
+          mode: msg
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_172_soy_sauce_2, obj_173_vinegar_3, obj_171_msg_4]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_172_soy_sauce_2:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_172_soy_sauce_2
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [0.0, 0.075, 0.0]
+        obj_173_vinegar_3:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_173_vinegar_3
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [-8.6e-06, 0.1125, -2.6e-06]
+        obj_171_msg_4:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_171_msg_4
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+              container_center_offset: [0.0, 0.075, 0.0]
+              object_center_offset: [-2.0e-06, 0.0475284, 2.2e-06]

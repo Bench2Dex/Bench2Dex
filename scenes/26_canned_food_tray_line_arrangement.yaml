@@ -1,0 +1,156 @@
+description: Use left hand to place the master chef can and MSG onto the tray, use right hand to place the milk box and potted meat can onto the tray.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a130_tray:
+    path: ../../dex2bench_dataset/Objects/130_tray/usd_decomposition_linux/base3.usd
+    scale: [0.17, 0.17, 0.17]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 2
+      rigid_props:
+        kinematic_enabled: true
+  a002_master_chef_can:
+    path: ../../dex2bench_dataset/Objects/002_master_chef_can/usd_decomposition_linux/textured.usd
+    scale: [0.8, 0.8, 0.9]
+    body_type: dynamic
+  a171_msg:
+    path: ../../dex2bench_dataset/Objects/171_msg/usd_decomposition_linux/base5.usd
+    scale: [0.05, 0.05, 0.05]
+    body_type: dynamic
+  a151_milk_box:
+    path: ../../dex2bench_dataset/Objects/151_milk-box/usd_decomposition_linux/base3.usd
+    scale: [0.6, 0.6, 0.6]
+    body_type: dynamic
+  a010_potted_meat_can:
+    path: ../../dex2bench_dataset/Objects/010_potted_meat_can/usd_decomposition_linux/textured.usd
+    scale: [1, 1, 1]
+    body_type: dynamic
+objects:
+  - id: obj_130_tray_1
+    asset: a130_tray
+    rpy_deg: [90, 0, 0]
+    position: [0, 0.2]
+    generalization:
+      freeze_pose: true
+  - id: obj_002_master_chef_can_2
+    asset: a002_master_chef_can
+    rpy_deg: [0, 0, 0]
+    position: [-0.4, 0.38]
+  - id: obj_171_msg_3
+    asset: a171_msg
+    rpy_deg: [90, 0, 0]
+    position: [-0.25, 0.18]
+  - id: obj_151_milk_box_4
+    asset: a151_milk_box
+    rpy_deg: [90, 0, 0]
+    position: [0.14, 0.38]
+  - id: obj_010_potted_meat_can_5
+    asset: a010_potted_meat_can
+    rpy_deg: [0, 0, 90]
+    position: [0.4, 0.24]
+layout:
+  zone: tabletop
+  objects: [obj_130_tray_1, obj_002_master_chef_can_2, obj_171_msg_3, obj_151_milk_box_4, obj_010_potted_meat_can_5]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 1742
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_151_milk_box_4, obj_010_potted_meat_can_5, obj_002_master_chef_can_2, obj_171_msg_3]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+  stages:
+    - id: place_can_1
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+        params:
+          phase: stage
+          object: obj_002_master_chef_can_2
+    - id: place_can_2
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+        params:
+          phase: stage
+          object: obj_171_msg_3
+    - id: place_can_3
+      depends_on: [place_can_1, place_can_2]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+        params:
+          phase: stage
+          object: obj_151_milk_box_4
+    - id: place_can_4
+      depends_on: [place_can_1, place_can_2]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+        params:
+          phase: stage
+          object: obj_010_potted_meat_can_5
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_151_milk_box_4, obj_010_potted_meat_can_5, obj_002_master_chef_can_2, obj_171_msg_3]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_151_milk_box_4:
+          type: custom
+          evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+          params:
+            phase: placed
+            object: obj_151_milk_box_4
+        obj_010_potted_meat_can_5:
+          type: custom
+          evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+          params:
+            phase: placed
+            object: obj_010_potted_meat_can_5
+        obj_002_master_chef_can_2:
+          type: custom
+          evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+          params:
+            phase: placed
+            object: obj_002_master_chef_can_2
+        obj_171_msg_3:
+          type: custom
+          evaluator: success.custom.task_26_canned_food_tray_line_arrangement
+          params:
+            phase: placed
+            object: obj_171_msg_3

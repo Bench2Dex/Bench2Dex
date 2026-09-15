@@ -1,0 +1,49 @@
+retargeting:
+  type: DexPilot
+  scaling_factor: 1.02
+  project_dist: 0.01
+  escape_dist: 0.02
+  low_pass_alpha: 0.2
+
+  hand_offset_xyz: [0, 0, 0]
+  hand_scale_xyz: [1, 1.0, 1.0]
+  mano_correction_vis: true
+
+  finger_tip_link_names:
+    - thtip
+    - fftip
+    - mftip
+    - rftip
+    - lftip
+
+  right:
+    urdf_path: ur5+schunk_hand/urdf/Right_Hand.urdf
+    wrist_link_name: "right_hand_base_link"
+    target_joint_names:
+      - right_hand_Thumb_Opposition
+      - right_hand_Thumb_Flexion
+      - right_hand_Index_Finger_Proximal
+      - right_hand_Index_Finger_Distal
+      - right_hand_Finger_Spread
+      - right_hand_Pinky
+      - right_hand_Ring_Finger
+      - right_hand_Middle_Finger_Proximal
+      - right_hand_Middle_Finger_Distal
+    mano_to_pinocchio_rpy: [1.5708, -1.5708, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 0]
+
+  left:
+    urdf_path: ur5+schunk_hand/urdf/Left_Hand.urdf
+    wrist_link_name: "left_hand_base_link"
+    target_joint_names:
+      - left_hand_Thumb_Opposition
+      - left_hand_Thumb_Flexion
+      - left_hand_Index_Finger_Proximal
+      - left_hand_Index_Finger_Distal
+      - left_hand_Finger_Spread
+      - left_hand_Pinky
+      - left_hand_Ring_Finger
+      - left_hand_Middle_Finger_Proximal
+      - left_hand_Middle_Finger_Distal
+    mano_to_pinocchio_rpy: [-1.5708, -1.5708, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 0]

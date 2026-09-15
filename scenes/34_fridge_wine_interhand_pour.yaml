@@ -1,0 +1,164 @@
+description: Use the left hand to open the refrigerator and take out the wine bottle, hand it to the right hand in the air to pour a glass of wine, hand it back to the left hand to return it to the refrigerator,
+  then close the door with the left hand.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb: [[-1.1, -0.55, 0.75], [1.1, 0.55, 0.75]]
+assets:
+  a194_wineglass:
+    path: ../../dex2bench_dataset/Objects/194_wineglass/usd_decomposition_linux/base4.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+    generalization:
+      freeze_pose: true
+  a029_plate:
+    path: ../../dex2bench_dataset/Objects/029_plate/usd_decomposition_linux/textured.usd
+    scale: [1.2, 1.2, 1.2]
+    body_type: dynamic
+    generalization:
+      freeze_pose: true
+  a030_fork:
+    path: ../../dex2bench_dataset/Objects/030_fork/usd_decomposition_linux/textured.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+    generalization:
+      freeze_pose: true
+  a224_wine_bottle:
+    path: ../../dex2bench_dataset/Objects/224_wine_bottle/usd_decomposition_linux/textured.usd
+    scale: [0.013, 0.013, 0.013]
+    body_type: dynamic
+  a111_refrigerator:
+    path: ../../dex2bench_dataset/Objects/111_refrigerator/01_refrigerator/01/usd_decomposition_linux/mobility.usd
+    scale: [0.4, 0.4, 0.4]
+    body_type: articulation
+    spawn:
+      articulation_props:
+        fix_root_link: true
+      mass_props:
+        density: 360.0
+      joint_limits:
+        joint_0:
+          lower: 0.0
+          upper: 1.57
+          unit: rad
+        joint_1:
+          lower: 0.0
+          upper: 1.57
+          unit: rad
+      joint_pos:
+        joint_0: 0.05
+        joint_1: 0.05
+      actuators:
+        joints:
+          joint_names_expr: [joint_0, joint_1]
+          effort_limit_sim: 200.0
+          velocity_limit_sim: 8.0
+          stiffness: 0.0
+          damping: 1.0
+    generalization:
+      freeze_pose: true
+objects:
+- id: obj_030_fork_2
+  asset: a030_fork
+  rpy_deg: [0, 0, 90]
+  position: [0.05, 0.42]
+- id: obj_029_plate_2
+  asset: a029_plate
+  rpy_deg: [0, 0, 0]
+  position: [0.28, 0.4]
+- id: obj_194_wineglass_2
+  asset: a194_wineglass
+  rpy_deg: [90, 0, 0]
+  position: [0.48, 0.38]
+- id: obj_224_wine_bottle_1
+  asset: a224_wine_bottle
+  rpy_deg: [0, 0, 0]
+  position: [-0.2, 0.43, 0.05]
+- id: obj_111_refrigerator_1
+  asset: a111_refrigerator
+  rpy_deg: [0, 0, 90]
+  position: [-0.2, 0.5]
+layout:
+  zone: tabletop
+  objects: [obj_030_fork_2, obj_029_plate_2, obj_194_wineglass_2, obj_224_wine_bottle_1, obj_111_refrigerator_1]
+  yaw_range: [0, 360]
+success_conditions:
+- type: custom
+  evaluator: success.custom.task_34_fridge_wine_interhand_pour
+metrics:
+  task_family: articulation_pour
+  expert_time_step: 2160
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from replay-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_224_wine_bottle_1]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_34_fridge_wine_interhand_pour
+  stages:
+  - id: open_fridge
+    depends_on: []
+    success_condition:
+      type: joint_state
+      object: obj_111_refrigerator_1
+      joint: joint_0
+      target: open
+      tolerance: 1.22
+  - id: take_bottle
+    depends_on: [open_fridge]
+    success_condition:
+      type: object_lifted
+      object: obj_224_wine_bottle_1
+      min_z: 0.82
+  - id: pour_wine
+    depends_on: [take_bottle]
+    success_condition:
+      type: custom
+      evaluator: success.custom.task_34_fridge_wine_interhand_pour
+      params:
+        mode: pour_only
+  - id: return_bottle
+    depends_on: [pour_wine]
+    success_condition:
+      type: custom
+      evaluator: success.custom.task_34_fridge_wine_interhand_pour
+      params:
+        mode: returned
+  - id: close_fridge
+    depends_on: [return_bottle]
+    success_condition:
+      type: joint_state
+      object: obj_111_refrigerator_1
+      joint: joint_0
+      target: closed
+      tolerance: 0.25
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_224_wine_bottle_1]
+      allowed_placed_conditions:
+        obj_224_wine_bottle_1:
+          type: object_in_container_zone
+          object: obj_224_wine_bottle_1
+          container: obj_111_refrigerator_1
+          container_frame: true
+          container_center_offset: [-0.046, -0.019, -0.336]
+          zone_lo: [-0.1, -0.08, -0.04]
+          zone_hi: [0.1, 0.11, 0.05]

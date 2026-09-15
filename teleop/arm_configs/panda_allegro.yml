@@ -1,0 +1,33 @@
+arm:
+  num_joints: 7
+  urdf_path: panda+allegro/multi_panda_with_allegro.urdf
+  urdf_needs_material_cleanup: true
+  ee_axes_mapping: ["-z", "+y", "+x"]
+  joint_margin: 0.05
+
+  right:
+    joint_names:
+      - multi_panda_joint1
+      - multi_panda_joint2
+      - multi_panda_joint3
+      - multi_panda_joint4
+      - multi_panda_joint5
+      - multi_panda_joint6
+      - multi_panda_joint7
+    ee_body: "multi_panda_link7"
+    pin_ee_frame: "multi_panda_link7"
+    pin_arm_q_indices: [0, 1, 2, 3, 4, 5, 6]
+
+  left:
+    joint_names:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+    ee_body: "panda_link7"
+    pin_ee_frame: "panda_link7"
+    pin_arm_q_indices: auto
+    ee_orientation_correction_rpy: [0, 0, -0.87]

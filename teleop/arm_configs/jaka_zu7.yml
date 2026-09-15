@@ -1,0 +1,37 @@
+arm:
+  num_joints: 6
+  urdf_path: jaka_zu7+dexhand021/urdf/Multi_jaka_zu7_dexhand021_with_flange_with_flange.urdf
+  ee_axes_mapping: ["+z", "-y", "+x"]
+  joint_margin: 0.05
+
+  right:
+    joint_names:
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
+    ee_body: "Link_6"
+    pin_ee_frame: "Link_6"
+    pin_arm_q_indices: [26, 27, 28, 29, 30, 31]
+    # EE 偏置: palm 在 EE body (Link_6) 局部系下的位置 [x, y, z] (米)
+    # palm_world = ee_body_world + R_ee_body @ ee_offset
+    # IK 会自动计算: ee_body_target = hand_target - R_target @ ee_offset
+    ee_offset: [0.0, 0.1, 0.2]
+
+  left:
+    joint_names:
+      - l_joint_1
+      - l_joint_2
+      - l_joint_3
+      - l_joint_4
+      - l_joint_5
+      - l_joint_6
+    ee_body: "l_Link_6"
+    pin_ee_frame: "l_Link_6"
+    pin_arm_q_indices: [0, 1, 2, 3, 4, 5]
+    # EE 偏置: palm 在 EE body (l_Link_6) 局部系下的位置 [x, y, z] (米)
+    # palm_world = ee_body_world + R_ee_body @ ee_offset
+    # IK 会自动计算: ee_body_target = hand_target - R_target @ ee_offset
+    ee_offset: [0.0, 0.1, 0.2]

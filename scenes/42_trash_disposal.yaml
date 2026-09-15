@@ -1,0 +1,131 @@
+description: Open the trash can lid, throw crumpled paper into the trash can, use left hand to throw bottle and banana peel into the trash can, close the trash can lid.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a341_banana_peel:
+    path: ../../dex2bench_dataset/Objects/341_banana_peel/01_banana_peel/01/usd_decomposition_linux/banana_peel.usd
+    scale: [30.0, 30.0, 30.0]
+    body_type: dynamic
+  a080_bottle:
+    path: ../../dex2bench_dataset/Objects/080_bottle/02_bottle/01/usd_decomposition_linux/bottle_opaque.usd
+    scale: [0.05, 0.05, 0.05]
+    body_type: dynamic
+  a349_paper_low:
+    path: ../../dex2bench_dataset/Objects/349_paper_low/01_paper_low/01/usd_decomposition_linux/paper_low.usd
+    scale: [0.05, 0.05, 0.05]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.04
+  a122_trashcan:
+    path: ../../dex2bench_dataset/Objects/122_trashcan/01_trashcan/03/usd_decomposition_linux/mobility.usd
+    scale: [0.246, 0.246, 0.166]
+    body_type: articulation
+    spawn:
+      articulation_props:
+        fix_root_link: true
+      mass_props:
+        density: 30.0
+      joint_limits:
+        joint_1:
+          lower: 0.05
+          upper: 2.0943951023931953
+          unit: rad
+      joint_pos:
+        joint_1: 0.05
+      actuators:
+        joints:
+          joint_names_expr: [joint_0, joint_1]
+          effort_limit_sim: 200.0
+          velocity_limit_sim: 8.0
+          stiffness: 0
+          damping: 0.1
+          armature: 0.05
+objects:
+  - id: obj_341_banana_peel_1
+    asset: a341_banana_peel
+    rpy_deg: [90, 0, 0]
+    position: [-0.5, 0.15]
+  - id: obj_349_paper_low_2
+    asset: a349_paper_low
+    rpy_deg: [0, 0, 30]
+    position: [0.24, 0]
+  - id: obj_080_bottle_3
+    asset: a080_bottle
+    rpy_deg: [0, 0, 0]
+    position: [-0.24, 0.12]
+  - id: obj_122_trashcan_6
+    asset: a122_trashcan
+    rpy_deg: [0, 0, 90]
+    position: [0.0, 0.17]
+layout:
+  zone: tabletop
+  objects: [obj_341_banana_peel_1, obj_349_paper_low_2, obj_080_bottle_3, obj_122_trashcan_6]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_42_trash_disposal
+metrics:
+  task_family: trash_sorting_disposal
+  expert_time_step: 1336
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_341_banana_peel_1, obj_349_paper_low_2, obj_080_bottle_3]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_42_trash_disposal
+  stages:
+    - id: place_banana_peel
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_42_trash_disposal
+        params:
+          phase: stage
+          object: obj_341_banana_peel_1
+    - id: place_paper
+      depends_on: [place_banana_peel]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_42_trash_disposal
+        params:
+          phase: stage
+          object: obj_349_paper_low_2
+    - id: place_bottle
+      depends_on: [place_paper]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_42_trash_disposal
+        params:
+          phase: stage
+          object: obj_080_bottle_3
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_341_banana_peel_1, obj_349_paper_low_2, obj_080_bottle_3]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25

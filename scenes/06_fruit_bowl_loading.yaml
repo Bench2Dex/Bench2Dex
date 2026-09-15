@@ -1,0 +1,257 @@
+description: Use the left hand to move the bowl to the table center, the right hand to place two apples into it, and the left hand to place the banana into it.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a024_bowl:
+    path: ../../dex2bench_dataset/Objects/024_bowl/usd_decomposition_linux/textured.usd
+    scale: [1.5, 1.5, 1.5]
+    body_type: dynamic
+  a011_banana:
+    path: ../../dex2bench_dataset/Objects/011_banana/usd_decomposition_linux/textured.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+  a013_apple:
+    path: ../../dex2bench_dataset/Objects/013_apple/usd_decomposition_linux/textured.usd
+    scale: [1.0, 1.0, 1.0]
+    body_type: dynamic
+objects:
+  - id: obj_024_bowl_1
+    asset: a024_bowl
+    rpy_deg: [0, 0, 0]
+    position: [-0.5, 0.3]
+  - id: obj_011_banana_2
+    asset: a011_banana
+    rpy_deg: [0, 0, 0]
+    position: [-0.12, 0.3]
+  - id: obj_013_apple_3
+    asset: a013_apple
+    rpy_deg: [0, 0, 0]
+    position: [0.26, 0.3]
+  - id: obj_013_apple_4
+    asset: a013_apple
+    rpy_deg: [180, 0, 0]
+    position: [0.21, 0.1]
+layout:
+  zone: tabletop
+  objects: [obj_024_bowl_1, obj_011_banana_2, obj_013_apple_3]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_06_fruit_bowl_loading
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 1280
+  expert_time_source: mean steps_to_stable_success over 50/50 successful demos from origin-generalization
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: all
+      conditions:
+        - type: object_in_zone
+          object: obj_024_bowl_1
+          aabb:
+            - [-0.5, -0.3, 0.7]
+            - [0.5, 0.3, 0.85]
+        - type: object_upright
+          object: obj_024_bowl_1
+          tolerance_deg: 30
+        - type: all
+          conditions:
+            - type: all
+              conditions:
+                - type: object_upright
+                  object: obj_024_bowl_1
+                  tolerance_deg: 30
+                - type: object_inside
+                  object: obj_011_banana_2
+                  container: obj_024_bowl_1
+                  container_center_offset: [-0.02225925, -0.0655335, 0.0]
+                  tolerance: 0.125
+                  object_center_offset: [0.011476, -0.0073435, 0.017963]
+            - type: object_static
+              object: obj_011_banana_2
+              threshold: 0.05
+              check_angular: false
+        - type: all
+          conditions:
+            - type: all
+              conditions:
+                - type: object_upright
+                  object: obj_024_bowl_1
+                  tolerance_deg: 30
+                - type: object_inside
+                  object: obj_013_apple_3
+                  container: obj_024_bowl_1
+                  container_center_offset: [-0.02225925, -0.0655335, 0.0]
+                  tolerance: 0.125
+                  object_center_offset: [0.000859, -0.0037845, 0.0355515]
+            - type: object_static
+              object: obj_013_apple_3
+              threshold: 0.05
+              check_angular: false
+        - type: all
+          conditions:
+            - type: all
+              conditions:
+                - type: object_upright
+                  object: obj_024_bowl_1
+                  tolerance_deg: 30
+                - type: object_inside
+                  object: obj_013_apple_4
+                  container: obj_024_bowl_1
+                  container_center_offset: [-0.02225925, -0.0655335, 0.0]
+                  tolerance: 0.125
+                  object_center_offset: [0.000859, -0.0037845, 0.0355515]
+            - type: object_static
+              object: obj_013_apple_4
+              threshold: 0.05
+              check_angular: false
+        - type: object_static
+          object: obj_024_bowl_1
+          threshold: 0.05
+          check_angular: false
+  stages:
+    - id: move_bowl
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_in_zone
+            object: obj_024_bowl_1
+            aabb:
+              - [-0.5, -0.3, 0.7]
+              - [0.5, 0.3, 0.85]
+          - type: object_upright
+            object: obj_024_bowl_1
+            tolerance_deg: 30
+          - type: object_static
+            object: obj_024_bowl_1
+            threshold: 0.05
+            check_angular: false
+    - id: place_apple_3
+      depends_on: [move_bowl]
+      success_condition:
+        type: all
+        conditions:
+          - type: all
+            conditions:
+              - type: object_upright
+                object: obj_024_bowl_1
+                tolerance_deg: 30
+              - type: object_inside
+                object: obj_013_apple_3
+                container: obj_024_bowl_1
+                container_center_offset: [-0.02225925, -0.0655335, 0.0]
+                tolerance: 0.125
+                object_center_offset: [0.000859, -0.0037845, 0.0355515]
+          - type: object_static
+            object: obj_013_apple_3
+            threshold: 0.05
+            check_angular: false
+    - id: place_apple_4
+      depends_on: [move_bowl]
+      success_condition:
+        type: all
+        conditions:
+          - type: all
+            conditions:
+              - type: object_upright
+                object: obj_024_bowl_1
+                tolerance_deg: 30
+              - type: object_inside
+                object: obj_013_apple_4
+                container: obj_024_bowl_1
+                container_center_offset: [-0.02225925, -0.0655335, 0.0]
+                tolerance: 0.125
+                object_center_offset: [0.000859, -0.0037845, 0.0355515]
+          - type: object_static
+            object: obj_013_apple_4
+            threshold: 0.05
+            check_angular: false
+    - id: place_banana
+      depends_on: [place_apple_3, place_apple_4]
+      success_condition:
+        type: all
+        conditions:
+          - type: all
+            conditions:
+              - type: object_upright
+                object: obj_024_bowl_1
+                tolerance_deg: 30
+              - type: object_inside
+                object: obj_011_banana_2
+                container: obj_024_bowl_1
+                container_center_offset: [-0.02225925, -0.0655335, 0.0]
+                tolerance: 0.125
+                object_center_offset: [0.011476, -0.0073435, 0.017963]
+          - type: object_static
+            object: obj_011_banana_2
+            threshold: 0.05
+            check_angular: false
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_011_banana_2, obj_013_apple_3, obj_013_apple_4]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_011_banana_2:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_024_bowl_1
+              tolerance_deg: 30
+            - type: object_inside
+              object: obj_011_banana_2
+              container: obj_024_bowl_1
+              container_center_offset: [-0.02225925, -0.0655335, 0.0]
+              tolerance: 0.125
+              object_center_offset: [0.011476, -0.0073435, 0.017963]
+        obj_013_apple_3:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_024_bowl_1
+              tolerance_deg: 30
+            - type: object_inside
+              object: obj_013_apple_3
+              container: obj_024_bowl_1
+              container_center_offset: [-0.02225925, -0.0655335, 0.0]
+              tolerance: 0.125
+              object_center_offset: [0.000859, -0.0037845, 0.0355515]
+        obj_013_apple_4:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_024_bowl_1
+              tolerance_deg: 30
+            - type: object_inside
+              object: obj_013_apple_4
+              container: obj_024_bowl_1
+              container_center_offset: [-0.02225925, -0.0655335, 0.0]
+              tolerance: 0.125
+              object_center_offset: [0.000859, -0.0037845, 0.0355515]
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_011_banana_2, obj_013_apple_3, obj_013_apple_4]

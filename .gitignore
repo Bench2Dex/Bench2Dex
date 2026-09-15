@@ -1,0 +1,98 @@
+
+# Omniverse
+**/*.dmp
+**/.thumbs
+
+# No USD files allowed in the repo
+**/*.usd
+**/*.usda
+**/*.usdc
+**/*.usdz
+
+# Exception: a tiny composition-only overlay required to make the external
+# ArtVIP dishwasher safe to spawn as a fixed-root articulation.
+!assets/artvip/dishwasher_1_scene.usda
+!assets/artvip/digital_piano_3dw_scene.usda
+
+# Python
+.DS_Store
+**/*.egg-info/
+**/__pycache__/
+**/.pytest_cache/
+**/*.pyc
+**/*.pb
+
+# IDE
+**/.idea/
+**/.vscode/
+# Don't ignore the top-level .vscode directory as it is
+# used to configure VS Code settings
+!.vscode
+
+# Outputs
+**/output/*
+**/outputs/*
+**/videos/*
+vedio/
+**/wandb/*
+/.cache/
+**/.neptune/*
+*.tmp
+
+# Core dumps (NCCL crash residue, can be 10+ GB each)
+core.*
+**/core.*
+
+# NFS silly-rename temp files
+.nfs*
+
+# Doc Outputs
+**/docs/_build/*
+**/generated/*
+
+# Isaac-Sim packman
+_isaac_sim*
+_repo
+_build
+.lastformat
+
+
+# Pre-Trained Checkpoints
+/.pretrained_checkpoints/
+
+
+# Docker history
+.isaac-lab-docker-history
+
+# Project specific
+ps.txt
+AGENTS.md
+.worktrees/
+
+Dex2Assets
+# ManusSDK binary (large files, bundled separately)
+teleop/manus_bin/ManusSDK/lib/*.so
+teleop/manus_bin/*.out
+codex_output.md
+policy/GR00T_n15/.env
+
+CLAUDE.md
+show_/
+temp/
+
+sources/
+env.txt
+
+tmp/
+
+tools/vis/episode_viewer/deleted_items/
+.nfs*
+
+policy/GR00T_n15/cuda-12.4
+.sii/
+.claude
+output/
+output_zdj/
+outputs/
+.codex
+docs/

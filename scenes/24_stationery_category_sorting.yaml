@@ -1,0 +1,163 @@
+description: Right hand sorts marker and battery into pen cup and plastic box, left hand sorts gray pen and glue into pen cup and plastic box.
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb: [[-1.1, -0.55, 0.75], [1.1, 0.55, 0.75]]
+assets:
+  a167_pencup:
+    path: ../../dex2bench_dataset/Objects/167_pencup/usd_sdf_linux/base6.usd
+    scale: [0.13, 0.13, 0.13]
+    body_type: dynamic
+    spawn:
+      rigid_props:
+        kinematic_enabled: true
+  a169_plasticbox:
+    path: ../../dex2bench_dataset/Objects/169_plasticbox/usd_decomposition_linux/base10.usd
+    scale: [0.14, 0.14, 0.14]
+    body_type: dynamic
+    spawn:
+      rigid_props:
+        kinematic_enabled: true
+  a221_pen:
+    path: ../../dex2bench_dataset/Objects/221_pen/usd_decomposition_linux/Pen.usd
+    scale: [0.0015, 0.003, 0.0015]
+    body_type: dynamic
+  a166_markpen:
+    path: ../../dex2bench_dataset/Objects/166_markpen/usd_decomposition_linux/base5.usd
+    scale: [0.09, 0.09, 0.09]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.05
+  a199_glue:
+    path: ../../dex2bench_dataset/Objects/199_glue/usd_decomposition_linux/base6.usd
+    scale: [0.07, 0.07, 0.07]
+    body_type: dynamic
+  a168_battery:
+    path: ../../dex2bench_dataset/Objects/168_battery/usd_decomposition_linux/base5.usd
+    scale: [0.05, 0.05, 0.05]
+    body_type: dynamic
+    spawn:
+      mass_props:
+        mass: 0.1
+objects:
+  - id: obj_167_pencup_1
+    asset: a167_pencup
+    rpy_deg: [90, 0, 0]
+    position: [0.1, 0.03]
+  - id: obj_169_plasticbox_2
+    asset: a169_plasticbox
+    rpy_deg: [90, 0, 90]
+    position: [-0.12, 0.09]
+  - id: obj_221_pen_3
+    asset: a221_pen
+    rpy_deg: [0, 0, -70]
+    position: [-0.41, 0.08]
+  - id: obj_166_markpen_4
+    asset: a166_markpen
+    rpy_deg: [0, 0, 40]
+    position: [0.32, 0.14]
+  - id: obj_199_glue_5
+    asset: a199_glue
+    rpy_deg: [0, 0, -40]
+    position: [-0.38, 0.15]
+  - id: obj_168_battery_6
+    asset: a168_battery
+    rpy_deg: [90, 0, 0]
+    position: [0.28, 0.05]
+layout:
+  zone: tabletop
+  objects: [obj_167_pencup_1, obj_169_plasticbox_2, obj_221_pen_3, obj_166_markpen_4, obj_199_glue_5, obj_168_battery_6]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_24_stationery_category_sorting
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 3083
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_221_pen_3, obj_166_markpen_4, obj_199_glue_5, obj_168_battery_6]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: custom
+      evaluator: success.custom.task_24_stationery_category_sorting
+  stages:
+    - id: pen_in_cup
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_24_stationery_category_sorting
+        params:
+          phase: stage
+          object: obj_221_pen_3
+    - id: marker_in_cup
+      depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_24_stationery_category_sorting
+        params:
+          phase: stage
+          object: obj_166_markpen_4
+    - id: glue_in_box
+      depends_on: [pen_in_cup, marker_in_cup]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_24_stationery_category_sorting
+        params:
+          phase: stage
+          object: obj_199_glue_5
+    - id: battery_in_box
+      depends_on: [pen_in_cup, marker_in_cup]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_24_stationery_category_sorting
+        params:
+          phase: stage
+          object: obj_168_battery_6
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_221_pen_3, obj_166_markpen_4, obj_199_glue_5, obj_168_battery_6]
+      allowed_placed_conditions:
+        obj_221_pen_3:
+          type: custom
+          evaluator: success.custom.task_24_stationery_category_sorting
+          params:
+            phase: placed
+            object: obj_221_pen_3
+        obj_166_markpen_4:
+          type: custom
+          evaluator: success.custom.task_24_stationery_category_sorting
+          params:
+            phase: placed
+            object: obj_166_markpen_4
+        obj_199_glue_5:
+          type: custom
+          evaluator: success.custom.task_24_stationery_category_sorting
+          params:
+            phase: placed
+            object: obj_199_glue_5
+        obj_168_battery_6:
+          type: custom
+          evaluator: success.custom.task_24_stationery_category_sorting
+          params:
+            phase: placed
+            object: obj_168_battery_6

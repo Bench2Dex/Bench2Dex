@@ -1,0 +1,172 @@
+description: "Use both hands to lift the cleaner and place it upright into the wooden box, then use the right hand to place the soap into the box."
+table:
+  size: [2.2, 1.1, 0.04]
+  height: 0.75
+zones:
+  tabletop:
+    aabb:
+      - [-1.1, -0.55, 0.75]
+      - [1.1, 0.55, 0.75]
+assets:
+  a154_wooden_box:
+    path: ../../dex2bench_dataset/Objects/154_wooden_box/usd_decomposition_linux/base0.usd
+    scale: [0.15, 0.15, 0.15]
+    body_type: dynamic
+  a200_cleaner:
+    path: ../../dex2bench_dataset/Objects/200_cleaner/usd_decomposition_linux/base3.usd
+    scale: [0.1, 0.1, 0.1]
+    body_type: dynamic
+  a209_soap:
+    path: ../../dex2bench_dataset/Objects/209_soap/usd_decomposition_linux/base3.usd
+    scale: [0.073, 0.073, 0.073]
+    body_type: dynamic
+objects:
+  - id: obj_154_wooden_box_1
+    asset: a154_wooden_box
+    rpy_deg: [90, 0, 0]
+    position: [-0.12, 0.28]
+  - id: obj_200_cleaner_2
+    asset: a200_cleaner
+    rpy_deg: [90, 0, 0]
+    position: [-0.12, 0.02]
+  - id: obj_209_soap_3
+    asset: a209_soap
+    rpy_deg: [90, 0, 0]
+    position: [0.26, 0.18]
+layout:
+  zone: tabletop
+  objects: [obj_154_wooden_box_1, obj_200_cleaner_2, obj_209_soap_3]
+  yaw_range: [0, 360]
+success_conditions:
+  - type: custom
+    evaluator: success.custom.task_09_cleaner_moisturizer_box_loading
+metrics:
+  task_family: rigid_pick_place
+  expert_time_step: 1283
+  expert_time_source: "mean steps_to_stable_success over 50/50 successful demos from origin-generalization"
+  grasp:
+    enabled: true
+    lift_margin: 0.02
+    ang_vel_threshold: 1.0
+    fall_vel_threshold: 0.5
+    min_hold_frames: 3
+    slip_lin_vel: 0.3
+    slip_ang_vel: 2.0
+    gsi_weights: [0.3, 0.3, 0.2, 0.2]
+    min_hold_s: 0.5
+    max_slip_count: 3
+    gsi_threshold: 0.5
+    release_stable_s: 0.3
+    switch_timeout_s: 5.0
+    tracked_objects: [obj_200_cleaner_2, obj_209_soap_3]
+  terminal:
+    dwell_time_s: 0.5
+    raw_condition:
+      type: all
+      conditions:
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_200_cleaner_2
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+            - type: object_upright
+              object: obj_200_cleaner_2
+              tolerance_deg: 30
+              local_axis: y
+        - type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_209_soap_3
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+        - type: object_static
+          object: obj_200_cleaner_2
+          threshold: 0.05
+          check_angular: false
+        - type: object_static
+          object: obj_209_soap_3
+          threshold: 0.05
+          check_angular: false
+  safety:
+    table_z: 0.75
+    drop:
+      enabled: true
+      tracked_objects: [obj_200_cleaner_2, obj_209_soap_3]
+      lift_margin: 0.05
+      drop_height: 0.08
+      settle_margin: 0.03
+      fall_vel_threshold: 0.25
+      allowed_placed_conditions:
+        obj_200_cleaner_2:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_200_cleaner_2
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+            - type: object_upright
+              object: obj_200_cleaner_2
+              tolerance_deg: 30
+              local_axis: y
+        obj_209_soap_3:
+          type: all
+          conditions:
+            - type: object_upright
+              object: obj_154_wooden_box_1
+              tolerance_deg: 30
+              local_axis: y
+            - type: object_inside
+              object: obj_209_soap_3
+              container: obj_154_wooden_box_1
+              tolerance: 0.18
+  stages:
+    - id: place_cleaner
+      depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_154_wooden_box_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_200_cleaner_2
+            container: obj_154_wooden_box_1
+            tolerance: 0.18
+          - type: object_upright
+            object: obj_200_cleaner_2
+            tolerance_deg: 30
+          - type: object_static
+            object: obj_200_cleaner_2
+            threshold: 0.05
+            check_angular: false
+    - id: place_soap
+      depends_on: [place_cleaner]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_154_wooden_box_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_209_soap_3
+            container: obj_154_wooden_box_1
+            tolerance: 0.18
+          - type: object_static
+            object: obj_209_soap_3
+            threshold: 0.05
+            check_angular: false

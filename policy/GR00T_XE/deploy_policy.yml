@@ -1,0 +1,29 @@
+# GR00T XE (Cross-Embodiment) deploy config
+policy_name: GR00T_XE
+task_name: null
+task_config: null
+ckpt_setting: null
+ckpt_dir: null
+ckpt_name: gr00t_xe
+seed: null
+instruction_type: unseen
+policy_conda_env: GR00T_n15
+host: 127.0.0.1
+port: 9000
+episode_steps: 1800
+warmup_steps: 60
+num_episodes: 0
+
+# GR00T XE configuration
+model_path: null
+robot_key: null
+embodiment_tag: new_embodiment
+data_config: policy.GR00T_XE.xe_config:Dex2BenchXEDataConfig
+denoising_steps: 4
+action_horizon: 16
+camera_mode: 4cam
+state_dim: 64
+action_dim: 64
+max_state_dim: 64
+max_action_dim: 64
+use_active_dof: true

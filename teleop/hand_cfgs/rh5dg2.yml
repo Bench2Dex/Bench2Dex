@@ -1,0 +1,62 @@
+retargeting:
+  type: DexPilot
+  scaling_factor: 1.03
+  project_dist: 0.01
+  escape_dist: 0.02
+  low_pass_alpha: 0.2
+
+  hand_offset_xyz: [0, 0, 0]
+  hand_scale_xyz: [1.7, 1.0, 1.2]
+  mano_correction_vis: true
+
+  right:
+    urdf_path: ur5+RH5DG2/urdf/Right_Hand.urdf
+    wrist_link_name: "right_hand_base"
+    finger_tip_link_names:
+      - right_thumb_force_sensor
+      - right_index_force_sensor
+      - right_middle_force_sensor
+      - right_ring_force_sensor
+      - right_pinky_force_sensor
+    target_joint_names:
+      - right_thumb_yaw_joint
+      - right_thumb_mcp_joint
+      - right_thumb_dip_joint
+      - right_index_pitch_joint
+      - right_index_mcp_joint
+      - right_index_pip_joint
+      - right_middle_pitch_joint
+      - right_middle_mcp_joint
+      - right_middle_pip_joint
+      - right_ring_mcp_joint
+      - right_ring_pip_joint
+      - right_pinky_mcp_joint
+      - right_pinky_pip_joint
+    mano_to_pinocchio_rpy: [1.5708, -1.5708, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 0]
+
+  left:
+    urdf_path: ur5+RH5DG2/urdf/Left_Hand.urdf
+    wrist_link_name: "left_hand_base"
+    finger_tip_link_names:
+      - left_thumb_force_sensor
+      - left_index_force_sensor
+      - left_middle_force_sensor
+      - left_ring_force_sensor
+      - left_pinky_force_sensor
+    target_joint_names:
+      - left_thumb_yaw_joint
+      - left_thumb_mcp_joint
+      - left_thumb_dip_joint
+      - left_index_pitch_joint
+      - left_index_mcp_joint
+      - left_index_pip_joint
+      - left_middle_pitch_joint
+      - left_middle_mcp_joint
+      - left_middle_pip_joint
+      - left_ring_mcp_joint
+      - left_ring_pip_joint
+      - left_pinky_mcp_joint
+      - left_pinky_pip_joint
+    mano_to_pinocchio_rpy: [-1.5708, -1.5708, 0]
+    sim_wrist_to_pin_root_rpy: [0, 0, 0]
