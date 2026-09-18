@@ -73,7 +73,7 @@ Download the assets, teleoperation dataset, and pretrained policy checkpoints fr
 
 - Assets: [Bench2Dex assets](https://modelscope.cn/datasets/Bench2Dex/Bench2Dex)
 - Dataset: [Bench2Dex teleoperation data](https://modelscope.cn/datasets/Bench2Dex/teleopdata)
-- Pretrained weights: [Bench2Dex policy checkpoints](https://modelscope.cn/datasets/Bench2Dex/policy_ckpt)
+- Pretrained weights: [Bench2Dex policy checkpoints](https://huggingface.co/Bench2Dex/policy_ckpt)
 
 ```text
 root_path/
