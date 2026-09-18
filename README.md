@@ -71,9 +71,17 @@ python -m pip install -e .
 
 Download the assets, teleoperation dataset, and pretrained policy checkpoints from ModelScope:
 
+### 🤗 Hugging Face
+- Assets: [Assets](https://huggingface.co/datasets/Bench2Dex/Assets)
+- Dataset: [teleopdata](https://huggingface.co/datasets/Bench2Dex/teleopdata)
+- Checkpoints: [policy_ckpt](https://huggingface.co/Bench2Dex/policy_ckpt)
+
+### 🔮 ModelScope
 - Assets: [Bench2Dex assets](https://modelscope.cn/datasets/Bench2Dex/Bench2Dex)
 - Dataset: [Bench2Dex teleoperation data](https://modelscope.cn/datasets/Bench2Dex/teleopdata)
-- Pretrained weights: [Bench2Dex policy checkpoints](https://huggingface.co/Bench2Dex/policy_ckpt)
+- Checkpoints: [Bench2Dex policy checkpoints](https://modelscope.cn/models/Bench2Dex/New_Policy)
+
+
 
 ```text
 root_path/
