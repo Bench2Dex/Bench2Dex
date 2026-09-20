@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 import numpy as np
 import torch
+import warp as wp
 
 import omni.physics.tensors.impl.api as physx
 from isaacsim.core.prims import XFormPrim
@@ -87,6 +88,28 @@ class SharpaTacmap(MultiMeshRayCaster):
     # _tar: target reference frame
     # _att: attached body reference frame
     # _b: baked reference frame
+
+    def _initialize_warp_meshes(self):
+        # Physics views stay on the simulation device. Meshes, ray buffers and
+        # sensor timestamps must all live on the requested compute device.
+        if self.cfg.compute_device is not None:
+            self._device = str(torch.device(self.cfg.compute_device))
+            for name in ("_is_outdated", "_timestamp", "_timestamp_last_update"):
+                setattr(self, name, getattr(self, name).to(self._device))
+
+        # IsaacLab caches meshes globally by prim path, without a device key.
+        # Reject a cross-device reuse instead of passing invalid Warp mesh IDs.
+        from isaaclab import sim as sim_utils
+        device = wp.get_device(self._device)
+        for target in self._raycast_targets_cfg:
+            for prim in sim_utils.find_matching_prims(target.prim_expr):
+                mesh = MultiMeshRayCaster.meshes.get(str(prim.GetPath()))
+                if mesh is not None and mesh.points.device != device:
+                    raise RuntimeError(
+                        f"TacMap mesh {prim.GetPath()} is cached on {mesh.points.device}, "
+                        f"but tactile compute uses {device}. Use one ray-casting device per scene."
+                    )
+        super()._initialize_warp_meshes()
 
     def _initialize_rays_impl(self):
         # Create all indices buffer and Create frame count buffer
@@ -352,7 +375,10 @@ class SharpaTacmap(MultiMeshRayCaster):
 
         # compute poses from current view
         # pos_w sensor parent position in world frame
-        pos_w, quat_w = obtain_world_pose_from_view(self._view, env_ids)
+        # Read live CPU/GPU physics poses before indexing on the sensor device.
+        pos_w, quat_w = obtain_world_pose_from_view(self._view, None)
+        pos_w = pos_w.reshape(-1, 3).to(self._device)[env_ids]
+        quat_w = quat_w.reshape(-1, 4).to(self._device)[env_ids]
         pos_w, quat_w = math_utils.combine_frame_transforms(
             pos_w, quat_w, self._offset_pos[env_ids], self._offset_quat[env_ids]
         )
@@ -397,6 +423,8 @@ class SharpaTacmap(MultiMeshRayCaster):
             else:
                 pos_w, ori_w = obtain_world_pose_from_view(view, None)
 
+            pos_w = pos_w.to(self._device)
+            ori_w = ori_w.to(self._device)
             pos_w = pos_w.squeeze(0) if len(pos_w.shape) == 3 else pos_w
             ori_w = ori_w.squeeze(0) if len(ori_w.shape) == 3 else ori_w
 
@@ -435,7 +463,11 @@ class SharpaTacmap(MultiMeshRayCaster):
         cpd_eps = -1e-4          # tiny step beyond the surface
 
         # new start points = start + dir * (dist + eps)
-        cpd_advance = (cpd_distance.clamp_min(0.0) + cpd_eps).unsqueeze(-1)            # (N,1)
+        # A miss has infinite distance. Keep second-pass starts finite; the
+        # first-hit mask below still invalidates these rays in the output.
+        cpd_advance = torch.where(
+            cpd_has_hit_1st, cpd_distance.clamp_min(0.0) + cpd_eps, 0.0
+        ).unsqueeze(-1)
             # use the same starts as first pass
         cpd_ray_starts = self._ray_starts_w[env_ids] + self._ray_directions_w[env_ids] * cpd_advance              # (N,3)
 

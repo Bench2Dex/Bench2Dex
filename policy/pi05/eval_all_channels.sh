@@ -92,6 +92,7 @@ shift 4
 POLICY_NAME=pi05
 TRAIN_CONFIG=pi05_base_dex2bench_full
 GPU_ID=0
+SIM_DEVICE=cpu
 NUM_EPISODES=50
 SEED=100000000
 
@@ -124,6 +125,16 @@ VIDEO_CELL_HEIGHT=360
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --device|--sim-device)
+            require_value "$1" "${2:-}"
+            SIM_DEVICE=$2
+            shift 2
+            ;;
+        --device=*|--sim-device=*)
+            SIM_DEVICE="${1#*=}"
+            require_value "${1%%=*}" "${SIM_DEVICE}"
+            shift
+            ;;
         --output-root|--output_root)
             require_value "$1" "${2:-}"
             OUTPUT_ROOT=$2
@@ -297,7 +308,7 @@ if [[ -z "${OUTPUT_ROOT}" ]]; then
     timestamp=$(date +%Y%m%d_%H%M%S)
     ckpt_run=$(basename "$(dirname "${CKPT_DIR}")")
     ckpt_step=$(basename "${CKPT_DIR}")
-    OUTPUT_ROOT="${ROOT_DIR}/../dex2bench/output_zdj/${POLICY_NAME}_four_channels/${TASK}/${ROBOT_KEY}/${ckpt_run}_${ckpt_step}_${timestamp}"
+    OUTPUT_ROOT="${ROOT_DIR}/../zdj/output_zdj/cpu_sim/${POLICY_NAME}/${TASK}/${ROBOT_KEY}/${ckpt_run}_${ckpt_step}_${timestamp}"
 fi
 mkdir -p "${OUTPUT_ROOT}"
 
@@ -536,7 +547,7 @@ run_channel_once() {
     if [[ "${_USE_SII}" == "true" ]]; then
         args+=(--sii)
     fi
-    bash "${SCRIPT_DIR}/eval_double_env.sh" "${args[@]}"
+    bash "${SCRIPT_DIR}/eval_double_env.sh" "${args[@]}" --device "${SIM_DEVICE}"
 }
 
 CHANNELS=(none cov inv inv_cov)

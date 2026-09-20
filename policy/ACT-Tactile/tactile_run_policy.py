@@ -22,7 +22,7 @@ Notes:
     - Default cameras (stereo pair + wrist pair only):
         cam_wrist_right, cam_wrist_left, cam_stereo_left, cam_stereo_right.
       cam_overhead and cam_chest are excluded by default regardless of policy type.
-    - TacMap inference requires a CUDA simulation device.
+    - Physics defaults to CPU; TacMap compute and policy inference use CUDA.
     - Camera and tactile channel order comes from the checkpoint metadata.
     - Each episode runs for --episode-steps steps, then resets and loops forever.
 """
@@ -54,6 +54,7 @@ except ImportError:
     pass
 
 from isaaclab.app import AppLauncher
+from utils.eval_devices import add_eval_device_arguments
 from utils.isaac_rendering import configure_headless_camera_parity_experience
 from utils.logging_config import add_logging_arguments, configure_logging
 
@@ -161,6 +162,7 @@ parser.add_argument("--dump-tactile-attention", action="store_true",
                     help="Log tactile attention-pooling weights (query over finger sites) "
                          "to <output-dir>/tactile_attention.jsonl for post-hoc visualization.")
 AppLauncher.add_app_launcher_args(parser)
+add_eval_device_arguments(parser, tactile=True)
 add_logging_arguments(parser)
 args_cli = parser.parse_args()
 configure_logging(args_cli.log_level)
@@ -510,13 +512,13 @@ def _compact_episode_result(result):
 
 
 def _require_tactile_gpu(device: str) -> None:
-    """TacMap ray casting is only supported by the CUDA simulation pipeline."""
+    """Validate tactile compute independently of the physics device."""
 
     if not str(device).strip().lower().startswith("cuda"):
         raise RuntimeError(
             "policy/ACT-Tactile/tactile_run_policy.py requires a CUDA "
-            "simulation device for TacMap; "
-            f"got --device={device!r}"
+            "compute device for TacMap; "
+            f"got --tactile-device={device!r}"
         )
     if not torch.cuda.is_available():
         raise RuntimeError(
@@ -531,7 +533,7 @@ def _load_tactile_policy(args: argparse.Namespace) -> TactilePolicyDeployment:
     model = TactilePolicyDeployment(
         args.ckpt_dir,
         checkpoint_name=args.ckpt_name,
-        device=args.device,
+        device=args.policy_device,
         temporal_agg=args.temporal_agg,
         temporal_agg_k=args.temporal_agg_k,
     )
@@ -577,7 +579,7 @@ def _load_act_policy(args: argparse.Namespace):
                           "cam_stereo_left", "cam_stereo_right"],
         "temporal_agg": args.temporal_agg,
         "temporal_agg_k": args.temporal_agg_k,
-        "device": args.device,
+        "device": args.policy_device,
         "ckpt_dir": ckpt_dir,
     }
 
@@ -600,7 +602,7 @@ def _load_act_policy(args: argparse.Namespace):
         sys.argv = _saved_argv
 
     # Override with the exact requested checkpoint
-    state_dict = torch.load(ckpt_path, map_location=args.device)
+    state_dict = torch.load(ckpt_path, map_location=args.policy_device)
     model.policy.load_state_dict(state_dict)
     model.policy.eval()
     print(f"[policy] Loaded ACT weights from {ckpt_path}", flush=True)
@@ -635,7 +637,7 @@ def _load_dp_policy(args: argparse.Namespace):
         ckpt_path,
         n_obs_steps=cfg["n_obs_steps"],
         n_action_steps=cfg["n_action_steps"],
-        device=args.device,
+        device=args.policy_device,
     )
     print(f"[policy] Loaded DP weights from {ckpt_path}", flush=True)
     print(f"[policy] Loaded DP training config from {config_path}", flush=True)
@@ -1180,6 +1182,7 @@ def _run_episode_impl(
     )
     try:
         tactile_rig = TacMapRig(
+            compute_device=args.tactile_device,
             robot_key=robot_key,
             object_prim_paths=tacmap_object_prim_paths,
             object_body_types=tacmap_object_body_types,
@@ -1887,7 +1890,7 @@ def main() -> None:
             raise ValueError("--enable-rgb is required for tactile policy evaluation")
         if not args_cli.active_dof:
             raise ValueError("tactile checkpoints require --active-dof")
-        _require_tactile_gpu(args_cli.device)
+        _require_tactile_gpu(args_cli.tactile_device)
 
         task_path = os.path.join(REPO_ROOT, args_cli.task) if not os.path.isabs(args_cli.task) else args_cli.task
         if not os.path.isfile(task_path):

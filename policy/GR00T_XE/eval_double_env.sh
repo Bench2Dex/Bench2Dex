@@ -34,6 +34,7 @@ info "Task: ${TASK_NAME}"
 
 # defaults
 CHANNEL="none"
+SIM_DEVICE=cpu
 GPU_ID="${CUDA_VISIBLE_DEVICES:-0}"
 NUM_EPISODES=50
 START_EPISODE=1
@@ -46,6 +47,8 @@ RECORD_ALL=true
 # parse args
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --device|--sim-device) SIM_DEVICE="${2:?Missing simulation device}"; shift 2 ;;
+        --device=*|--sim-device=*) SIM_DEVICE="${1#*=}"; shift ;;
         --channel) CHANNEL="$2"; shift 2 ;;
         --model_path|--model-path) MODEL_PATH="$2"; shift 2 ;;
         --robot_key|--robot-key) ROBOT_KEY="$2"; shift 2 ;;
@@ -197,6 +200,7 @@ python script/eval_policy_client.py \
     --generalization_profile "${CHANNEL}" \
     --output_dir "${CHANNEL_DIR}" \
     --num_episodes "${NUM_EPISODES}" \
+    --sim_device "${SIM_DEVICE}" \
     --start_episode "${START_EPISODE}" \
     "${ANCHOR_ARGS[@]}" \
     "${RECORD_ARGS[@]}"

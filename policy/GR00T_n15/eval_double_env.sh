@@ -39,6 +39,7 @@ cd "${SCRIPT_DIR}/../.."
 REPO_ROOT="$(pwd)"
 POLICY_CKPT_ROOT="${REPO_ROOT}/../policy_ckpt"
 TELEOPDATA_ROOT="${REPO_ROOT}/../teleopdata/dataset"
+EVAL_OUTPUT_ROOT="${REPO_ROOT}/../zdj/output_zdj/cpu_sim/groot"
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -484,7 +485,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 _apply_channel_selection
-EVAL_ROOT_PARENT="${REPO_ROOT}/../output/end_eval/${TASK_ID}"
+# Group runs by the full scene name, e.g. 42_trash_disposal.
+EVAL_ROOT_PARENT="${EVAL_OUTPUT_ROOT}/${TASK_NAME}"
 EVAL_NAME_PREFIX="gr00t_${CHANNEL_MODE_TOKEN}_"
 EVAL_ROOT="${EVAL_ROOT_PARENT}/${EVAL_NAME_PREFIX}${TIMESTAMP}_${SHORT_ROBOT}"
 info "Channel: ${CHANNEL_MODE_TOKEN} (${CHANNEL_LIST[*]})"

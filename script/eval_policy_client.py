@@ -16,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 from script.config_utils import build_config_parser, load_config_with_overrides
 from script.policy_rpc import RemotePolicyClient
 from utils.seed_policy import EVAL_BASE_SEED_DEFAULT
+from utils.eval_devices import append_eval_device_arguments, normalize_eval_device_overrides
 
 
 def _as_bool(value, default: bool = False) -> bool:
@@ -149,6 +150,7 @@ class Dex2SceneLiveEnv:
         if _as_bool(self.config.get("headless"), False):
             command.append("--headless")
 
+        append_eval_device_arguments(command, self.config)
         for extra_arg in self.config.get("run_policy_args", []) or []:
             command.append(str(extra_arg))
 
@@ -170,7 +172,7 @@ def main() -> None:
     args = parser.parse_args()
     config = load_config_with_overrides(
         args.config,
-        args.overrides,
+        normalize_eval_device_overrides(args.overrides),
         extra_updates={
             "host": args.host,
             "port": args.port,

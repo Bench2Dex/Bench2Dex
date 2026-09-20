@@ -16,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 from script.config_utils import build_config_parser, load_config_with_overrides
 from script.policy_rpc import RemotePolicyClient
 from utils.seed_policy import EVAL_BASE_SEED_DEFAULT
+from utils.eval_devices import append_eval_device_arguments, normalize_eval_device_overrides
 
 
 def _as_bool(value, default: bool = False) -> bool:
@@ -128,6 +129,7 @@ class TactileEvalClient:
             if _as_bool(self.config.get(config_key), False):
                 command.append(option)
 
+        append_eval_device_arguments(command, self.config, tactile=True)
         run_policy_args = self.config.get("run_policy_args")
         if run_policy_args is None:
             run_policy_args = []
@@ -163,7 +165,7 @@ def main() -> None:
     }
     config = load_config_with_overrides(
         args.config,
-        args.overrides,
+        normalize_eval_device_overrides(args.overrides),
         extra_updates=cli_updates,
     )
 

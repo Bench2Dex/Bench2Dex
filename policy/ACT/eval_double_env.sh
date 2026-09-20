@@ -31,6 +31,7 @@ shift 2
 # ── Defaults ──────────────────────────────────────────────────────────
 CKPT_NAME=policy_best.ckpt
 GPU_ID=0
+SIM_DEVICE=cpu
 NUM_EPISODES=50
 SEED=100000000
 GEN_PROFILE=none
@@ -53,6 +54,8 @@ if [[ $# -gt 0 && "$1" != --* ]]; then SEED=$1; shift; fi
 # ── Named args ────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --device|--sim-device) SIM_DEVICE="${2:?Missing simulation device}"; shift 2 ;;
+        --device=*|--sim-device=*) SIM_DEVICE="${1#*=}"; shift ;;
         --generalization-profile)   GEN_PROFILE="$2"; shift 2 ;;
         --generalization-profile=*) GEN_PROFILE="${1#*=}"; shift ;;
         --anchor-dir)   ANCHOR_DIR="$2"; shift 2 ;;
@@ -125,6 +128,7 @@ python script/eval_policy_client.py \
     --ckpt_dir "${CKPT_DIR}" \
     --ckpt_name "${CKPT_NAME}" \
     --num_episodes "${NUM_EPISODES}" \
+    --sim_device "${SIM_DEVICE}" \
     --seed "${SEED}" \
     --episode_steps "${EVAL_EPISODE_STEPS}" \
     --start_episode "${START_EPISODE}" \

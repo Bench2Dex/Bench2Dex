@@ -443,10 +443,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 _apply_channel_selection
-# Tactile GR00T eval outputs go under dex2bench/output_zdj/TactileGr00t_Cross/<TASK_ID>/
+# Tactile GR00T eval outputs go under zdj/output_zdj/TactileGr00t_Cross/<TASK_ID>/
 # (previously ${REPO_ROOT}/../output/end_eval/${TASK_ID}). Derived from REPO_ROOT
 # so the repo stays relocatable; resolves to an absolute path at runtime.
-EVAL_ROOT_PARENT="${REPO_ROOT}/../dex2bench/output_zdj/TactileGr00t_Cross/${TASK_ID}"
+EVAL_ROOT_PARENT="${REPO_ROOT}/../zdj/output_zdj/TactileGr00t_Cross/${TASK_ID}"
 EVAL_NAME_PREFIX="gr00t_${CHANNEL_MODE_TOKEN}_"
 EVAL_ROOT="${EVAL_ROOT_PARENT}/${EVAL_NAME_PREFIX}${TIMESTAMP}_${SHORT_ROBOT}"
 info "Channel: ${CHANNEL_MODE_TOKEN} (${CHANNEL_LIST[*]})"

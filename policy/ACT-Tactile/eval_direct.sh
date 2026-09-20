@@ -274,7 +274,7 @@ resolve_profile_output_dir() {
         robot_short="${robot_short#multi_}"
         robot_short="${robot_short//_with_/_}"
         robot_short="${robot_short//_flange/}"
-        echo "$(pwd)/output_zdj/tactileACT/${task_id}/${timestamp}/${profile}"
+        echo "${REPO_ROOT}/../zdj/output_zdj/tactileACT/${task_id}/${timestamp}/${profile}"
     fi
 }
 
@@ -350,7 +350,7 @@ build_policy_args() {
         --active-dof
         --temporal-agg
         --temporal-agg-k "${TACTILE_TEMPORAL_AGG_K}"
-        --device "cuda:0"
+        --device "cpu"
         --num-episodes "${num_episodes}"
         --start-episode "${start_episode}"
         --seed "${TACTILE_SEED}"

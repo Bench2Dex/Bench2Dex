@@ -116,6 +116,7 @@ shift 3
 
 TRAIN_CONFIG=pi05_base_dex2bench_full
 GPU_ID=0
+SIM_DEVICE=cpu
 NUM_EPISODES=50
 SEED=100000000
 
@@ -145,6 +146,16 @@ _USE_SII=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --device|--sim-device)
+            require_value "$1" "${2:-}"
+            SIM_DEVICE=$2
+            shift 2
+            ;;
+        --device=*|--sim-device=*)
+            SIM_DEVICE="${1#*=}"
+            require_value "${1%%=*}" "${SIM_DEVICE}"
+            shift
+            ;;
         --channel|--eval-channel|--eval_channel|--generalization-profile|--generalization_profile)
             require_value "$1" "${2:-}"
             GENERALIZATION_PROFILE=$(normalize_profile "$2")
@@ -416,6 +427,7 @@ SERVER_OVERRIDES=(
     --seed "${SEED}"
 )
 CLIENT_OVERRIDES=(
+    --sim_device "${SIM_DEVICE}"
     --policy_name "${policy_name}"
     --task_name "${TASK}"
     --ckpt_dir "${CKPT_DIR}"
@@ -490,6 +502,9 @@ run_eval_chunk() {
     echo "[eval] chunk start_episode=${chunk_start} episodes=${chunk_count}"
     if [[ "${_USE_SII}" == "true" ]]; then
         source ../miniconda3/bin/activate pi05
+        # Prefer the openpi sources from this checkout over any stale editable
+        # installation recorded in the shared Conda environment.
+        PYTHONPATH="$(pwd)/policy/pi05/src${PYTHONPATH:+:${PYTHONPATH}}" \
         XLA_PYTHON_CLIENT_MEM_FRACTION=${XLA_PYTHON_CLIENT_MEM_FRACTION:-0.5} \
         python script/policy_model_server.py \
             --host 127.0.0.1 \

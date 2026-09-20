@@ -46,6 +46,7 @@ except ImportError:
     pass
 
 from isaaclab.app import AppLauncher
+from utils.eval_devices import add_eval_device_arguments
 from utils.isaac_rendering import configure_headless_camera_parity_experience
 from utils.logging_config import add_logging_arguments, configure_logging
 
@@ -153,6 +154,7 @@ parser.add_argument("--remote-host", type=str, default="127.0.0.1",
 parser.add_argument("--remote-port", type=int, default=9000,
                     help="Remote policy server port when --policy-type REMOTE.")
 AppLauncher.add_app_launcher_args(parser)
+add_eval_device_arguments(parser)
 add_logging_arguments(parser)
 args_cli = parser.parse_args()
 configure_logging(args_cli.log_level)
@@ -509,7 +511,7 @@ def _load_act_policy(args: argparse.Namespace):
                           "cam_stereo_left", "cam_stereo_right"],
         "temporal_agg": args.temporal_agg,
         "temporal_agg_k": args.temporal_agg_k,
-        "device": args.device,
+        "device": args.policy_device,
         "ckpt_dir": ckpt_dir,
     }
 
@@ -532,7 +534,7 @@ def _load_act_policy(args: argparse.Namespace):
         sys.argv = _saved_argv
 
     # Override with the exact requested checkpoint
-    state_dict = torch.load(ckpt_path, map_location=args.device)
+    state_dict = torch.load(ckpt_path, map_location=args.policy_device)
     model.policy.load_state_dict(state_dict)
     model.policy.eval()
     print(f"[policy] Loaded ACT weights from {ckpt_path}", flush=True)
@@ -567,7 +569,7 @@ def _load_dp_policy(args: argparse.Namespace):
         ckpt_path,
         n_obs_steps=cfg["n_obs_steps"],
         n_action_steps=cfg["n_action_steps"],
-        device=args.device,
+        device=args.policy_device,
     )
     print(f"[policy] Loaded DP weights from {ckpt_path}", flush=True)
     print(f"[policy] Loaded DP training config from {config_path}", flush=True)

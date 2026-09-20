@@ -187,6 +187,7 @@ class TacMapRig:
         resolution_step: int = 1,
         max_distance: float = 0.015,
         sensor_map_dir: str | Path | None = None,
+        compute_device: str | None = None,
     ) -> None:
         robot_key = str(robot_key)
         if robot_key not in ROBOT_KEY_TO_TACMAP_CFG:
@@ -203,6 +204,7 @@ class TacMapRig:
             raise ValueError("TacMap collection requires at least one raycast object prim.")
 
         self._robot_key = robot_key
+        self._compute_device = compute_device
         self._robot_prim_path = str(robot_prim_path or _ROBOT_PRIM_PATH).rstrip("/")
         self._object_prim_paths = {str(k): str(v) for k, v in object_prim_paths.items()}
         self._object_body_types = {str(k): str(v) for k, v in (object_body_types or {}).items()}
@@ -270,6 +272,7 @@ class TacMapRig:
     def _make_cfg(self, *, site_name: str, body_name: str):
         points_npy, normals_npy = self._site_to_npy[site_name]
         return self._tacmap_sensor_cfg_cls(
+            compute_device=self._compute_device,
             prim_path=self._sensor_prim_path(body_name),
             mesh_prim_paths=[
                 self._tacmap_sensor_cfg_cls.RaycastTargetCfg(prim_expr=prim_path, track_mesh_transforms=True)
