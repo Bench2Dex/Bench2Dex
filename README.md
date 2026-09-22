@@ -74,7 +74,7 @@ Download the assets, teleoperation dataset, and pretrained policy checkpoints fr
 ### 🤗 Hugging Face
 - Assets: [Bench2Dex Assets](https://huggingface.co/datasets/Bench2Dex/Assets)
 - Dataset: [Bench2Dex Teleopdata](https://huggingface.co/datasets/Bench2Dex/teleopdata)
-- Checkpoints: [Bench2Dex Policy_Checkpoints](https://huggingface.co/Bench2Dex/policy_ckpt)
+- Checkpoints: [Bench2Dex Policy Checkpoints](https://huggingface.co/Bench2Dex/policy_ckpt)
 
 ### 🔮 ModelScope
 - Assets: [Bench2Dex Assets](https://modelscope.cn/datasets/Bench2Dex/Bench2Dex)
