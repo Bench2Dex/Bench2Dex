@@ -13,7 +13,9 @@ num_episodes: 0
 
 train_config_name: pi05_base_dex2bench_full
 checkpoint_path: null
+# Prediction horizon for both fine-tuning and inference; must match the checkpoint's training horizon.
 train_action_horizon: 20
+# Number of predicted actions to execute before replanning (at most train_action_horizon).
 eval_action_horizon: 20
 
 # action_dim / state_dim: auto-determined from robot_key when use_active_dof is true

@@ -101,7 +101,12 @@ def get_model(usr_args):
             "outputs/logs/pi05/pi05_base_dex2bench_lora/<exp>/30000)."
         )
 
-    eval_action_horizon = int(usr_args.get("eval_action_horizon", 50))
+    train_action_horizon = _optional_int(usr_args.get("train_action_horizon"), "train_action_horizon")
+    if train_action_horizon is None:
+        train_action_horizon = 20
+    eval_action_horizon = _optional_int(usr_args.get("eval_action_horizon"), "eval_action_horizon")
+    if eval_action_horizon is None:
+        eval_action_horizon = train_action_horizon
     action_dim = _optional_int(usr_args.get("action_dim"), "action_dim")
     state_dim = _optional_int(usr_args.get("state_dim"), "state_dim")
 
@@ -121,6 +126,7 @@ def get_model(usr_args):
         train_config_name,
         checkpoint_path,
         eval_action_horizon,
+        train_action_horizon=train_action_horizon,
         action_dim=action_dim,
         state_dim=state_dim,
     )

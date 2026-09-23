@@ -22,9 +22,17 @@ class PI0:
         checkpoint_path: str,
         eval_action_horizon: int,
         *,
+        train_action_horizon: int = 20,
         action_dim: int | None = None,
         state_dim: int | None = None,
     ):
+        if train_action_horizon <= 0:
+            raise ValueError("train_action_horizon must be positive")
+        if not 0 < eval_action_horizon <= train_action_horizon:
+            raise ValueError(
+                "eval_action_horizon must be positive and no greater than "
+                f"train_action_horizon ({train_action_horizon}), got {eval_action_horizon}"
+            )
         if not os.path.isdir(checkpoint_path):
             raise FileNotFoundError(
                 f"PI0 checkpoint dir not found: {checkpoint_path}. "
@@ -34,6 +42,12 @@ class PI0:
 
         config = _config.get_config(train_config_name)
         config = self._apply_dimension_overrides(config, action_dim, state_dim)
+        # Match finetune.sh's horizon override before constructing/loading the model.
+        # eval_action_horizon only controls how many generated actions are executed.
+        config = dataclasses.replace(
+            config,
+            model=dataclasses.replace(config.model, action_horizon=train_action_horizon),
+        )
 
         assets_dir = os.path.join(checkpoint_path, "assets")
         if not os.path.isdir(assets_dir):
@@ -54,7 +68,8 @@ class PI0:
         print(
             f"[pi05] Loaded policy from {checkpoint_path} "
             f"(asset_id={asset_id}, action_dim={config.model.action_dim}, "
-            f"state_dim={getattr(config.data, 'state_dim', config.model.action_dim)})"
+            f"state_dim={getattr(config.data, 'state_dim', config.model.action_dim)}, "
+            f"action_horizon={config.model.action_horizon}, eval_action_horizon={eval_action_horizon})"
         )
 
         self.eval_action_horizon = eval_action_horizon

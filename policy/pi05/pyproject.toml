@@ -139,4 +139,4 @@ build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 markers = ["manual: should be run manually."]
-testpaths = ["src", "scripts", "packages"]
+testpaths = ["src", "scripts", "packages", "tests"]
