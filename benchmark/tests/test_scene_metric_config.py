@@ -1,6 +1,10 @@
 from pathlib import Path
 
+import pytest
 import yaml
+
+from benchmark.stage_tracker import StageTracker
+from success.engine import evaluate_condition_node
 
 
 SCENE_DIR = Path(__file__).resolve().parents[2] / "scenes"
@@ -61,3 +65,44 @@ def test_task44_metrics_follow_the_demonstrated_task_order_and_cover_both_payloa
     assert set(metrics["safety"]["drop"]["tracked_objects"]) == tracked
     assert set(metrics["safety"]["high_speed"]["tracked_objects"]) == tracked
     assert set(metrics["safety"]["drop"]["allowed_placed_conditions"]) == tracked
+
+
+@pytest.mark.parametrize(
+    ("cleaner_quat", "soap_x", "expected_rate"),
+    [
+        pytest.param((2**-0.5, 0.0, 0.0, 2**-0.5), 0.5, 0.5, id="upright-cleaner-only"),
+        pytest.param((2**-0.5, 0.0, 0.0, 2**-0.5), 0.02, 1.0, id="both-objects-placed"),
+        pytest.param((0.0, 0.0, 0.0, 1.0), 0.02, 0.0, id="cleaner-on-its-side"),
+    ],
+)
+def test_task09_stage_progress_uses_the_cleaners_local_y_upright_axis(
+    cleaner_quat, soap_x, expected_rate
+):
+    scene = yaml.safe_load((SCENE_DIR / "09_cleaner_moisturizer_box_loading.yaml").read_text())
+    metrics = scene["metrics"]
+    # The box and cleaner assets stand upright after a 90-degree X rotation:
+    # local Y points up, while local Z is horizontal.
+    upright_quat = (2**-0.5, 0.0, 0.0, 2**-0.5)
+    states = {
+        object_id: {
+            "pose_world": [x, 0.0, z, *quat],
+            "lin_vel_world": [0.0, 0.0, 0.0],
+            "ang_vel_world": [0.0, 0.0, 0.0],
+        }
+        for object_id, x, z, quat in [
+            ("obj_154_wooden_box_1", 0.0, 0.75, upright_quat),
+            ("obj_200_cleaner_2", 0.01, 0.80, cleaner_quat),
+            ("obj_209_soap_3", soap_x, 0.80, upright_quat),
+        ]
+    }
+
+    result = StageTracker(metrics["stages"]).update(states, sim_step=0)
+
+    assert result.latched_stage_completion_rate == expected_rate
+    assert result.completed == {
+        "place_cleaner": expected_rate >= 0.5,
+        "place_soap": expected_rate == 1.0,
+    }
+    assert evaluate_condition_node(metrics["terminal"]["raw_condition"], states, {}) == (
+        expected_rate == 1.0
+    )

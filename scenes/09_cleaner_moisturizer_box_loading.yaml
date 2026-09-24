@@ -149,6 +149,7 @@ metrics:
           - type: object_upright
             object: obj_200_cleaner_2
             tolerance_deg: 30
+            local_axis: y
           - type: object_static
             object: obj_200_cleaner_2
             threshold: 0.05
