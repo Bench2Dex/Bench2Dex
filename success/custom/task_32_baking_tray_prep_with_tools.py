@@ -7,33 +7,40 @@ from typing import Any, Dict
 from success.condition_evaluator import evaluate_conditions
 
 
+# Placement tolerances for the tray, matching the values declared for this task
+# in scenes/32_baking_tray_prep_with_tools.yaml (metrics.terminal.raw_condition
+# and the per-stage success_condition blocks).
+TOLERANCE_XY = 0.22
+TOLERANCE_Z = 0.18
+
+
 CONDITIONS = [{'type': 'all',
   'conditions': [{'type': 'object_on',
                   'object': 'obj_008_pudding_box_2',
                   'target': 'obj_130_tray_1',
-                  'tolerance_xy': 0.18,
-                  'tolerance_z': 0.15,
+                  'tolerance_xy': TOLERANCE_XY,
+                  'tolerance_z': TOLERANCE_Z,
                   'target_center_offset': [1.42e-05, 0.022275, 0.0],
                   'object_center_offset': [0.000505, 0.019123, 0.0189475]},
                  {'type': 'object_on',
                   'object': 'obj_009_gelatin_box_3',
                   'target': 'obj_130_tray_1',
-                  'tolerance_xy': 0.18,
-                  'tolerance_z': 0.15,
+                  'tolerance_xy': TOLERANCE_XY,
+                  'tolerance_z': TOLERANCE_Z,
                   'target_center_offset': [1.42e-05, 0.022275, 0.0],
                   'object_center_offset': [-0.022775, -0.008245, 0.014492]},
                  {'type': 'object_on',
                   'object': 'obj_033_spatula_4',
                   'target': 'obj_130_tray_1',
-                  'tolerance_xy': 0.18,
-                  'tolerance_z': 0.15,
+                  'tolerance_xy': TOLERANCE_XY,
+                  'tolerance_z': TOLERANCE_Z,
                   'target_center_offset': [1.42e-05, 0.022275, 0.0],
                   'object_center_offset': [-0.027178, -0.097023, 0.0157785]},
                  {'type': 'object_on',
                   'object': 'obj_189_brush_5',
                   'target': 'obj_130_tray_1',
-                  'tolerance_xy': 0.18,
-                  'tolerance_z': 0.15,
+                  'tolerance_xy': TOLERANCE_XY,
+                  'tolerance_z': TOLERANCE_Z,
                   'target_center_offset': [1.42e-05, 0.022275, 0.0],
                   'object_center_offset': [0.0, 0.0881286, 0.0]}]}]
 

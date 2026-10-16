@@ -335,6 +335,7 @@ EPISODES_PER_PROCESS="${EPISODES_PER_PROCESS:-25}"
 CUDA_DEVICE=""
 RESUME_ENABLED=false
 RESUME_DIR=""
+AGGREGATE_ONLY=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -363,6 +364,8 @@ while [[ $# -gt 0 ]]; do
             CHANNEL_NUM="$(_parse_option_value "$1")"
             _apply_channel_selection
             shift ;;
+        --aggregate-only)
+            AGGREGATE_ONLY=true; shift ;;
         --resume)
             RESUME_ENABLED=true
             shift ;;
@@ -443,12 +446,12 @@ while [[ $# -gt 0 ]]; do
 done
 
 _apply_channel_selection
-# Tactile GR00T eval outputs go under dex2bench/output_zdj/TactileGr00t_Cross/<TASK_ID>/
-# (previously ${REPO_ROOT}/../output/end_eval/${TASK_ID}). Derived from REPO_ROOT
-# so the repo stays relocatable; resolves to an absolute path at runtime.
-EVAL_ROOT_PARENT="${REPO_ROOT}/../dex2bench/output_zdj/TactileGr00t_Cross/${TASK_ID}"
+# Keep per-task outputs and the cross-task summary under the same output root.
+EVAL_OUTPUT_ROOT="/inspire/hdd/project/roboticsystem2/ky26063/AgenticEmbodiment/zdj/output_zdj/cpu_sim/groot_tactile"
+EVAL_ROOT_PARENT="${EVAL_OUTPUT_ROOT}/${TASK_ID}"
 EVAL_NAME_PREFIX="gr00t_${CHANNEL_MODE_TOKEN}_"
-EVAL_ROOT="${EVAL_ROOT_PARENT}/${EVAL_NAME_PREFIX}${TIMESTAMP}_${SHORT_ROBOT}"
+# Parallel workers must each provide a distinct GR00T_EVAL_RUN_DIR.
+EVAL_ROOT="${GR00T_EVAL_RUN_DIR:-${EVAL_ROOT_PARENT}/${EVAL_NAME_PREFIX}${TIMESTAMP}_${SHORT_ROBOT}}"
 info "Channel: ${CHANNEL_MODE_TOKEN} (${CHANNEL_LIST[*]})"
 info "record_all=${RECORD_ALL}"
 if [[ "${USE_ACTIVE_DOF}" != "true" ]]; then
@@ -707,19 +710,8 @@ _run_one_process() {
     local _port
     _port=$("${_PYTHON}" -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()')
 
-    # ── pre-start cleanup: kill any zombie servers on this GPU ────────────
-    # Belt-and-suspenders: catches leaks from previous abnormal exits.
-    local _zombies
-    _zombies=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | tr -d ' ' || true)
-    if [[ -n "${_zombies}" ]]; then
-        for _zp in ${_zombies}; do
-            if [[ "${_zp}" =~ ^[0-9]+$ ]] && ps -p "${_zp}" -o cmd --no-headers 2>/dev/null | grep -q "policy_model_server"; then
-                warn "Pre-start cleanup: killing zombie policy server PID=${_zp}"
-                kill -9 "${_zp}" 2>/dev/null || true
-            fi
-        done
-        sleep 1  # let GPU memory settle
-    fi
+    # Only clean up the server PID owned by this launcher. Other GPUs may be
+    # running independent evaluation workers.
 
     # ── start server ────────────────────────────────────────────────────────
     info "Starting Isaac server on port ${_port} (channel=${_channel}, ep ${_start_ep}-$((_start_ep + _num_ep - 1)))"
@@ -812,6 +804,10 @@ _run_one_process() {
         eval "$(conda shell.bash hook)"
         conda activate dex2bench
     fi
+
+    # Keep simulation CUDA visibility explicit for parallel coordinators;
+    # Vulkan rendering-device selection is forwarded via run_policy_args.
+    export CUDA_VISIBLE_DEVICES="${GR00T_SIM_CUDA_VISIBLE_DEVICES:-${GPU_ID}}"
 
     local _end_ep=$((_start_ep + _num_ep - 1))
     info "Client: channel=${_channel} episodes ${_start_ep}-${_end_ep} count=${_num_ep} append=${_append_mode}"
@@ -1162,6 +1158,9 @@ fi
 _any_failed=false
 
 for _current_channel in "${CHANNEL_LIST[@]}"; do
+    if [[ "${AGGREGATE_ONLY}" == "true" ]]; then
+        continue
+    fi
     if [[ "${MULTI_CHANNEL}" == "true" ]]; then
         _channel_dir="${EVAL_ROOT}/${_current_channel}"
     else
@@ -1190,7 +1189,7 @@ if [[ "${MULTI_CHANNEL}" == "true" ]]; then
     _aggregate_results "${EVAL_ROOT}"
 
     # Append 4-channel results to every_eval_tactile.csv
-    EVERY_EVAL_RESULT_FILE="/inspire/hdd/project/roboticsystem2/ky26063/bench2dex_stuff/jcy/result/every_eval_tactile.csv" \
+    EVERY_EVAL_RESULT_FILE="${EVAL_OUTPUT_ROOT}/every_eval_tactile.csv" \
     bash "${REPO_ROOT}/script/_append_eval_result.sh" \
         "${TASK_ID}" "${TASK_NAME}" "${EVAL_ROOT}" || true
 fi

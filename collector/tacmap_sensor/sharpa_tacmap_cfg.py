@@ -15,6 +15,8 @@ class SharpaTacmapCfg(MultiMeshRayCasterCfg):
     normals_npy: str = MISSING      # "/path/to/surface_normals.npy"
     resolution_step: int = MISSING  # 1 for (240, 240), 2 for (120, 120)
     native_resolution: int = 240
+    # None retains the simulation device for existing collection workflows.
+    compute_device: str | None = None
     flip_normals: bool = True
     
     # offsets and coordinate constrain

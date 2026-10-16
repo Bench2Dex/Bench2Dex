@@ -2,7 +2,7 @@
 """Merge LoRA adapter into base model and resize action head to match data dim.
 
 Usage:
-    python policy/GR00T_n15_Tactile/scripts/merge_lora.py \
+    python policy/GR00T_n15_Tactile_Cross/scripts/merge_lora.py \
         --base-model ../groot/groot_baseline_ckpt \
         --checkpoint ../groot/06_lora/checkpoint-10000 \
         --output ../groot/06_lora/merged \

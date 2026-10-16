@@ -37,8 +37,10 @@ shift
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "${SCRIPT_DIR}/../.."
 REPO_ROOT="$(pwd)"
-POLICY_CKPT_ROOT="${REPO_ROOT}/../policy_ckpt"
+POLICY_CKPT_ROOT="${GR00T_POLICY_CKPT_ROOT:-${REPO_ROOT}/../policy_ckpt}"
 TELEOPDATA_ROOT="${REPO_ROOT}/../teleopdata/dataset"
+GR00T_EVAL_CONFIG="${GR00T_EVAL_CONFIG:-policy/GR00T_n15/deploy_policy.yml}"
+GR00T_POLICY_NAME="${GR00T_POLICY_NAME:-GR00T_n15}"
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -484,9 +486,9 @@ while [[ $# -gt 0 ]]; do
 done
 
 _apply_channel_selection
-EVAL_ROOT_PARENT="${REPO_ROOT}/../output/end_eval/${TASK_ID}"
-EVAL_NAME_PREFIX="gr00t_${CHANNEL_MODE_TOKEN}_"
-EVAL_ROOT="${EVAL_ROOT_PARENT}/${EVAL_NAME_PREFIX}${TIMESTAMP}_${SHORT_ROBOT}"
+EVAL_ROOT_PARENT="${GR00T_EVAL_ROOT_PARENT:-${REPO_ROOT}/../output/end_eval/${TASK_ID}}"
+EVAL_NAME_PREFIX="${GR00T_EVAL_NAME_PREFIX:-gr00t_}${CHANNEL_MODE_TOKEN}_"
+EVAL_ROOT="${GR00T_EVAL_ROOT:-${EVAL_ROOT_PARENT}/${EVAL_NAME_PREFIX}${TIMESTAMP}_${SHORT_ROBOT}}"
 info "Channel: ${CHANNEL_MODE_TOKEN} (${CHANNEL_LIST[*]})"
 info "record_all=${RECORD_ALL}"
 if [[ "${USE_ACTIVE_DOF}" != "true" ]]; then
@@ -531,7 +533,7 @@ GR00T_DISPLAY_POLICY_NAME="${TASK_ID}/${ROBOT_KEY}/${CKPT_BASENAME}/${CKPT_NAME}
 _yaml_scalar() {
     local key="$1"
     local value=""
-    local config_path="${REPO_ROOT}/policy/GR00T_n15/deploy_policy.yml"
+    local config_path="${REPO_ROOT}/${GR00T_EVAL_CONFIG}"
     value=$(grep -m1 -E "^[[:space:]]*${key}:" "${config_path}" | sed -E "s/^[[:space:]]*${key}:[[:space:]]*//; s/[[:space:]]+#.*$//; s/^[[:space:]]+//; s/[[:space:]]+$//" || true)
     [[ "${value}" == "null" ]] && value=""
     printf '%s\n' "${value}"
@@ -549,7 +551,7 @@ MAX_ACTION_DIM=${MAX_ACTION_DIM:-64}
 # ── server overrides template (profile-independent) ──────────────────────────
 
 SERVER_OVERRIDES_TMPL=(
-    --policy_name GR00T_n15
+    --policy_name "${GR00T_POLICY_NAME}"
     --task_name "${TASK_NAME}"
     --model_path "${MODEL_PATH}"
     --ckpt_dir "${MODEL_PATH}"
@@ -780,7 +782,7 @@ _run_one_process() {
         exec python script/policy_model_server.py \
             --host 127.0.0.1 \
             --port "${_port}" \
-            --config policy/GR00T_n15/deploy_policy.yml \
+            --config "${GR00T_EVAL_CONFIG}" \
             --overrides \
             "${_server_overrides[@]}"
     ) &
@@ -843,7 +845,15 @@ _run_one_process() {
         source "${DEX2BENCH_VENV}/bin/activate"
     elif [[ "${_USE_SII}" == "true" ]]; then
         source ../isaaclab_setup/env_new.sh
-        start_xvfb
+        # This status must not be ignored.  With DISPLAY unset Isaac silently
+        # falls back to headless rendering and returns ONE frozen frame for the
+        # whole episode, so every eval scores 0 for a reason that looks like a bad
+        # policy.  `set -e` does not save us here: this call sits inside
+        # _run_one_process, which the caller invokes as `if ! _run_one_process`,
+        # and errexit is suppressed for the body of a command in an if condition.
+        start_xvfb || die "no usable X display (${XVFB_DISPLAY:-unset}); refusing to run headless"
+        [[ -n "${DISPLAY:-}" ]] || die "DISPLAY is unset after start_xvfb; refusing to run headless"
+        info "X display ready: DISPLAY=${DISPLAY}"
         activate_isaaclab
         setup_nvidia_libs
     else
@@ -859,7 +869,7 @@ _run_one_process() {
     python script/eval_policy_client.py \
         --host 127.0.0.1 \
         --port "${_port}" \
-        --config policy/GR00T_n15/deploy_policy.yml \
+        --config "${GR00T_EVAL_CONFIG}" \
         --overrides \
         "${_client_overrides[@]}" \
         --run_policy_args "${_run_policy_args}" \

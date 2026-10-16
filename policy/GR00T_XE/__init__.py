@@ -1,1 +1,0 @@
-"""GR00T XE — Cross-Embodiment finetuning on GR00T N1.5."""

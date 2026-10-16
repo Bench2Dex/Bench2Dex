@@ -307,7 +307,7 @@ def main(config: ArgsConfig):
     # 1.2 data loader: we will use either single dataset or mixture dataset
     if config.hdf5_native:
         # ----- HDF5-native mode: read dex2bench HDF5 files directly ---------
-        _gr00t_dir = Path(__file__).resolve().parent.parent  # policy/GR00T_n15_Tactile/
+        _gr00t_dir = Path(__file__).resolve().parent.parent  # policy/GR00T_n15_Tactile_Cross/
         if str(_gr00t_dir) not in sys.path:
             sys.path.insert(0, str(_gr00t_dir))
         from gr00t_hdf5_dataset import build_hdf5_dataset

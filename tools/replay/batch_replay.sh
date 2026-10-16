@@ -16,9 +16,10 @@
 #   bash tools/replay/batch_replay.sh --tactile-only
 
 # python tools/replay/batch_replay.py \
-#     --origin-dir ../teleopdata/dataset/06_fruit_bowl_loading/origin-generalization-double \
-#     --replay-dir ../teleopdata/dataset/06_fruit_bowl_loading/replay-generalization-double \
+#     --origin-dir ../teleopdata/dataset/06_fruit_bowl_loading/origin-generalization \
+#     --replay-dir ../teleopdata/dataset/06_fruit_bowl_loading/replay-generalization \
 #     --enable-rgb \
+#     --enable-tactile \
 #     --resample-groups background,table_surface,light,camera \
 #     --generalization-split seen \
 #     --headless

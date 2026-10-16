@@ -1,193 +1,193 @@
-# 条件评估器 (condition_evaluator.py) 参考文档
+# Condition Evaluator (`condition_evaluator.py`) Reference
 
-本文档详细说明成功条件评估系统中所有原子条件判断函数的含义和用途。
+This document describes the meaning and use of each atomic predicate in the success-condition evaluation system.
 
 ---
 
-## 一、辅助函数
+## 1. Helper Functions
 
-| 函数 | 作用 | 计算方式 |
+| Function | Purpose | Computation |
 |------|------|----------|
-| `_get_pos(states, obj_id)` | 获取物体的世界坐标 | 返回 `(x, y, z)` |
-| `_dist_xy(states, a, b)` | 计算两物体的水平距离 | `√((x₁-x₂)² + (y₁-y₂)²)` |
-| `_dist_3d(states, a, b)` | 计算两物体的三维空间距离 | `√((x₁-x₂)² + (y₁-y₂)² + (z₁-z₂)²)` |
+| `_get_pos(states, obj_id)` | Gets an object's world coordinates | Returns `(x, y, z)` |
+| `_dist_xy(states, a, b)` | Computes the horizontal distance between two objects | `√((x₁-x₂)² + (y₁-y₂)²)` |
+| `_dist_3d(states, a, b)` | Computes the 3D distance between two objects | `√((x₁-x₂)² + (y₁-y₂)² + (z₁-z₂)²)` |
 
 ---
 
-## 二、原子条件判断函数
+## 2. Atomic Predicates
 
-### 1. object_inside - 物体放入容器
+### 1. `object_inside` — Object Inside a Container
 
-**用途**：判断物体是否在容器内部
+**Purpose**: Checks whether an object is inside a container.
 
-**判断逻辑**：
-- xy平面距离 < tolerance
-- 物体z高度 > 容器z高度 - 0.05（物体在容器内或上方）
+**Logic**:
+- Horizontal (XY-plane) distance < `tolerance`
+- Object Z coordinate > container Z coordinate - 0.05 (the object is inside or above the container).
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `container` | string | 必填 | 容器ID |
-| `tolerance` | float | 0.12 | xy距离容差（米） |
+| `object` | string | Required | Object ID |
+| `container` | string | Required | Container ID |
+| `tolerance` | float | 0.12 | XY-plane distance tolerance (m) |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'object_inside', 'object': 'obj_spoon', 'container': 'obj_bowl', 'tolerance': 0.15}
 ```
-判断勺子是否放入碗里。
+Checks whether the spoon is in the bowl.
 
 ---
 
-### 2. object_on - 物体放在目标上方
+### 2. `object_on` — Object on a Target
 
-**用途**：判断物体是否放在目标物体上面
+**Purpose**: Checks whether an object is positioned on top of a target object.
 
-**判断逻辑**：
-- xy平面距离 < tolerance_xy
-- 0 < z差 < tolerance_z（物体在目标正上方，有一定高度差但不太高）
+**Logic**:
+- Horizontal (XY-plane) distance < `tolerance_xy`
+- `0 < Z difference < tolerance_z` (the object is above the target, with a positive but limited height difference).
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `target` | string | 必填 | 目标物体ID |
-| `tolerance_xy` | float | 0.12 | xy距离容差（米） |
-| `tolerance_z` | float | 0.10 | z高度差容差（米） |
+| `object` | string | Required | Object ID |
+| `target` | string | Required | Target object ID |
+| `tolerance_xy` | float | 0.12 | XY-plane distance tolerance (m) |
+| `tolerance_z` | float | 0.10 | Z-height difference tolerance (m) |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'object_on', 'object': 'obj_book', 'target': 'obj_table', 'tolerance_xy': 0.15, 'tolerance_z': 0.12}
 ```
-判断书是否放在桌子上。
+Checks whether the book is on the table.
 
 ---
 
-### 3. object_near - 物体靠近目标
+### 3. `object_near` — Object Near a Target
 
-**用途**：判断物体是否靠近目标物体
+**Purpose**: Checks whether an object is near a target object.
 
-**判断逻辑**：
-- 三维空间距离 < threshold
+**Logic**:
+- 3D distance < `threshold`
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `target` | string | 必填 | 目标物体ID |
-| `threshold` | float | 0.25 | 距离阈值（米） |
+| `object` | string | Required | Object ID |
+| `target` | string | Required | Target object ID |
+| `threshold` | float | 0.25 | Distance threshold (m) |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'object_near', 'object': 'obj_remote', 'target': 'obj_tv', 'threshold': 0.30}
 ```
-判断遥控器是否靠近电视。
+Checks whether the remote is near the TV.
 
 ---
 
-### 4. object_in_zone - 物体在区域内
+### 4. `object_in_zone` — Object Inside a Zone
 
-**用途**：判断物体是否在指定的AABB（轴对齐包围盒）区域内
+**Purpose**: Checks whether an object is inside the specified AABB (axis-aligned bounding box).
 
-**判断逻辑**：
-- 物体坐标在 `[lo, hi]` 范围内
+**Logic**:
+- Object coordinates lie within the `[lo, hi]` bounds.
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `aabb` | tuple | 必填 | `([x_min, y_min, z_min], [x_max, y_max, z_max])` |
+| `object` | string | Required | Object ID |
+| `aabb` | tuple | Required | `([x_min, y_min, z_min], [x_max, y_max, z_max])` |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'object_in_zone', 'object': 'obj_block', 'aabb': [[-0.5, -0.3, 0.75], [0.5, 0.3, 1.0]]}
 ```
-判断物体是否在指定区域范围内。
+Checks whether the object lies in the specified zone.
 
 ---
 
-### 5. object_upright - 物体竖直放置
+### 5. `object_upright` — Object Upright
 
-**用途**：判断物体是否竖直放置（局部z轴朝上）
+**Purpose**: Checks whether an object is upright (its local Z axis points upward).
 
-**判断逻辑**：
-- 物体局部z轴与世界z轴的点积 > cos(容差角度)
+**Logic**:
+- Dot product of the object's local Z axis and the world Z axis > cosine of the tolerance angle.
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `tolerance_deg` | float | 25 | 角度容差（度） |
+| `object` | string | Required | Object ID |
+| `tolerance_deg` | float | 25 | Angular tolerance (degrees) |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'object_upright', 'object': 'obj_cup', 'tolerance_deg': 30}
 ```
-判断杯子是否竖直放置，允许30度倾斜。
+Checks whether the cup is upright, allowing up to 30 degrees of tilt.
 
 ---
 
-### 6. object_flipped - 物体翻转/倒置
+### 6. `object_flipped` — Object Flipped or Upside Down
 
-**用途**：判断物体是否倒置（局部z轴朝下）
+**Purpose**: Checks whether an object is upside down (its local Z axis points downward).
 
-**判断逻辑**：
-- 物体局部z轴与世界z轴的点积 < -cos(容差角度)
+**Logic**:
+- Dot product of the object's local Z axis and the world Z axis < negative cosine of the tolerance angle.
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `tolerance_deg` | float | 25 | 角度容差（度） |
+| `object` | string | Required | Object ID |
+| `tolerance_deg` | float | 25 | Angular tolerance (degrees) |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'object_flipped', 'object': 'obj_calculator', 'tolerance_deg': 30}
 ```
-判断计算器是否翻面倒置。
+Checks whether the calculator is flipped upside down.
 
 ---
 
-### 7. object_orientation - 物体特定朝向
+### 7. `object_orientation` — Object Orientation
 
-**用途**：判断物体某个轴是否指向特定方向
+**Purpose**: Checks whether a specified object axis points in a target direction.
 
-**判断逻辑**：
-- 指定轴与目标方向的点积 > cos(容差角度)
+**Logic**:
+- Dot product of the selected axis and target direction > cosine of the tolerance angle.
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `local_axis` | string | "z" | 局部轴（"x"/"y"/"z"） |
-| `target_direction` | list | [0, 0, -1] | 目标方向向量 |
-| `tolerance_deg` | float | 30 | 角度容差（度） |
+| `object` | string | Required | Object ID |
+| `local_axis` | string | "z" | Local axis (`"x"`, `"y"`, or `"z"`) |
+| `target_direction` | list | [0, 0, -1] | Target direction vector |
+| `tolerance_deg` | float | 30 | Angular tolerance (degrees) |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'object_orientation', 'object': 'obj_knife', 'local_axis': 'z', 'target_direction': [0, 0, -1], 'tolerance_deg': 35}
 ```
-判断刀具的z轴是否朝下（刀尖朝下）。
+Checks whether the knife's Z axis points downward (blade tip down).
 
 ---
 
-### 8. relative_position - 相对位置关系
+### 8. `relative_position` — Relative Position
 
-**用途**：判断物体相对参考物的空间位置关系
+**Purpose**: Checks an object's spatial position relative to a reference object.
 
-**判断逻辑**：
-- 根据relation类型比较坐标
+**Logic**:
+- Compares coordinates according to the specified `relation`.
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `reference` | string | 必填 | 参考物体ID |
-| `relation` | string | 必填 | 位置关系 |
-| `margin` | float | 0.02 | 边界裕量（米） |
+| `object` | string | Required | Object ID |
+| `reference` | string | Required | Reference object ID |
+| `relation` | string | Required | Spatial relation |
+| `margin` | float | 0.02 | Boundary margin (m) |
 
-**支持的relation类型**：
-| 关系 | 判断条件 |
+**Supported relation values**:
+| Relation | Condition |
 |------|----------|
 | `left` | object.y > reference.y + margin |
 | `right` | object.y < reference.y - margin |
@@ -196,110 +196,110 @@
 | `above` | object.z > reference.z + margin |
 | `below` | object.z < reference.z - margin |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'relative_position', 'object': 'obj_bowl', 'reference': 'obj_pot', 'relation': 'left', 'margin': 0.02}
 ```
-判断碗是否在锅的左边。
+Checks whether the bowl is to the left of the pot.
 
 ---
 
-### 9. joint_state - 关节状态
+### 9. `joint_state` — Joint State
 
-**用途**：判断关节是否处于目标状态
+**Purpose**: Checks whether a joint is in the target state.
 
-**判断逻辑**：
-- `target="open"`：关节位置绝对值 > tolerance
-- `target="closed"`：关节位置绝对值 < tolerance
-- `target=数值`：关节位置接近该数值
+**Logic**:
+- `target="open"`: absolute joint position > `tolerance`.
+- `target="closed"`: absolute joint position < `tolerance`.
+- Numeric `target`: joint position is close to the specified value.
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `joint` | string | "joint_0" | 关节名称 |
-| `target` | string/float | 必填 | 目标状态 |
-| `tolerance` | float | 0.15 | 位置容差 |
+| `object` | string | Required | Object ID |
+| `joint` | string | "joint_0" | Joint name |
+| `target` | string/float | Required | Target state |
+| `tolerance` | float | 0.15 | Position tolerance |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'joint_state', 'object': 'obj_drawer', 'joint': 'joint_0', 'target': 'open', 'tolerance': 0.10}
 ```
-判断抽屉是否打开。
+Checks whether the drawer is open.
 
 ```python
 {'type': 'joint_state', 'object': 'obj_microwave', 'joint': 'joint_1', 'target': 'closed', 'tolerance': 0.15}
 ```
-判断微波炉门是否关闭。
+Checks whether the microwave door is closed.
 
 ---
 
-### 10. object_lifted - 物体被抬起
+### 10. `object_lifted` — Object Lifted
 
-**用途**：判断物体是否被抬高到指定高度以上
+**Purpose**: Checks whether an object has been lifted above a specified height.
 
-**判断逻辑**：
-- 物体z高度 > min_z
+**Logic**:
+- Object Z coordinate > `min_z`.
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `min_z` | float | 0.80 | 最小高度阈值（米） |
+| `object` | string | Required | Object ID |
+| `min_z` | float | 0.80 | Minimum height threshold (m) |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'object_lifted', 'object': 'obj_briefcase', 'min_z': 0.80}
 ```
-判断公文包是否被抬起到0.80米以上。
+Checks whether the briefcase has been lifted above 0.80 m.
 
 ---
 
-### 11. height_order - 高度顺序
+### 11. `height_order` — Height Order
 
-**用途**：判断多个物体是否按高度顺序排列
+**Purpose**: Checks whether multiple objects are ordered by height.
 
-**判断逻辑**：
-- 每个物体的z ≤ 下一个物体的z + 0.005
+**Logic**:
+- Each object's Z coordinate ≤ the next object's Z coordinate + 0.005.
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `objects` | list | 必填 | 物体ID列表（从低到高） |
+| `objects` | list | Required | List of object IDs, ordered from lowest to highest |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'height_order', 'objects': ['obj_cube_1', 'obj_cube_2', 'obj_cube_3']}
 ```
-判断三个立方体是否从下到上堆叠。
+Checks whether the three cubes are stacked from bottom to top.
 
 ---
 
-### 12. object_static - 物体静止
+### 12. `object_static` — Object Static
 
-**用途**：判断物体是否静止不动
+**Purpose**: Checks whether an object is stationary.
 
-**判断逻辑**：
-- 线速度 < threshold
-- 角速度 < threshold * 5
+**Logic**:
+- Linear speed < `threshold`.
+- Angular speed < `threshold * 5`.
 
-**参数**：
-| 参数 | 类型 | 默认值 | 说明 |
+**Parameters**:
+| Parameter | Type | Default | Description |
 |------|------|--------|------|
-| `object` | string | 必填 | 物体ID |
-| `threshold` | float | 0.05 | 速度阈值 |
+| `object` | string | Required | Object ID |
+| `threshold` | float | 0.05 | Speed threshold |
 
-**示例**：
+**Example**:
 ```python
 {'type': 'object_static', 'object': 'obj_ball', 'threshold': 0.05}
 ```
-判断球是否静止不动。
+Checks whether the ball is stationary.
 
 ---
 
-## 三、逻辑组合类型
+## 3. Logical Combinators
 
-### 1. all - 所有条件都满足
+### 1. `all` — All Conditions Must Be Met
 
 ```python
 {
@@ -311,7 +311,7 @@
 }
 ```
 
-### 2. any - 任一条件满足
+### 2. `any` — At Least One Condition Must Be Met
 
 ```python
 {
@@ -323,7 +323,7 @@
 }
 ```
 
-### 3. sequence - 按顺序完成各步骤
+### 3. `sequence` — Complete Steps in Order
 
 ```python
 {
@@ -336,7 +336,7 @@
 }
 ```
 
-### 4. not - 条件取反
+### 4. `not` — Negate a Condition
 
 ```python
 {
@@ -345,7 +345,7 @@
 }
 ```
 
-### 5. hold_duration - 条件持续满足指定时间
+### 5. `hold_duration` — Condition Must Hold for a Duration
 
 ```python
 {
@@ -354,13 +354,13 @@
     'seconds': 3.0
 }
 ```
-判断盘子被抬起并保持3秒。
+Checks whether the plate remains lifted for 3 seconds.
 
 ---
 
-## 四、完整示例
+## 4. Complete Examples
 
-### 示例1：餐具放入碗
+### Example 1: Place Utensils in a Bowl
 
 ```python
 CONDITIONS = [{
@@ -374,7 +374,7 @@ CONDITIONS = [{
 }]
 ```
 
-### 示例2：打开抽屉放入物品
+### Example 2: Open a Drawer and Place an Item Inside
 
 ```python
 CONDITIONS = [{
@@ -386,7 +386,7 @@ CONDITIONS = [{
 }]
 ```
 
-### 示例3：抬起并保持平衡
+### Example 3: Lift and Hold a Tray Level
 
 ```python
 CONDITIONS = [{
@@ -401,16 +401,16 @@ CONDITIONS = [{
 
 ---
 
-## 五、距离类型对比
+## 5. Distance Types
 
-| 距离类型 | 计算方式 | 适用场景 |
+| Distance type | Formula | Use |
 |----------|----------|----------|
-| xy距离 | `√((x₁-x₂)² + (y₁-y₂)²)` | 判断水平位置关系，忽略高度 |
-| z差 | `z₁ - z₂` | 判断高度关系 |
-| 3D距离 | `√((x₁-x₂)² + (y₁-y₂)² + (z₁-z₂)²)` | 判断空间位置关系 |
+| XY distance | `√((x₁-x₂)² + (y₁-y₂)²)` | Horizontal position; ignores height |
+| Z difference | `z₁ - z₂` | Height relationship |
+| 3D distance | `√((x₁-x₂)² + (y₁-y₂)² + (z₁-z₂)²)` | Spatial relationship |
 
-**选择建议**：
-- 放入容器：使用xy距离 + z条件
-- 放在物体上：使用xy距离 + z差
-- 靠近物体：使用3D距离
-- 相对位置：使用坐标比较
+**Guidance**:
+- Inside a container: use XY distance and a Z condition.
+- On top of an object: use XY distance and Z difference.
+- Near an object: use 3D distance.
+- Relative position: compare coordinates.

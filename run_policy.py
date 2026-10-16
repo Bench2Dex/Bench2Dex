@@ -356,6 +356,10 @@ from utils.episode_runtime import (  # noqa: E402
 )
 from utils.policy_timing import should_query_policy  # noqa: E402
 from robots.active_dof_utils import get_active_dof_info, get_active_dof_info_for_runtime, select_active, expand_to_full  # noqa: E402
+from robots.joint_order_utils import (  # noqa: E402
+    reindex_canonical_to_runtime,
+    reindex_runtime_to_canonical,
+)
 
 _active_dof_info = None  # set once at init when --active-dof is enabled
 from utils.runtime_helpers import (  # noqa: E402
@@ -771,14 +775,103 @@ def _split_legacy_joint_action(qpos: np.ndarray) -> dict[str, object]:
     return result
 
 
+def _runtime_joint_names(robot_art) -> list:
+    names = getattr(getattr(robot_art, "data", None), "joint_names", None)
+    if not names:
+        names = getattr(robot_art, "joint_names", None)
+    return list(names or [])
+
+
+def _remote_qpos_reindex(qpos: np.ndarray, robot_key, robot_art) -> np.ndarray:
+    """Reorder a runtime-order qpos into the canonical order the server decodes.
+
+    The GR00T XE policy server runs FK with ``active_dof_maps.yml`` joint order
+    (``get_active_dof_info``), but Isaac Sim reports joint state in the
+    articulation's own order.  The two differ for every robot in the suite; for
+    the jaka/dexhand articulation they are not even block-swapped but
+    interleaved (``joint_1, l_joint_1, joint_2, l_joint_2, ...`` versus the
+    canonical ``joint_1..joint_6, r_f_joint*, l_joint_*, l_f_joint*``).
+    Sending runtime order makes the server FK one arm from a mix of both arms'
+    angles — the "moves backwards / freezes" rollout this reindex fixes.
+    """
+    adi = get_active_dof_info(robot_key)
+    runtime_names_all = _runtime_joint_names(robot_art)
+    if _active_dof_info is None:
+        # No active-DOF filtering: the full runtime qpos goes out and the
+        # server takes the full-DOF passthrough branch.
+        canonical_names = list(adi.full_joint_names)
+        runtime_names = runtime_names_all
+    else:
+        # _policy_qpos() sliced to active DOF in runtime order; the server
+        # rebuilds full DOF from the canonical active ordering.  Derive the
+        # runtime active ordering from the live articulation rather than from
+        # the module-global ActiveDofInfo, so this stays correct even if that
+        # global has not been reindexed yet.
+        runtime_adi = get_active_dof_info_for_runtime(robot_key, runtime_names_all)
+        canonical_names = list(adi.active_joint_names)
+        runtime_names = list(runtime_adi.active_joint_names)
+
+    return reindex_runtime_to_canonical(
+        qpos, canonical_names, runtime_names,
+        context=f"remote qpos reindex ({robot_key})",
+    )
+
+
+def _remote_action_reindex(action: np.ndarray, robot_key, robot_art) -> np.ndarray:
+    """Reorder a canonical-order action reply into Isaac runtime joint order.
+
+    Mirror of :func:`_remote_qpos_reindex`: the server returns full-DOF joint
+    angles in URDF order, while ``articulation_hold_targets`` is indexed in the
+    articulation's own order.  Without this the reply drives the wrong joints.
+    """
+    adi = get_active_dof_info(robot_key)
+    action = np.asarray(action, dtype=np.float32).reshape(-1)
+    if action.size != adi.full_dof:
+        raise ValueError(
+            f"Remote action reindex for {robot_key}: expected {adi.full_dof} "
+            f"values, got {action.size}"
+        )
+    return reindex_canonical_to_runtime(
+        action, list(adi.full_joint_names), _runtime_joint_names(robot_art),
+        context=f"remote action reindex ({robot_key})",
+    )
+
+
+def _remote_reindex_robot_key(policy, args, robot_key) -> str | None:
+    """Return the robot_key to permute joint order for, or ``None``.
+
+    Isaac Sim reports joint state in the articulation's own order, while the
+    GR00T XE policy server decodes qpos with ``active_dof_maps.yml`` (canonical
+    URDF) order — see :func:`_remote_qpos_reindex`.  Every *other* remote policy
+    (ACT, DP, ...) consumes the raw articulation order it was trained on, so the
+    permutation must not be applied to them.
+
+    ``uses_raw_observation`` alone cannot gate this: it is a class attribute of
+    ``RemotePolicyClient`` and therefore ``True`` for every remote policy.
+    """
+    if not getattr(policy, "uses_raw_observation", False):
+        return None
+    if str(getattr(args, "policy_name", "") or "").upper() != "GR00T_XE":
+        return None
+    if not robot_key:
+        raise ValueError(
+            "GR00T XE remote policy needs a robot_key to permute joint order "
+            "between Isaac's articulation order and the server's URDF order."
+        )
+    return robot_key
+
+
 def _build_remote_policy_obs(
     frames: dict,
     robot_art,
     *,
     instruction: str | None = None,
     robot_state: dict | None = None,
+    robot_key: str | None = None,
 ) -> dict | None:
     qpos = _policy_qpos(robot_art, robot_state)
+    if robot_key:
+        qpos = _remote_qpos_reindex(qpos, robot_key, robot_art)
 
     def _frame_rgb(camera_id: str, fallback_camera_id: str | None = None) -> np.ndarray:
         for candidate in (camera_id, fallback_camera_id):
@@ -814,8 +907,11 @@ def _refresh_observation_joint_state(
     robot_art,
     *,
     robot_state: dict | None = None,
+    robot_key: str | None = None,
 ) -> dict:
     qpos = _policy_qpos(robot_art, robot_state)
+    if robot_key:
+        qpos = _remote_qpos_reindex(qpos, robot_key, robot_art)
     refreshed = dict(obs)
     if "agent_pos" in refreshed:
         refreshed["qpos"] = qpos
@@ -1209,6 +1305,7 @@ def _run_episode(
                             robot_art,
                             instruction=task_instruction,
                             robot_state=_latest_metric_robot_state,
+                            robot_key=_remote_reindex_robot_key(policy, args, robot_key),
                         )
                     else:
                         obs = _build_policy_obs(
@@ -1224,12 +1321,16 @@ def _run_episode(
                     _last_obs,
                     robot_art,
                     robot_state=_latest_metric_robot_state,
+                    robot_key=_remote_reindex_robot_key(policy, args, robot_key),
                 )
 
             # Query policy: ACT queries every physics step (60Hz) matching old code;
             # DP returns action chunks, queried at capture rate (20Hz).
             policy_type_upper = args.policy_type.upper()
             uses_chunks = policy_type_upper == "DP" or getattr(policy, "returns_action_chunks", False)
+            # Remote GR00T XE server speaks canonical URDF joint order; its
+            # replies must be permuted back to Isaac's articulation order.
+            _remote_action_robot_key = _remote_reindex_robot_key(policy, args, robot_key)
             if _last_obs is not None and rgb_ok:
                 if uses_chunks:
                     if should_query_policy(step, stride=POLICY_STRIDE):
@@ -1248,6 +1349,10 @@ def _run_episode(
                                 _policy_query_count += 1
                         if _queued_actions:
                             _current_action = np.asarray(_queued_actions.popleft(), dtype=np.float32)
+                            if _remote_action_robot_key:
+                                _current_action = _remote_action_reindex(
+                                    _current_action, _remote_action_robot_key, robot_art,
+                                )
                 else:
                     # ACT: query at capture rate (20Hz), matching training data rate
                     if should_query_policy(step, stride=POLICY_STRIDE):

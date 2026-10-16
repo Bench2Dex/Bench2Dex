@@ -97,6 +97,16 @@ if [[ -z "$TASK_NUM" ]]; then
     exit 1
 fi
 
+# Resolve the scene from the requested task ID, not from the dataset's parent
+# directory (task 08 has an additional robot-specific directory level).
+SCENE_FILES=("${REPO_ROOT}/scenes/${TASK_NUM}_"*.yaml)
+if [[ ${#SCENE_FILES[@]} -ne 1 || ! -f "${SCENE_FILES[0]}" ]]; then
+    echo "ERROR: expected exactly one scene matching scenes/${TASK_NUM}_*.yaml" >&2
+    exit 1
+fi
+SCENE_FILE="${SCENE_FILES[0]}"
+TASK_NAME="$(basename "$SCENE_FILE" .yaml)"
+
 # =========================================================================
 # Early checkpoint check — runs BEFORE conda/model loading.
 # =========================================================================
@@ -143,44 +153,36 @@ if [[ -n "$DATASET_OVERRIDE" ]]; then
         exit 1
     fi
 else
-    DATASET_SEARCH=(
-        "../teleopdata/dataset"
-    )
-
-    DATASET_DIR=""
-    for _base in "${DATASET_SEARCH[@]}"; do
-        _match=$(find "$_base" -maxdepth 1 -type d -name "${TASK_NUM}_*" 2>/dev/null | head -1)
-        if [[ -n "$_match" && -d "${_match}/replay-generalization" ]]; then
+    if [[ "$TASK_NUM" == "08" ]]; then
+        DATASET_DIR="../teleopdata/dataset/${TASK_NAME}/multi_ur5_schunk_hand_with_flange/replay-generalization"
+    else
+        DATASET_DIR=""
+        _match=$(find "../teleopdata/dataset" -maxdepth 1 -type d -name "${TASK_NUM}_*" 2>/dev/null | head -1)
+        if [[ -n "$_match" ]]; then
             DATASET_DIR="${_match}/replay-generalization"
-            break
         fi
-    done
-
-    if [[ -z "$DATASET_DIR" ]]; then
-        echo "ERROR: no dataset for task ${TASK_NUM}" >&2
-        for _base in "${DATASET_SEARCH[@]}"; do
-            echo "       checked ${_base}/${TASK_NUM}_*/replay-generalization" >&2
-        done
+    fi
+    if [[ ! -d "$DATASET_DIR" ]]; then
+        echo "ERROR: no dataset for task ${TASK_NUM}: ${DATASET_DIR}" >&2
         exit 1
     fi
 fi
 
-TASK_NAME="$(basename "$(dirname "$DATASET_DIR")")"
-TASK="${TASK_NAME}"  # GR00T uses full task name for scene lookup
-
 # =========================================================================
 # Prompt from scene YAML
 # =========================================================================
-_scene_prompt() {
-    local yaml="${REPO_ROOT}/scenes/${TASK}.yaml"
-    local p=""
-    if [[ -f "$yaml" ]]; then
-        p=$(grep -m1 '^description:' "$yaml" | sed -E 's/^description:[[:space:]]*"?([^"]*)"?[[:space:]]*$/\1/' || true)
-    fi
-    [[ -z "$p" ]] && p="perform task: ${TASK//_/ }"
-    echo "$p"
-}
-PROMPT=$(_scene_prompt)
+PROMPT=$(python - "$SCENE_FILE" <<'PY'
+import sys
+import yaml
+
+with open(sys.argv[1], encoding="utf-8") as scene_file:
+    scene = yaml.safe_load(scene_file)
+prompt = scene.get("description") if isinstance(scene, dict) else None
+if not isinstance(prompt, str) or not prompt.strip():
+    raise SystemExit(f"ERROR: missing or empty description in {sys.argv[1]}")
+sys.stdout.write(prompt)
+PY
+)
 
 # =========================================================================
 # Pre-check: ALL episodes must have homing_start_sim_step > 0

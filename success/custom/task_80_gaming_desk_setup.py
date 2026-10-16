@@ -124,7 +124,7 @@ def _mouse_left_clicked(states: StateMap, ctx: Dict[str, Any]) -> bool:
     # Mouse is returned to the keyboard's left side.
     mx, my, _ = _pos(states, mouse)
     kx, ky, _ = _pos(states, keyboard)
-    moved_left = my < ky + 0.015
+    moved_left = my < ky + 0.025
     clicked = _pressed_then_released(
         states,
         ctx,

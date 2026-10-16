@@ -12,9 +12,9 @@ from policy.GR00T_n15_Tactile_Cross.tactile_deployment import RemoteGR00TTactile
 
 
 class TactileReplanningTest(unittest.TestCase):
-    def test_remote_and_runner_default_to_four_step_execution(self):
+    def test_remote_and_runner_default_to_sixteen_step_execution(self):
         signature = inspect.signature(RemoteGR00TTactileDeployment)
-        self.assertEqual(signature.parameters["action_horizon"].default, 4)
+        self.assertEqual(signature.parameters["action_horizon"].default, 16)
         path = Path(__file__).resolve().parents[1] / "run_policy.py"
         tree = ast.parse(path.read_text())
         chunk_option = next(
@@ -24,7 +24,7 @@ class TactileReplanningTest(unittest.TestCase):
             and isinstance(node.args[0], ast.Constant) and node.args[0].value == "--chunk-size"
         )
         default = next(item.value for item in chunk_option.keywords if item.arg == "default")
-        self.assertEqual(ast.literal_eval(default), 4)
+        self.assertEqual(ast.literal_eval(default), 16)
 
     def test_executes_only_requested_prefix_and_queries_latest_observation(self):
         policy = RemoteGR00TTactileDeployment.__new__(RemoteGR00TTactileDeployment)

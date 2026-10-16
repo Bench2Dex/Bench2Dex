@@ -26,7 +26,7 @@ embodiment_tag: new_embodiment
 data_config: policy.GR00T_n15_Tactile_Cross.gr00t_dex2bench_config:Dex2BenchGR00TDataConfig
 denoising_steps: 4
 action_horizon: 16
-execution_horizon: 4  # Replan after this prefix; keep server prediction horizon unchanged.
+execution_horizon: 16  # Execute the full default prediction before replanning.
 camera_mode: 4cam  # 4cam: stereo pair + dual wrist; 3cam: overhead + dual wrist
 tactile_height: 240
 tactile_width: 240
@@ -51,3 +51,4 @@ use_active_dof: true
 action_keys:
   - action.qpos
 device: cuda
+sim_device: cuda:0

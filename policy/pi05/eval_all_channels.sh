@@ -297,7 +297,7 @@ if [[ -z "${OUTPUT_ROOT}" ]]; then
     timestamp=$(date +%Y%m%d_%H%M%S)
     ckpt_run=$(basename "$(dirname "${CKPT_DIR}")")
     ckpt_step=$(basename "${CKPT_DIR}")
-    OUTPUT_ROOT="${ROOT_DIR}/../dex2bench/output_zdj/${POLICY_NAME}_four_channels/${TASK}/${ROBOT_KEY}/${ckpt_run}_${ckpt_step}_${timestamp}"
+    OUTPUT_ROOT="${ROOT_DIR}/../zdj/output_zdj/${POLICY_NAME}_four_channels/${TASK}/${ROBOT_KEY}/${ckpt_run}_${ckpt_step}_${timestamp}"
 fi
 mkdir -p "${OUTPUT_ROOT}"
 

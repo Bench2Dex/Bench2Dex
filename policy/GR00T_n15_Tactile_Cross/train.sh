@@ -2,7 +2,7 @@
 # Train GR00T N1.5 on a dex2bench task (HDF5-native mode).
 #
 # Usage:
-#   bash policy/GR00T_n15_Tactile/train.sh TASK_NUM [FLAGS]
+#   bash policy/GR00T_n15_Tactile_Cross/train.sh TASK_NUM [FLAGS]
 #
 #   TASK_NUM    Task number, e.g. 60 for breadbasket_fast_food_loading.
 #               Auto-searches dataset under:
@@ -28,9 +28,9 @@
 #   Existing tactile checkpoints/resume preserve saved settings unless overridden.
 #
 # Examples:
-#   bash policy/GR00T_n15_Tactile/train.sh 60                                      # all defaults
-#   bash policy/GR00T_n15_Tactile/train.sh 60 --gpu 0,1,2,3,4,5,6,7 --batch 64    # 8-GPU
-#   bash policy/GR00T_n15_Tactile/train.sh 60 --lr 2e-4 --steps 10000 --tag v1     # with tag
+#   bash policy/GR00T_n15_Tactile_Cross/train.sh 60                                      # all defaults
+#   bash policy/GR00T_n15_Tactile_Cross/train.sh 60 --gpu 0,1,2,3,4,5,6,7 --batch 64    # 8-GPU
+#   bash policy/GR00T_n15_Tactile_Cross/train.sh 60 --lr 2e-4 --steps 10000 --tag v1     # with tag
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -180,16 +180,19 @@ TASK="${TASK_NAME}"  # GR00T uses full task name for scene lookup
 # =========================================================================
 # Prompt from scene YAML
 # =========================================================================
-_scene_prompt() {
-    local yaml="${REPO_ROOT}/scenes/${TASK}.yaml"
-    local p=""
-    if [[ -f "$yaml" ]]; then
-        p=$(grep -m1 '^description:' "$yaml" | sed -E 's/^description:[[:space:]]*"?([^"]*)"?[[:space:]]*$/\1/' || true)
-    fi
-    [[ -z "$p" ]] && p="perform task: ${TASK//_/ }"
-    echo "$p"
-}
-PROMPT=$(_scene_prompt)
+# Parse the full YAML scalar so wrapped descriptions match the evaluation prompt.
+PROMPT=$(python - "${REPO_ROOT}/scenes/${TASK}.yaml" <<'PY'
+import sys
+import yaml
+
+with open(sys.argv[1], encoding="utf-8") as scene_file:
+    scene = yaml.safe_load(scene_file)
+prompt = scene.get("description") if isinstance(scene, dict) else None
+if not isinstance(prompt, str) or not prompt.strip():
+    raise SystemExit(f"ERROR: missing or empty description in {sys.argv[1]}")
+sys.stdout.write(prompt)
+PY
+)
 
 # =========================================================================
 # Pre-check: ALL episodes must have homing_start_sim_step > 0

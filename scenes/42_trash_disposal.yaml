@@ -96,16 +96,8 @@ metrics:
       type: custom
       evaluator: success.custom.task_42_trash_disposal
   stages:
-    - id: place_banana_peel
-      depends_on: []
-      success_condition:
-        type: custom
-        evaluator: success.custom.task_42_trash_disposal
-        params:
-          phase: stage
-          object: obj_341_banana_peel_1
     - id: place_paper
-      depends_on: [place_banana_peel]
+      depends_on: []
       success_condition:
         type: custom
         evaluator: success.custom.task_42_trash_disposal
@@ -120,6 +112,14 @@ metrics:
         params:
           phase: stage
           object: obj_080_bottle_3
+    - id: place_banana_peel
+      depends_on: [place_bottle]
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_42_trash_disposal
+        params:
+          phase: stage
+          object: obj_341_banana_peel_1
   safety:
     table_z: 0.75
     drop:

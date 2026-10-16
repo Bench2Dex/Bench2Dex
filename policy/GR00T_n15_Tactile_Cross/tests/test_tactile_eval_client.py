@@ -15,24 +15,66 @@ from policy.GR00T_n15_Tactile_Cross.tactile_eval_client import (
     main,
 )
 from utils.seed_policy import EVAL_BASE_SEED_DEFAULT
+from utils.eval_devices import add_eval_device_arguments
 
 
 class TactileEvalClientTest(unittest.TestCase):
+    def test_physics_device_is_independent_of_policy_and_tactile_devices(self) -> None:
+        parser = argparse.ArgumentParser()
+        parser.add_argument("--device", default="cuda:0")  # AppLauncher registration
+        add_eval_device_arguments(parser, tactile=True)
+        defaults = parser.parse_args([])
+        self.assertEqual(
+            (defaults.device, defaults.policy_device, defaults.tactile_device),
+            ("cuda:0", "cuda:0", "cuda:0"),
+        )
+        for overrides, expected in (
+            ({}, ("cuda:0", "cuda:0")),
+            ({"sim_device": "cpu"}, ("cpu", "cuda:0")),
+            ({"sim_device": "cuda:1", "tactile_device": "cuda:2"}, ("cuda:1", "cuda:2")),
+            ({"sim_device": "cuda:1", "run_policy_args": ["--device", "cpu"]}, ("cpu", "cuda:0")),
+        ):
+            with self.subTest(overrides=overrides):
+                config = {"task_name": "03_example", "device": "cuda:3", **overrides}
+                command = TactileEvalClient(config).build_run_policy_command()
+                args, _ = parser.parse_known_args(command[2:])
+                self.assertEqual((args.device, args.tactile_device), expected)
+                self.assertEqual(config["device"], "cuda:3")
+
+    @mock.patch("policy.GR00T_n15_Tactile_Cross.tactile_eval_client.TactileEvalClient")
+    def test_main_device_override_preserves_model_device(self, tactile_client: mock.Mock) -> None:
+        tactile_client.return_value.run.return_value = 0
+        with tempfile.TemporaryDirectory() as temp_dir:
+            config_path = Path(temp_dir) / "eval.yml"
+            config_path.write_text("task_name: 03_example\ndevice: cuda:2\n", encoding="utf-8")
+            argv = ["tactile_eval_client.py", "--config", str(config_path),
+                    "--overrides", "--device", "cpu", "--tactile-device", "cuda:1"]
+            with mock.patch.object(sys, "argv", argv):
+                with self.assertRaises(SystemExit) as exit_context:
+                    main()
+        self.assertEqual(exit_context.exception.code, 0)
+        config = tactile_client.call_args.args[0]
+        self.assertEqual(config["sim_device"], "cpu")
+        self.assertEqual(config["device"], "cuda:2")
+        self.assertEqual(config["tactile_device"], "cuda:1")
+
     def test_default_execution_horizon_and_cli_override(self) -> None:
         config_path = REPO_ROOT / "policy/GR00T_n15_Tactile_Cross/deploy_policy.yml"
         config = yaml.safe_load(config_path.read_text())
         config["task_name"] = "03_example"
         self.assertEqual(config["action_horizon"], 16)
-        self.assertEqual(config["execution_horizon"], 4)
+        self.assertEqual(config["execution_horizon"], 16)
+        self.assertEqual(config["sim_device"], "cuda:0")
         command = TactileEvalClient(config).build_run_policy_command()
-        self.assert_option(command, "--chunk-size", "4")
+        self.assert_option(command, "--chunk-size", "16")
+        self.assert_option(command, "--device", "cuda:0")
 
-        config["run_policy_args"] = ["--chunk-size", "16"]
+        config["run_policy_args"] = ["--chunk-size", "4"]
         command = TactileEvalClient(config).build_run_policy_command()
         parser = argparse.ArgumentParser()
         parser.add_argument("--chunk-size", type=int)
         args, _ = parser.parse_known_args(command[2:])
-        self.assertEqual(args.chunk_size, 16)
+        self.assertEqual(args.chunk_size, 4)
 
     def assert_option(self, command: list[str], option: str, value: str) -> None:
         index = command.index(option)

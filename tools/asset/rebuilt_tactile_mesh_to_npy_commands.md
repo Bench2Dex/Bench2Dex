@@ -1,42 +1,42 @@
 # Rebuilt Tactile Mesh -> TacMap NPY Commands
 
-本文记录当前四指共用版 TacMap 配置下，每种手把重新构建的触觉接触面 mesh 转成 `.npy` 时应该使用的命令，重点记录 `--origin-xyz` / `--origin-rpy`。
+This document lists the commands for converting rebuilt tactile contact-surface meshes to `.npy` files for each hand under the current four-finger-shared TacMap configuration. It focuses on `--origin-xyz` and `--origin-rpy`.
 
-当前文档里的命令只能直接对应现有运行时配置：拇指一组，其他非拇指手指共用一组。也就是说，Sharpa 是 `TH` / `4F`，其他双手机器人是 `RTH` / `R4F` / `LTH` / `L4F`。如果后续要做“五指独立版”，不能只把输出文件名改成五根手指；还需要同步补齐 `collector/tacmap_configs.py` 里的 `TacMapNpyGroup` 分组，并为每根手指分别生成 point/normal npy。
+These commands match the current runtime configuration: one group for the thumb and one shared group for the other fingers. Sharpa therefore uses `TH` / `4F`; other bimanual robots use `RTH` / `R4F` / `LTH` / `L4F`. A per-finger five-digit setup requires more than changing output filenames: update the `TacMapNpyGroup` entries in `collector/tacmap_configs.py` and generate separate point/normal NPY files for every finger.
 
-命令假设从仓库根目录执行：
+Run these commands from the repository root:
 
 ```bash
 cd .
 ```
 
-命令里的输入 mesh 统一假设放在：
+The commands assume input meshes are stored at:
 
 ```text
 ../dex2bench_dataset/Robots_p/<dataset_key>/tactile_sensor/tactile_surface_<GROUP>.stl
 ```
 
-如果你实际导出的是 `.obj`，或者沿用类似 `sensor_fingertip.obj` 的文件名，只改 `--mesh` 路径即可。
+If you exported an `.obj` file or used a name such as `sensor_fingertip.obj`, change only the `--mesh` path.
 
-## 坐标系约定
+## Coordinate Frame Conventions
 
-这些命令适用于：你在 Blender 中从机器人 URDF 引用的原始 mesh 裁剪/重建出了新 mesh，但导出的新 mesh 仍处在“原始 mesh 文件坐标系”下。
+These commands apply when you crop or rebuild a mesh in Blender from the original mesh referenced by the robot URDF, and the exported mesh remains in the original mesh file coordinate frame.
 
-`gen_tacmap_npy.py --mesh ...` 单 mesh 模式不会读取 URDF，所以这里必须手动补上 URDF `<visual>` / `<collision>` 上的：
+The single-mesh mode of `gen_tacmap_npy.py --mesh ...` does not read the URDF. You must therefore provide the following values from the URDF `<visual>` / `<collision>` element:
 
 - `origin xyz` -> `--origin-xyz`
 - `origin rpy` -> `--origin-rpy`
 - `mesh scale` -> `--mesh-scale`
 
-如果你已经在 Blender 里把新 mesh 对齐并导出到了 TacMap attach link 的局部坐标系下，就不要再套这些 origin/rpy/scale，否则会变换两次。此时应使用：
+If you have already aligned the new mesh in Blender and exported it in the TacMap attach link local frame, do not apply the URDF origin, RPY, or scale again; that would transform it twice. Use:
 
 ```bash
 --origin-xyz 0,0,0 --origin-rpy 0,0,0 --mesh-scale 1,1,1
 ```
 
-## 输出命名
+## Output Naming
 
-Sharpa 旧资产：
+Legacy Sharpa assets:
 
 ```text
 tactileSensor_map_TH_point.npy
@@ -45,7 +45,7 @@ tactileSensor_map_4F_point.npy
 tactileSensor_map_4F_normal.npy
 ```
 
-其他机器人四组：
+Four groups for other robots:
 
 ```text
 tactileSensor_map_RTH_point.npy
@@ -58,7 +58,7 @@ tactileSensor_map_L4F_point.npy
 tactileSensor_map_L4F_normal.npy
 ```
 
-建议的五指独立版命名：
+Suggested names for a per-finger five-digit layout:
 
 ```text
 tactileSensor_map_RTH_point.npy
@@ -83,36 +83,36 @@ tactileSensor_map_LLIT_point.npy
 tactileSensor_map_LLIT_normal.npy
 ```
 
-如果某个手只有四指，例如 Allegro / Leap，没有 little/pinky，就只保留 `TH` / `IDX` / `MID` / `RING`。如果左右手确实共用同一套 mesh 和 attach-link 局部坐标，也可以继续用不带 `R`/`L` 的 side-shared 命名；但只要左右 URDF link、origin、mesh 镜像关系不完全一致，就应使用上面的左右独立命名。
+For four-finger hands such as Allegro or Leap that lack a little/pinky finger, keep only `TH` / `IDX` / `MID` / `RING`. If the left and right hands truly share the same mesh and attach-link local frame, side-shared names without `R` / `L` may be retained. If their URDF links, origins, or mesh mirroring differ, use the side-specific names above.
 
-## 五指独立版还缺的信息
+## Information Still Needed for a Per-Finger Five-Digit Layout
 
-现有四指共用命令里的 `R4F` / `L4F` 只记录了一根代表性非拇指的 mesh/origin，一般是 index。五指独立版需要为每根手指补齐以下信息：
+The existing four-finger-shared commands record only one representative non-thumb mesh/origin for `R4F` / `L4F`, usually the index finger. A per-finger five-digit layout needs the following information for every finger:
 
-- `TacMapNpyGroup.name`：例如 `RIDX`、`RMID`、`RRING`、`RLIT`。
-- `points_npy` / `normals_npy`：例如 `tactileSensor_map_RIDX_point.npy` 和 `tactileSensor_map_RIDX_normal.npy`。
-- `site_names`：该 npy 绑定到哪个 tactile site，五指独立版通常每组只放一个 site。
-- rebuilt mesh 路径：建议用 `tactile_surface_<GROUP>.stl`，例如 `tactile_surface_RMID.stl`。
-- 原始 source mesh：从 URDF `<visual>` 或 `<collision>` 取对应手指，而不是沿用 index 的 mesh。
-- `attach_link` / `source_link`：运行时 TacMap attach 的 link，以及实际取几何的 link；Allegro、Wuji 等存在 source link 需要映射到 tip link 的情况。
-- `origin xyz` / `origin rpy` / `mesh scale`：每根手指都要按自己的 URDF geometry 记录，不能默认复用 `R4F` / `L4F`。
-- `sensor-normal`：先用 `auto`，如果点云落到背面或 hit rate 异常，再记录该手指的显式方向。
-- `geometry-role`：Orca 当前使用 collision skin mesh；其他默认 visual。五指独立时也要保持这个选择。
+- `TacMapNpyGroup.name`, for example `RIDX`, `RMID`, `RRING`, or `RLIT`.
+- `points_npy` / `normals_npy`, for example `tactileSensor_map_RIDX_point.npy` and `tactileSensor_map_RIDX_normal.npy`.
+- `site_names`: the tactile site bound to each NPY; a per-finger layout usually assigns one site per group.
+- Rebuilt mesh path: use `tactile_surface_<GROUP>.stl`, for example `tactile_surface_RMID.stl`.
+- Original source mesh: use the corresponding finger mesh from the URDF `<visual>` or `<collision>`, rather than reusing the index-finger mesh.
+- `attach_link` / `source_link`: the link used to attach TacMap at runtime and the link from which geometry is obtained. For Allegro, Wuji, and some other hands, the source link may need to map to a tip link.
+- `origin xyz` / `origin rpy` / `mesh scale`: record values from each finger's URDF geometry; do not assume the `R4F` / `L4F` values apply.
+- `sensor-normal`: start with `auto`. If the point cloud lands on the back side or the hit rate is abnormal, record an explicit direction for that finger.
+- `geometry-role`: Orca currently uses the collision skin mesh; other hands default to visual geometry. Preserve this choice in a per-finger layout.
 
-已知不能盲目复用 `R4F` / `L4F` 的情况：
+Known cases where `R4F` / `L4F` should not be reused blindly:
 
-- RH56DFX、RH5DG2、Wuji、Orca、DexHand021 的非拇指通常都有每根手指自己的 mesh 文件。
-- LEAP 的 index fingertip 和 middle/ring fingertip 使用同一个 `fingertip.obj`，但 URDF visual origin 存在细微差异，不能只复制 index 的 `origin-xyz`。
-- Ability 的 right pinky 使用的 source mesh 与其他几个非拇指不完全一致。
-- Shadow、Schunk、Allegro 这类几何文件高度复用的手，也仍然要按每根手指绑定独立 site/link，否则运行时还是四指共用。
+- RH56DFX, RH5DG2, Wuji, Orca, and DexHand021 usually have separate mesh files for each non-thumb finger.
+- LEAP uses the same `fingertip.obj` for the index and middle/ring fingertips, but their URDF visual origins differ slightly. Do not copy only the index finger's `origin-xyz`.
+- Ability's right pinky uses a source mesh that differs from those of the other non-thumb fingers.
+- Even for hands such as Shadow, Schunk, and Allegro that reuse geometry files extensively, bind a separate site/link for each finger; otherwise runtime sensing remains shared across the four fingers.
 
-运行时代码也要同步改，否则新文件不会被加载：
+Update the runtime code as well, or the new files will not be loaded:
 
-1. 在 `collector/tacmap_configs.py` 中把 `_split_side_groups(...)` 生成的 `R4F` / `L4F` 聚合组拆成每根手指一个 `TacMapNpyGroup`。
-2. 确认 `collector/tactile.py` 里的 site 名称与新 group 一一对应。
-3. 重新生成对应 `.npy` 文件后，再用 `tools/vis/vis_tacmap_npy.py` 检查每个 group 的点云。
+1. In `collector/tacmap_configs.py`, split the aggregated `R4F` / `L4F` groups generated by `_split_side_groups(...)` into one `TacMapNpyGroup` per finger.
+2. Ensure the site names in `collector/tactile.py` correspond one-to-one with the new groups.
+3. Regenerate the corresponding `.npy` files, then inspect each group's point cloud with `tools/vis/vis_tacmap_npy.py`.
 
-五指独立版 group 到 site 的建议映射如下：
+Suggested group-to-site mappings for a per-finger five-digit layout:
 
 | Robot | Right groups | Left groups |
 | --- | --- | --- |
@@ -126,9 +126,9 @@ tactileSensor_map_LLIT_normal.npy
 | Ability | `RTH=right_thumb_q2`, `RIDX=right_index_q2`, `RMID=right_middle_q2`, `RRING=right_ring_q2`, `RLIT=right_pinky_q2` | `LTH=left_thumb_q2`, `LIDX=left_index_q2`, `LMID=left_middle_q2`, `LRING=left_ring_q2`, `LLIT=left_pinky_q2` |
 | Leap | `RTH=right_thumb_2`, `RIDX=right_index_2`, `RMID=right_middle_2`, `RRING=right_ring_2` | `LTH=left_thumb_2`, `LIDX=left_index_2`, `LMID=left_middle_2`, `LRING=left_ring_2` |
 | DexHand021 | `RTH=right_thumb_J4`, `RIDX=right_index_J4`, `RMID=right_middle_J4`, `RRING=right_ring_J4`, `RLIT=right_little_J4` | `LTH=left_thumb_J4`, `LIDX=left_index_J4`, `LMID=left_middle_J4`, `LRING=left_ring_J4`, `LLIT=left_little_J4` |
-| Sharpa | 当前是 side-shared `TH` / `4F` 旧资产；如果拆五指，建议先确认左右 elastomer mesh 是否完全共用，再决定使用 `TH/IDX/MID/RING/LIT` 还是左右独立的 `R*` / `L*` 命名。 |
+| Sharpa | The legacy assets use side-shared `TH` / `4F` groups. Before splitting them into five fingers, confirm whether the left and right elastomer meshes are identical, then choose between `TH/IDX/MID/RING/LIT` and side-specific `R*` / `L*` names. |
 
-五指独立版单 mesh 命令模板：
+Single-mesh command template for a per-finger five-digit layout:
 
 ```bash
 python tools/asset/gen_tacmap_npy.py \
@@ -928,12 +928,12 @@ python tools/asset/gen_tacmap_npy.py \
   --mesh-scale 1,1,1
 ```
 
-## 验证建议
+## Validation Recommendations
 
-每次生成后至少做两步检查：
+Perform at least these two checks after generating each map:
 
-1. 看输出日志里的 `hit_rate`，默认应大于 `0.50`。
-2. 用可视化工具检查点云是否落在 finger pad 的接触面，而不是手指背面：
+1. Check `hit_rate` in the output log; the default target is above `0.50`.
+2. Use the visualization tool to confirm that the point cloud lies on the finger-pad contact surface, not on the back of the finger:
 
 ```bash
 python tools/vis/vis_tacmap_npy.py \
@@ -941,13 +941,13 @@ python tools/vis/vis_tacmap_npy.py \
   --output /tmp/leap_tacmap_check.png
 ```
 
-如果某组 mesh 因为重建后方向和原始 mesh 不一致，`--sensor-normal auto` 可能会选错宏观方向。此时优先用显式方向重跑，例如：
+If rebuilding changed a mesh's orientation relative to the original, `--sensor-normal auto` may choose the wrong overall direction. In that case, rerun with an explicit direction, for example:
 
 ```bash
 --sensor-normal 1,0,0
 ```
 
-或者：
+Or:
 
 ```bash
 --sensor-normal -1,0,0

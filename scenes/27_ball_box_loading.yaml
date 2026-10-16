@@ -86,10 +86,12 @@ metrics:
               object: obj_212_basket_1
               tolerance_deg: 30
               local_axis: y
-            - type: object_inside
+            - type: object_in_container_zone
               object: obj_053_mini_soccer_ball_2
               container: obj_212_basket_1
-              tolerance: 0.22
+              container_frame: true
+              zone_lo: [-0.1785, -0.05, -0.1313]
+              zone_hi: [0.1785, 0.20, 0.1313]
               container_center_offset: [0.0, 0.075, 0.0]
               object_center_offset: [-0.0074058, 0.0132354, 0.0747246]
         - type: all
@@ -98,10 +100,12 @@ metrics:
               object: obj_212_basket_1
               tolerance_deg: 30
               local_axis: y
-            - type: object_inside
+            - type: object_in_container_zone
               object: obj_056_tennis_ball_3
               container: obj_212_basket_1
-              tolerance: 0.22
+              container_frame: true
+              zone_lo: [-0.1785, -0.05, -0.1313]
+              zone_hi: [0.1785, 0.20, 0.1313]
               container_center_offset: [0.0, 0.075, 0.0]
               object_center_offset: [0.0082115, -0.044278, 0.0331315]
         - type: all
@@ -110,10 +114,12 @@ metrics:
               object: obj_212_basket_1
               tolerance_deg: 30
               local_axis: y
-            - type: object_inside
+            - type: object_in_container_zone
               object: obj_058_golf_ball_4
               container: obj_212_basket_1
-              tolerance: 0.22
+              container_frame: true
+              zone_lo: [-0.1785, -0.05, -0.1313]
+              zone_hi: [0.1785, 0.20, 0.1313]
               container_center_offset: [0.0, 0.075, 0.0]
               object_center_offset: [-0.0065395, -0.0304375, 0.0209435]
         - type: all
@@ -122,10 +128,12 @@ metrics:
               object: obj_212_basket_1
               tolerance_deg: 30
               local_axis: y
-            - type: object_inside
+            - type: object_in_container_zone
               object: obj_144_table_tennis_5
               container: obj_212_basket_1
-              tolerance: 0.22
+              container_frame: true
+              zone_lo: [-0.1785, -0.05, -0.1313]
+              zone_hi: [0.1785, 0.20, 0.1313]
               container_center_offset: [0.0, 0.075, 0.0]
               object_center_offset: [0.0, 0.0466254, 0.0]
         - type: object_static
@@ -154,10 +162,12 @@ metrics:
             object: obj_212_basket_1
             tolerance_deg: 30
             local_axis: y
-          - type: object_inside
+          - type: object_in_container_zone
             object: obj_053_mini_soccer_ball_2
             container: obj_212_basket_1
-            tolerance: 0.22
+            container_frame: true
+            zone_lo: [-0.1785, -0.05, -0.1313]
+            zone_hi: [0.1785, 0.20, 0.1313]
             container_center_offset: [0.0, 0.075, 0.0]
             object_center_offset: [-0.0074058, 0.0132354, 0.0747246]
           - type: object_static
@@ -173,10 +183,12 @@ metrics:
             object: obj_212_basket_1
             tolerance_deg: 30
             local_axis: y
-          - type: object_inside
+          - type: object_in_container_zone
             object: obj_056_tennis_ball_3
             container: obj_212_basket_1
-            tolerance: 0.22
+            container_frame: true
+            zone_lo: [-0.1785, -0.05, -0.1313]
+            zone_hi: [0.1785, 0.20, 0.1313]
             container_center_offset: [0.0, 0.075, 0.0]
             object_center_offset: [0.0082115, -0.044278, 0.0331315]
           - type: object_static
@@ -192,10 +204,12 @@ metrics:
             object: obj_212_basket_1
             tolerance_deg: 30
             local_axis: y
-          - type: object_inside
+          - type: object_in_container_zone
             object: obj_058_golf_ball_4
             container: obj_212_basket_1
-            tolerance: 0.22
+            container_frame: true
+            zone_lo: [-0.1785, -0.05, -0.1313]
+            zone_hi: [0.1785, 0.20, 0.1313]
             container_center_offset: [0.0, 0.075, 0.0]
             object_center_offset: [-0.0065395, -0.0304375, 0.0209435]
           - type: object_static
@@ -211,10 +225,12 @@ metrics:
             object: obj_212_basket_1
             tolerance_deg: 30
             local_axis: y
-          - type: object_inside
+          - type: object_in_container_zone
             object: obj_144_table_tennis_5
             container: obj_212_basket_1
-            tolerance: 0.22
+            container_frame: true
+            zone_lo: [-0.1785, -0.05, -0.1313]
+            zone_hi: [0.1785, 0.20, 0.1313]
             container_center_offset: [0.0, 0.075, 0.0]
             object_center_offset: [0.0, 0.0466254, 0.0]
           - type: object_static
@@ -238,10 +254,12 @@ metrics:
               object: obj_212_basket_1
               tolerance_deg: 30
               local_axis: y
-            - type: object_inside
+            - type: object_in_container_zone
               object: obj_144_table_tennis_5
               container: obj_212_basket_1
-              tolerance: 0.22
+              container_frame: true
+              zone_lo: [-0.1785, -0.05, -0.1313]
+              zone_hi: [0.1785, 0.20, 0.1313]
               container_center_offset: [0.0, 0.075, 0.0]
               object_center_offset: [0.0, 0.0466254, 0.0]
         obj_056_tennis_ball_3:
@@ -251,10 +269,12 @@ metrics:
               object: obj_212_basket_1
               tolerance_deg: 30
               local_axis: y
-            - type: object_inside
+            - type: object_in_container_zone
               object: obj_056_tennis_ball_3
               container: obj_212_basket_1
-              tolerance: 0.22
+              container_frame: true
+              zone_lo: [-0.1785, -0.05, -0.1313]
+              zone_hi: [0.1785, 0.20, 0.1313]
               container_center_offset: [0.0, 0.075, 0.0]
               object_center_offset: [0.0082115, -0.044278, 0.0331315]
         obj_053_mini_soccer_ball_2:
@@ -264,10 +284,12 @@ metrics:
               object: obj_212_basket_1
               tolerance_deg: 30
               local_axis: y
-            - type: object_inside
+            - type: object_in_container_zone
               object: obj_053_mini_soccer_ball_2
               container: obj_212_basket_1
-              tolerance: 0.22
+              container_frame: true
+              zone_lo: [-0.1785, -0.05, -0.1313]
+              zone_hi: [0.1785, 0.20, 0.1313]
               container_center_offset: [0.0, 0.075, 0.0]
               object_center_offset: [-0.0074058, 0.0132354, 0.0747246]
         obj_058_golf_ball_4:
@@ -277,9 +299,11 @@ metrics:
               object: obj_212_basket_1
               tolerance_deg: 30
               local_axis: y
-            - type: object_inside
+            - type: object_in_container_zone
               object: obj_058_golf_ball_4
               container: obj_212_basket_1
-              tolerance: 0.22
+              container_frame: true
+              zone_lo: [-0.1785, -0.05, -0.1313]
+              zone_hi: [0.1785, 0.20, 0.1313]
               container_center_offset: [0.0, 0.075, 0.0]
               object_center_offset: [-0.0065395, -0.0304375, 0.0209435]

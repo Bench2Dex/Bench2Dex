@@ -146,7 +146,7 @@ class RemoteGR00TTactileDeployment:
         model_path: str,
         robot_key: str,
         prompt: str,
-        action_horizon: int = 4,
+        action_horizon: int = 16,
         tactile_resolution_step: int | None = None,
         tactile_max_distance: float | None = None,
     ) -> None:

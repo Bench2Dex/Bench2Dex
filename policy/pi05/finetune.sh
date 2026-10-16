@@ -351,7 +351,16 @@ if [[ -n "${PROMPT_OVERRIDE}" ]]; then
 else
     PROMPT=""
     if [[ -f "${SCENE_YAML}" ]]; then
-        PROMPT=$(grep -m1 -E '^description:' "${SCENE_YAML}" | sed -E 's/^description:[[:space:]]*"?([^"]*)"?[[:space:]]*$/\1/')
+        _PROMPT_PYTHON=python3
+        if [[ "${_USE_SII}" != "true" && -x ".venv/bin/python" ]]; then
+            _PROMPT_PYTHON=".venv/bin/python"
+        fi
+        PROMPT=$("${_PROMPT_PYTHON}" -c '
+import sys
+import yaml
+with open(sys.argv[1], encoding="utf-8") as scene_file:
+    print((yaml.safe_load(scene_file) or {}).get("description") or "", end="")
+' "${SCENE_YAML}")
     fi
     if [[ -z "${PROMPT}" ]]; then
         PROMPT="perform task: ${TASK//_/ }"
