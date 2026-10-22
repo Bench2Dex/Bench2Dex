@@ -171,7 +171,7 @@ For technical questions, bug reports, and feature requests, please use [GitHub I
 ```bibtex
 @article{yang2026bench2dex,
   title={Bench2Dex: Benchmarking Visuo-Tactile Bimanual Dexterous Manipulation Across Dexterous Hands},
-  author={Yang, Zhenjie and Zhang, Yideng and Zhang, Dongjie and Jiang, Chenyu and Liu, Xianshuai and Li, Yufeng and Ge, Zuhao and Jiao, Xingyu and Zhang, Zheng and He, Kaiyu and Wang, He and Zhong, Yuwen and Deng, Yi and Jiang, Muyun and Huang, Xianliang and Su, Haisheng and Zhang, Donghang and Zhang, Jian and Yang, Xue and Li, Hongyang and Wu, Zuxuan and Jiang, Yu-Gang and Jia, Xiaosong and Yan, Junchi},
+  author={Yang, Zhenjie and Zhang, Yideng and Zhang, Dongjie and Jiang, Chenyu and Liu, Xianshuai and Li, Yufeng and Ge, Zuhao and Jiao, Xingyu and Zhang, Zheng and He, Kaiyu and others},
   journal={arXiv preprint arXiv:2609.15726},
   year={2026}
 }
