@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>Benchmarking Visuo-Tactile Bimanual Dexterous Manipulation Across Dexterous Hands</strong>
+  <strong>A Bimanual Manipulation Benchmark across Dexterous Hands with Simulated Fingertip Visuo-Tactile Support</strong>
 </p>
 
 <p align="center">
@@ -13,11 +13,17 @@
   <a href="https://bench2dex.github.io/">
     <img src="https://img.shields.io/badge/Project%20Page-Website-3B82F6?style=for-the-badge" alt="Project Page">
   </a>
-  <a href="https://modelscope.cn/datasets/Bench2Dex">
-    <img src="https://img.shields.io/badge/Dataset-ModelScope-6246EA?style=for-the-badge" alt="Dataset">
+  <a href="https://bench2dex.github.io/leaderboard/">
+    <img src="https://img.shields.io/badge/Leaderboard-Results-F59E0B?style=for-the-badge" alt="Leaderboard">
   </a>
   <a href="https://bench2dex.github.io/doc/">
     <img src="https://img.shields.io/badge/Documentation-Docs-10B981?style=for-the-badge" alt="Documentation">
+  </a>
+  <a href="https://huggingface.co/Bench2Dex">
+    <img src="https://img.shields.io/badge/Hugging%20Face-Dataset-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Hugging Face">
+  </a>
+  <a href="https://modelscope.cn/organization/Bench2Dex">
+    <img src="https://img.shields.io/badge/ModelScope-Dataset-6246EA?style=for-the-badge" alt="ModelScope">
   </a>
 </p>
 
