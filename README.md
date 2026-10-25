@@ -34,6 +34,11 @@
 
 ---
 
+## 📰 News
+
+- Fixed several known issues with Pi0.5 policy.
+- Moved physics simulation to the CPU.
+
 ## 🎬 Overview
 
 https://github.com/user-attachments/assets/f15a763d-bb88-4d02-a491-bf88689198fe
