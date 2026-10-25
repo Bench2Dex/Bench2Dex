@@ -653,7 +653,7 @@ _CONFIGS = [
             action_horizon=50,
             paligemma_variant="gemma_2b_lora",
             action_expert_variant="gemma_300m_lora",
-            max_token_len=280,
+            max_token_len=320,  # Full task text + up to 60 joint states + Action prefix.
             image_keys=_DEX2BENCH_IMAGE_KEYS,
         ),
         data=Dex2BenchDataConfig(
@@ -686,7 +686,7 @@ _CONFIGS = [
             action_horizon=50,
             paligemma_variant="gemma_2b",
             action_expert_variant="gemma_300m",
-            max_token_len=280,
+            max_token_len=320,  # Full task text + up to 60 joint states + Action prefix.
             image_keys=_DEX2BENCH_IMAGE_KEYS,
         ),
         data=Dex2BenchDataConfig(
