@@ -20,7 +20,7 @@
     <img src="https://img.shields.io/badge/Documentation-Docs-10B981?style=for-the-badge" alt="Documentation">
   </a>
   <a href="https://huggingface.co/Bench2Dex">
-    <img src="https://img.shields.io/badge/Hugging%20Face-Dataset-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Hugging Face">
+    <img src="https://img.shields.io/badge/Hugging%20Face-Dataset-FFD21E?style=for-the-badge" alt="Hugging Face">
   </a>
   <a href="https://modelscope.cn/organization/Bench2Dex">
     <img src="https://img.shields.io/badge/ModelScope-Dataset-6246EA?style=for-the-badge" alt="ModelScope">
@@ -42,8 +42,9 @@
 
 ## 📰 News
 
-- Fixed several known issues with Pi0.5 policy.
-- Moved physics simulation to the CPU.
+- 🏆🎉 **The [Bench2Dex Leaderboard](https://bench2dex.github.io/leaderboard/) is now live!** Check out how different policies perform across tasks and dexterous hands, and submit your own results! 🚀📊
+- 🛠️ Fixed several known issues with Pi0.5 policy.
+- 🖥️ Moved physics simulation to the CPU.
 
 ## 🎬 Overview
 
