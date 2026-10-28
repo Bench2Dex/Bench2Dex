@@ -41,7 +41,7 @@
 ---
 
 ## 📰 News
-
+- 📢 **Leaderboard submission update:** Please submit your Bench2Dex evaluation results via a pull request to the [Bench2Dex-Leaderboard](https://github.com/Bench2Dex/Bench2Dex-Leaderboard) repository. All submissions must include inference logs as supporting evidence. Results will be added to the [Bench2Dex leaderboard](https://bench2dex.github.io/leaderboard/) after review and approval.
 - 🏆🎉 **The [Bench2Dex Leaderboard](https://bench2dex.github.io/leaderboard/) is now live!** Check out how different policies perform across tasks and dexterous hands, and submit your own results! 🚀📊
 - 🛠️ Fixed several known issues with Pi0.5 policy.
 - 🖥️ Moved physics simulation to the CPU.
