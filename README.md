@@ -13,7 +13,7 @@
   <a href="https://bench2dex.github.io/">
     <img src="https://img.shields.io/badge/Project%20Page-Website-3B82F6?style=for-the-badge" alt="Project Page">
   </a>
-  <a href="https://bench2dex.github.io/leaderboard/">
+  <a href="https://bench2dex.github.io/Bench2Dex-Leaderboard/">
     <img src="https://img.shields.io/badge/Leaderboard-Results-F59E0B?style=for-the-badge" alt="Leaderboard">
   </a>
   <a href="https://bench2dex.github.io/doc/">
@@ -41,8 +41,7 @@
 ---
 
 ## 📰 News
-- 📢 **Leaderboard submission update:** Please submit your Bench2Dex evaluation results via a pull request to the [Bench2Dex-Leaderboard](https://github.com/Bench2Dex/Bench2Dex-Leaderboard) repository. All submissions must include inference logs as supporting evidence. Results will be added to the [Bench2Dex leaderboard](https://bench2dex.github.io/leaderboard/) after review and approval.
-- 🏆🎉 **The [Bench2Dex Leaderboard](https://bench2dex.github.io/leaderboard/) is now live!** Check out how different policies perform across tasks and dexterous hands, and submit your own results! 🚀📊
+- 🏆 **The [Bench2Dex Leaderboard](https://bench2dex.github.io/Bench2Dex-Leaderboard/) is live!** We welcome PRs with policy results on [Leaderboard repository](https://github.com/Bench2Dex/Bench2Dex-Leaderboard#readme) and matching original Bench2Dex evaluation logs on [HF Leaderboard repository](https://huggingface.co/datasets/Bench2Dex/Leaderboard#readme). Sanitize all submitted files and follow the linked submission guidelines.
 - 🛠️ Fixed several known issues with Pi0.5 policy.
 
 ## 🎬 Overview
