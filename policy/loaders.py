@@ -82,7 +82,7 @@ def load_act_policy(args: argparse.Namespace):
     finally:
         sys.argv = _saved_argv
 
-    state_dict = torch.load(ckpt_path, map_location=args.device)
+    state_dict = torch.load(ckpt_path, map_location=args.device, weights_only=True)
     model.policy.load_state_dict(state_dict)
     model.policy.eval()
     print(f"[policy] Loaded ACT weights from {ckpt_path}", flush=True)
