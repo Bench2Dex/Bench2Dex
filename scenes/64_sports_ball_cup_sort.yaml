@@ -1,4 +1,4 @@
-description: "Place the tennis ball and baseball into the large cup, place the racquetball and golf ball into the small cup."
+description: "Place the baseball into the large cup, then place the golf ball and racquetball into the small cup in that order, and finally place the softball into the large cup."
 table:
   size: [2.2, 1.1, 0.04]
   height: 0.75
@@ -221,28 +221,8 @@ metrics:
               threshold: 0.05
               check_angular: false
   stages:
-    - id: place_1
-      depends_on: []
-      success_condition:
-        type: all
-        conditions:
-          - type: all
-            conditions:
-              - type: object_upright
-                object: obj_065_d_cups_1
-                tolerance_deg: 30
-              - type: object_inside
-                object: obj_054_softball_3
-                container: obj_065_d_cups_1
-                tolerance: 0.15
-                container_center_offset: [-0.0372599, -0.1190131, 0.0]
-                object_center_offset: [-0.019673, 0.010704, 0.0469735]
-          - type: object_static
-            object: obj_054_softball_3
-            threshold: 0.05
-            check_angular: false
     - id: place_2
-      depends_on: [place_1]
+      depends_on: []
       success_condition:
         type: all
         conditions:
@@ -261,8 +241,28 @@ metrics:
             object: obj_055_baseball_4
             threshold: 0.05
             check_angular: false
+    - id: place_4
+      depends_on: [place_2]
+      success_condition:
+        type: all
+        conditions:
+          - type: all
+            conditions:
+              - type: object_upright
+                object: obj_065_e_cups_2
+                tolerance_deg: 30
+              - type: object_inside
+                object: obj_058_golf_ball_6
+                container: obj_065_e_cups_2
+                tolerance: 0.15
+                container_center_offset: [-0.0295407, -0.109347, 0.0]
+                object_center_offset: [-0.0098092, -0.0456563, 0.0314152]
+          - type: object_static
+            object: obj_058_golf_ball_6
+            threshold: 0.05
+            check_angular: false
     - id: place_3
-      depends_on: [place_1, place_2]
+      depends_on: [place_2, place_4]
       success_condition:
         type: all
         conditions:
@@ -281,24 +281,24 @@ metrics:
             object: obj_057_racquetball_5
             threshold: 0.05
             check_angular: false
-    - id: place_4
-      depends_on: [place_1, place_2, place_3]
+    - id: place_1
+      depends_on: [place_2, place_4, place_3]
       success_condition:
         type: all
         conditions:
           - type: all
             conditions:
               - type: object_upright
-                object: obj_065_e_cups_2
+                object: obj_065_d_cups_1
                 tolerance_deg: 30
               - type: object_inside
-                object: obj_058_golf_ball_6
-                container: obj_065_e_cups_2
+                object: obj_054_softball_3
+                container: obj_065_d_cups_1
                 tolerance: 0.15
-                container_center_offset: [-0.0295407, -0.109347, 0.0]
-                object_center_offset: [-0.0098092, -0.0456563, 0.0314152]
+                container_center_offset: [-0.0372599, -0.1190131, 0.0]
+                object_center_offset: [-0.019673, 0.010704, 0.0469735]
           - type: object_static
-            object: obj_058_golf_ball_6
+            object: obj_054_softball_3
             threshold: 0.05
             check_angular: false
   safety:

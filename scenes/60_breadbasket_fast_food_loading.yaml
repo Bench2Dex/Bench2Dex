@@ -1,4 +1,4 @@
-description: Use the right hand to place the baguette and bread into the bread basket, move the basket to the center of the table, then use the left hand to place the bread and french fries into the basket as a fast-food setup.
+description: Use the right hand to place the baguette and bread into the bread basket, move the basket to the center of the table, then use the left hand to place the hamburger and french fries into the basket as a fast-food setup.
 table:
   size: [2.2, 1.1, 0.04]
   height: 0.75
@@ -148,7 +148,7 @@ metrics:
           threshold: 0.05
           check_angular: false
   stages:
-    - id: place_1
+    - id: place_4
       depends_on: []
       success_condition:
         type: all
@@ -158,36 +158,17 @@ metrics:
             tolerance_deg: 30
             local_axis: y
           - type: object_inside
-            object: obj_127_french_fries_2
+            object: obj_163_baguette_5
             container: obj_183_breadbasket_1
             tolerance: 0.18
             container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
-            object_center_offset: [-2.8e-06, 0.0711898, -0.0026298]
+            object_center_offset: [4.08e-05, 0.025, -2.3e-06]
           - type: object_static
-            object: obj_127_french_fries_2
-            threshold: 0.05
-            check_angular: false
-    - id: place_2
-      depends_on: [place_1]
-      success_condition:
-        type: all
-        conditions:
-          - type: object_upright
-            object: obj_183_breadbasket_1
-            tolerance_deg: 30
-            local_axis: y
-          - type: object_inside
-            object: obj_128_hamburg_3
-            container: obj_183_breadbasket_1
-            tolerance: 0.18
-            container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
-            object_center_offset: [0.0, 0.0269934, -1.78e-05]
-          - type: object_static
-            object: obj_128_hamburg_3
+            object: obj_163_baguette_5
             threshold: 0.05
             check_angular: false
     - id: place_3
-      depends_on: [place_1, place_2]
+      depends_on: [place_4]
       success_condition:
         type: all
         conditions:
@@ -205,8 +186,8 @@ metrics:
             object: obj_182_bread_4
             threshold: 0.05
             check_angular: false
-    - id: place_4
-      depends_on: [place_1, place_2, place_3]
+    - id: place_2
+      depends_on: [place_4, place_3]
       success_condition:
         type: all
         conditions:
@@ -215,13 +196,32 @@ metrics:
             tolerance_deg: 30
             local_axis: y
           - type: object_inside
-            object: obj_163_baguette_5
+            object: obj_128_hamburg_3
             container: obj_183_breadbasket_1
             tolerance: 0.18
             container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
-            object_center_offset: [4.08e-05, 0.025, -2.3e-06]
+            object_center_offset: [0.0, 0.0269934, -1.78e-05]
           - type: object_static
-            object: obj_163_baguette_5
+            object: obj_128_hamburg_3
+            threshold: 0.05
+            check_angular: false
+    - id: place_1
+      depends_on: [place_4, place_3, place_2]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_183_breadbasket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_inside
+            object: obj_127_french_fries_2
+            container: obj_183_breadbasket_1
+            tolerance: 0.18
+            container_center_offset: [1.73e-05, 0.0633889, 0.0004565]
+            object_center_offset: [-2.8e-06, 0.0711898, -0.0026298]
+          - type: object_static
+            object: obj_127_french_fries_2
             threshold: 0.05
             check_angular: false
   safety:

@@ -73,27 +73,27 @@ metrics:
       type: custom
       evaluator: success.custom.task_21_condiment_box_loading
   stages:
-    - id: place_soy_sauce
+    - id: place_msg
       depends_on: []
+      success_condition:
+        type: custom
+        evaluator: success.custom.task_21_condiment_box_loading
+        params:
+          mode: msg
+    - id: place_soy_sauce
+      depends_on: [place_msg]
       success_condition:
         type: custom
         evaluator: success.custom.task_21_condiment_box_loading
         params:
           mode: soy
     - id: place_vinegar
-      depends_on: []
+      depends_on: [place_soy_sauce]
       success_condition:
         type: custom
         evaluator: success.custom.task_21_condiment_box_loading
         params:
           mode: vinegar
-    - id: place_msg
-      depends_on: [place_soy_sauce, place_vinegar]
-      success_condition:
-        type: custom
-        evaluator: success.custom.task_21_condiment_box_loading
-        params:
-          mode: msg
   safety:
     table_z: 0.75
     drop:

@@ -1,4 +1,4 @@
-description: Right hand and left hand in turn assemble the green, red, blue, yellow puzzle pieces onto the fixed white puzzle piece in the center of the table, forming a rectangle.
+description: Right hand and left hand assemble the green, red, blue, yellow puzzle pieces onto the fixed white puzzle piece in the center of the table, forming a rectangle.
 table:
   size: [2.2, 1.1, 0.04]
   height: 0.75

@@ -1,4 +1,4 @@
-description: Place mini soccer ball into box, place tennis ball into box, place golf ball into box, place ping-pong ball into box.
+description: Place the ping-pong ball, golf ball, mini soccer ball, and tennis ball into the box, in that order.
 table:
   size: [2.2, 1.1, 0.04]
   height: 0.75
@@ -153,8 +153,50 @@ metrics:
           threshold: 0.05
           check_angular: false
   stages:
-    - id: place_soccer
+    - id: place_pingpong
       depends_on: []
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_212_basket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_in_container_zone
+            object: obj_144_table_tennis_5
+            container: obj_212_basket_1
+            container_frame: true
+            zone_lo: [-0.1785, -0.05, -0.1313]
+            zone_hi: [0.1785, 0.20, 0.1313]
+            container_center_offset: [0.0, 0.075, 0.0]
+            object_center_offset: [0.0, 0.0466254, 0.0]
+          - type: object_static
+            object: obj_144_table_tennis_5
+            threshold: 0.05
+            check_angular: false
+    - id: place_golf
+      depends_on: [place_pingpong]
+      success_condition:
+        type: all
+        conditions:
+          - type: object_upright
+            object: obj_212_basket_1
+            tolerance_deg: 30
+            local_axis: y
+          - type: object_in_container_zone
+            object: obj_058_golf_ball_4
+            container: obj_212_basket_1
+            container_frame: true
+            zone_lo: [-0.1785, -0.05, -0.1313]
+            zone_hi: [0.1785, 0.20, 0.1313]
+            container_center_offset: [0.0, 0.075, 0.0]
+            object_center_offset: [-0.0065395, -0.0304375, 0.0209435]
+          - type: object_static
+            object: obj_058_golf_ball_4
+            threshold: 0.05
+            check_angular: false
+    - id: place_soccer
+      depends_on: [place_golf]
       success_condition:
         type: all
         conditions:
@@ -175,7 +217,7 @@ metrics:
             threshold: 0.05
             check_angular: false
     - id: place_tennis
-      depends_on: []
+      depends_on: [place_soccer]
       success_condition:
         type: all
         conditions:
@@ -193,48 +235,6 @@ metrics:
             object_center_offset: [0.0082115, -0.044278, 0.0331315]
           - type: object_static
             object: obj_056_tennis_ball_3
-            threshold: 0.05
-            check_angular: false
-    - id: place_golf
-      depends_on: [place_soccer, place_tennis]
-      success_condition:
-        type: all
-        conditions:
-          - type: object_upright
-            object: obj_212_basket_1
-            tolerance_deg: 30
-            local_axis: y
-          - type: object_in_container_zone
-            object: obj_058_golf_ball_4
-            container: obj_212_basket_1
-            container_frame: true
-            zone_lo: [-0.1785, -0.05, -0.1313]
-            zone_hi: [0.1785, 0.20, 0.1313]
-            container_center_offset: [0.0, 0.075, 0.0]
-            object_center_offset: [-0.0065395, -0.0304375, 0.0209435]
-          - type: object_static
-            object: obj_058_golf_ball_4
-            threshold: 0.05
-            check_angular: false
-    - id: place_pingpong
-      depends_on: [place_soccer, place_tennis]
-      success_condition:
-        type: all
-        conditions:
-          - type: object_upright
-            object: obj_212_basket_1
-            tolerance_deg: 30
-            local_axis: y
-          - type: object_in_container_zone
-            object: obj_144_table_tennis_5
-            container: obj_212_basket_1
-            container_frame: true
-            zone_lo: [-0.1785, -0.05, -0.1313]
-            zone_hi: [0.1785, 0.20, 0.1313]
-            container_center_offset: [0.0, 0.075, 0.0]
-            object_center_offset: [0.0, 0.0466254, 0.0]
-          - type: object_static
-            object: obj_144_table_tennis_5
             threshold: 0.05
             check_angular: false
   safety:

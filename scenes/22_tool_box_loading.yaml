@@ -102,7 +102,7 @@ metrics:
           threshold: 0.05
           check_angular: false
   stages:
-    - id: place_phillips
+    - id: place_drill
       depends_on: []
       success_condition:
         type: all
@@ -112,13 +112,13 @@ metrics:
             tolerance_deg: 30
             local_axis: y
           - type: object_inside
-            object: obj_043_phillips_screwdriver_2
+            object: obj_147_drill_5
             container: obj_154_wooden_box_1
             tolerance: 0.18
             container_center_offset: [0.0, 0.07, 0.0]
-            object_center_offset: [-0.042698, 0.0033815, 0.0173985]
+            object_center_offset: [0.0, 0.0900622, 0.0]
           - type: object_static
-            object: obj_043_phillips_screwdriver_2
+            object: obj_147_drill_5
             threshold: 0.05
             check_angular: false
     - id: place_flat
@@ -141,7 +141,7 @@ metrics:
             threshold: 0.05
             check_angular: false
     - id: place_wrench
-      depends_on: [place_phillips, place_flat]
+      depends_on: [place_drill, place_flat]
       success_condition:
         type: all
         conditions:
@@ -159,8 +159,8 @@ metrics:
             object: obj_042_adjustable_wrench_4
             threshold: 0.05
             check_angular: false
-    - id: place_drill
-      depends_on: [place_phillips, place_flat]
+    - id: place_phillips
+      depends_on: [place_drill, place_flat]
       success_condition:
         type: all
         conditions:
@@ -169,13 +169,13 @@ metrics:
             tolerance_deg: 30
             local_axis: y
           - type: object_inside
-            object: obj_147_drill_5
+            object: obj_043_phillips_screwdriver_2
             container: obj_154_wooden_box_1
             tolerance: 0.18
             container_center_offset: [0.0, 0.07, 0.0]
-            object_center_offset: [0.0, 0.0900622, 0.0]
+            object_center_offset: [-0.042698, 0.0033815, 0.0173985]
           - type: object_static
-            object: obj_147_drill_5
+            object: obj_043_phillips_screwdriver_2
             threshold: 0.05
             check_angular: false
   safety:

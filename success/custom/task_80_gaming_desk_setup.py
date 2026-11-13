@@ -121,7 +121,7 @@ def _mouse_left_clicked(states: StateMap, ctx: Dict[str, Any]) -> bool:
     keyboard = "obj_098_keyboard_2"
     if not _has(states, mouse, keyboard):
         return False
-    # Mouse is returned to the keyboard's left side.
+    # Mouse is returned alongside the keyboard on its right.
     mx, my, _ = _pos(states, mouse)
     kx, ky, _ = _pos(states, keyboard)
     moved_left = my < ky + 0.025

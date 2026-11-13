@@ -95,7 +95,7 @@ def _bowl_upright_76(states: StateMap) -> bool:
 
 
 def _bowl_in_serve_zone(states: StateMap) -> bool:
-    """Bowl is on the table in the front-right serving area."""
+    """Bowl is on the table in the serving area to the left of the stove."""
     bx, by, bz = _pos(states, "obj_330_bowl_2")
     return (_BOWL_SERVE_X[0] <= bx <= _BOWL_SERVE_X[1]
             and _BOWL_SERVE_Y[0] <= by <= _BOWL_SERVE_Y[1]

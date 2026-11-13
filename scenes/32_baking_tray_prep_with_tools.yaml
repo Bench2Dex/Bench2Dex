@@ -1,4 +1,4 @@
-description: Use the left hand to place the brush and spatula onto the tray, use the right hand to place the small pudding box then the large gelatin box onto the tray in sequence.
+description: Use the right hand to place the brush and spatula onto the tray, use the left hand to place the small gelatin box then the large pudding box onto the tray in sequence.
 table:
   size: [2.2, 1.1, 0.04]
   height: 0.75
@@ -127,40 +127,20 @@ metrics:
         tolerance_deg: 30
         local_axis: y
   stages:
-  - id: place_pudding
+  - id: place_brush
     depends_on: []
     success_condition:
       type: all
       conditions:
       - type: object_on
-        object: obj_008_pudding_box_2
+        object: obj_189_brush_5
         target: obj_130_tray_1
         tolerance_xy: 0.22
         tolerance_z: 0.18
         target_center_offset: [1.42e-05, 0.022275, 0.0]
-        object_center_offset: [0.000505, 0.019123, 0.0189475]
+        object_center_offset: [0.0, 0.0881286, 0.0]
       - type: object_static
-        object: obj_008_pudding_box_2
-        threshold: 0.05
-        check_angular: false
-      - type: object_upright
-        object: obj_130_tray_1
-        tolerance_deg: 30
-        local_axis: y
-  - id: place_gelatin
-    depends_on: []
-    success_condition:
-      type: all
-      conditions:
-      - type: object_on
-        object: obj_009_gelatin_box_3
-        target: obj_130_tray_1
-        tolerance_xy: 0.22
-        tolerance_z: 0.18
-        target_center_offset: [1.42e-05, 0.022275, 0.0]
-        object_center_offset: [-0.022775, -0.008245, 0.014492]
-      - type: object_static
-        object: obj_009_gelatin_box_3
+        object: obj_189_brush_5
         threshold: 0.05
         check_angular: false
       - type: object_upright
@@ -168,7 +148,7 @@ metrics:
         tolerance_deg: 30
         local_axis: y
   - id: place_spatula
-    depends_on: [place_pudding, place_gelatin]
+    depends_on: []
     success_condition:
       type: all
       conditions:
@@ -187,20 +167,40 @@ metrics:
         object: obj_130_tray_1
         tolerance_deg: 30
         local_axis: y
-  - id: place_brush
-    depends_on: [place_pudding, place_gelatin]
+  - id: place_gelatin
+    depends_on: [place_brush, place_spatula]
     success_condition:
       type: all
       conditions:
       - type: object_on
-        object: obj_189_brush_5
+        object: obj_009_gelatin_box_3
         target: obj_130_tray_1
         tolerance_xy: 0.22
         tolerance_z: 0.18
         target_center_offset: [1.42e-05, 0.022275, 0.0]
-        object_center_offset: [0.0, 0.0881286, 0.0]
+        object_center_offset: [-0.022775, -0.008245, 0.014492]
       - type: object_static
-        object: obj_189_brush_5
+        object: obj_009_gelatin_box_3
+        threshold: 0.05
+        check_angular: false
+      - type: object_upright
+        object: obj_130_tray_1
+        tolerance_deg: 30
+        local_axis: y
+  - id: place_pudding
+    depends_on: [place_gelatin]
+    success_condition:
+      type: all
+      conditions:
+      - type: object_on
+        object: obj_008_pudding_box_2
+        target: obj_130_tray_1
+        tolerance_xy: 0.22
+        tolerance_z: 0.18
+        target_center_offset: [1.42e-05, 0.022275, 0.0]
+        object_center_offset: [0.000505, 0.019123, 0.0189475]
+      - type: object_static
+        object: obj_008_pudding_box_2
         threshold: 0.05
         check_angular: false
       - type: object_upright

@@ -1,4 +1,4 @@
-description: Use the left hand to place the farther lemon onto the plate, the right hand to move the paired orange near the plate, and the left hand to place that orange onto the plate; repeat for the remaining pair.
+description: Use the left hand to place the farther lemon and then the remaining lemon onto the plate, then use the right hand to place each orange onto the plate.
 table:
   size: [2.2, 1.1, 0.04]
   height: 0.75

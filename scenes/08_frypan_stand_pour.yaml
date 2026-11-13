@@ -1,4 +1,4 @@
-description: Use the left hand to pick up the frypan and place it onto the display stand, then pour the soy sauce and olive oil into the frypan one by one.
+description: Use the left hand to pick up the frypan and place it onto the portable stove, then pour the soy sauce and olive oil into the frypan in that order. Return both bottles to the table and leave them upright and stable, keeping the bread in the frypan.
 table:
   size: [2.2, 1.1, 0.04]
   height: 0.75
